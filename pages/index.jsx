@@ -1,27 +1,46 @@
 import { useState } from 'react';
-function Header({ title }) {
-  return <h1>{title ? title : 'Default title'}</h1>;
-}
+import { Message } from '../components/styles';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:8000';
+
 
 export default function HomePage() {
-  const names = ['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton'];
+  const [currentMessage, setCurrentMessage] = useState('');
+  const [userMessages, setUserMessages] = useState([]);
+  const [botMessages, setBotMessages] = useState([]);
 
-  const [likes, setLikes] = useState(0);
-
-  function handleClick() {
-    setLikes(likes + 1);
+  const postMessage = (message) => {
+    setUserMessages([...userMessages, message]);
+    axios.post('/generate_text', {
+      prompt: message
+    })
+    .then(function (response) { 
+      if (response.status == 200) {
+        setBotMessages([...botMessages, response.data])
+      }
+        
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    setCurrentMessage('')
   }
-
+  const mergedArray = userMessages.map(function(e, i) {
+    return [e, botMessages[i]];
+  });
   return (
     <div>
-      <Header title="Develop. Preview. Ship. 🚀" />
       <ul>
-        {names.map((name) => (
-          <li key={name}>{name}</li>
+        {mergedArray.map(([userMessage, botMessage]) => (
+          <div>
+            <Message key={userMessage+"user"}>{userMessage}</Message>
+            <Message key={botMessage+"bot"}>{botMessage}</Message>
+          </div>
         ))}
       </ul>
-
-      <button onClick={handleClick}>Like ({likes})</button>
+      
+      <input type="text" value={currentMessage} onChange={e => setCurrentMessage(e.target.value)}/>
+      <button onClick={e => postMessage(currentMessage)}>Submit</button>
     </div>
   );
 }
