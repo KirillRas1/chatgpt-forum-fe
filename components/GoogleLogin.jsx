@@ -1,7 +1,13 @@
 import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+
+
 export default function GoogleLoginButton() {
     const responseMessage = (response) => {
         console.log(response);
+        axios.post('/registrate', {
+            jwt: response.credential
+          })
     };
     const errorMessage = (error) => {
         console.log(error);
