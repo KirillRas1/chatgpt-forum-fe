@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function GoogleLoginButton() {
     const responseMessage = (response) => {
         console.log(response);
-        axios.post('/registrate', {
+        axios.post('/login', {
             jwt: response.credential
           })
     };
