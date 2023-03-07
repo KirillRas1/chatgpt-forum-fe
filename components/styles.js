@@ -12,3 +12,9 @@ export const Message = styled.span`
     margin: 10px 0;
     font-family: 'Roboto', sans-serif;
 `
+export const BotMessage = styled(Message)`
+    background-color: blue;
+`
+export const UserMessage = styled(Message)`
+    background-color: green;
+`

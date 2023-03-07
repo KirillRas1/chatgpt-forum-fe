@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import GoogleLoginButton from '../GoogleLogin';
-import { Message } from '../styles';
+import { BotMessage, Message, UserMessage } from '../styles';
 import axios from 'axios';
 
 
@@ -32,10 +32,10 @@ export default function HomePage() {
   return (
     <div>
       <ul>
-        {mergedArray.map(([userMessage, botMessage]) => (
-          <div>
-            <Message key={userMessage+"user"}>{userMessage}</Message>
-            <Message key={botMessage+"bot"}>{botMessage}</Message>
+        {mergedArray.map(([userMessage, botMessage], index) => (
+          <div key={index}>
+            <UserMessage>{userMessage}</UserMessage>
+            <BotMessage>{botMessage}</BotMessage>
           </div>
         ))}
       </ul>
