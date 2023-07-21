@@ -2,6 +2,8 @@ import { useState } from 'react';
 import GoogleLoginButton from '../GoogleLogin';
 import { BotMessage, Message, UserMessage } from '../styles';
 import axios from 'axios';
+import Messages from './Threads';
+import Link from 'next/link'
 
 
 
@@ -31,7 +33,7 @@ export default function HomePage() {
   });
   return (
     <div>
-      <ul>
+      {/* <ul>
         {mergedArray.map(([userMessage, botMessage], index) => (
           <div key={index}>
             <UserMessage>{userMessage}</UserMessage>
@@ -39,9 +41,11 @@ export default function HomePage() {
           </div>
         ))}
       </ul>
-      
       <input type="text" value={currentMessage} onChange={e => setCurrentMessage(e.target.value)}/>
       <button onClick={e => postMessage(currentMessage)}>Submit</button>
+       */}
+       <Messages/>
+       <Link href={'/posts/'}><h3>Posts</h3></Link>
       <GoogleLoginButton/>
     </div>
   );
