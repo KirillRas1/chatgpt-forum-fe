@@ -1,15 +1,15 @@
 import { useGoogleLogin ,GoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
-import axios from 'axios';
+import apiClient from 'infrastructure/apiClient';
 
 export default function GoogleLoginButton() {
     const [username, setUserName] =useState('');
     const responseMessage = (responseFromGoogle) => {
-        axios.post('/login/', {
+        apiClient.post('/login/', {
             jwt: responseFromGoogle.credential
           }).then(function (response) {
             setUserName(response.data.email);
-            axios.defaults.headers.common['Authorization'] = responseFromGoogle.credential
+            apiClient.defaults.headers.common['Authorization'] = responseFromGoogle.credential
             localStorage.setItem('jwt_token', responseFromGoogle.credential);
           })
     };

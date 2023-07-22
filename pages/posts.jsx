@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from 'infrastructure/apiClient';
 import PostList from 'components/posts/PostList';
 const PostsPage = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     // Fetch the list of posts using Axios when the component mounts
-    axios.get('/posts/')
+    apiClient.get('/posts/')
       .then((response) => {
         console.log(response.data)
         setPosts(response.data)
