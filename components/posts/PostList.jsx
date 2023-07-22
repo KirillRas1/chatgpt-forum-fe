@@ -14,7 +14,7 @@ const PostList = (posts = []) => {
   }
   return (
     <div>
-      <Typography  variant="h2">Reddit Posts</Typography>
+      <Typography  variant="h2">Posts</Typography>
       <List>
       {posts.map((post) => (
           <ListItem key={post.id} onClick={handlePostClick(post.id)}>
