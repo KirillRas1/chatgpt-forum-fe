@@ -8,7 +8,6 @@ const PostsPage = () => {
     // Fetch the list of posts using Axios when the component mounts
     apiClient.get('/posts/')
       .then((response) => {
-        console.log(response.data)
         setPosts(response.data)
     })
       .catch((error) => console.error('Error fetching posts:', error));
