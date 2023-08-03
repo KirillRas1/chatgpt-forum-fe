@@ -1,6 +1,10 @@
 import React from 'react';
 import { useRouter } from 'next/router'
 import Comment from 'components/posts/Comment';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import { Button, Typography, Grid } from '@mui/material';
+
 
 const PostDetails = (post={}, comments=[]) => {
 const { title, author, content} = post;
@@ -8,16 +12,16 @@ const { title, author, content} = post;
 const router = useRouter()
   return (
     <div>
-      <button onClick={() => router.back()}>Close Post</button>
-      <h2>{title}</h2>
-      <p>Author: {author}</p>
-      <p>{content}</p>
-      <h3>Comments:</h3>
-      <ul>
+      <Button variant="outlined" color="primary" onClick={() => router.back()}>Close Post</Button>
+      <Typography variant="h2">{title}</Typography>
+      <Typography variant="subtitle1">Author: {author}</Typography>
+      <Typography variant="body1" >{content}</Typography>
+      <Typography variant="h3">Comments:</Typography>
+      <List>
         {comments.map((comment, index) => (
-          <li key={index}><Comment author={comment.author} text={comment.text}/></li>
+          <Comment author={comment.author} text={comment.text} index={index}/>
         ))}
-      </ul>
+      </List>
     </div>
   );
 };

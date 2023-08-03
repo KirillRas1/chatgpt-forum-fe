@@ -1,6 +1,7 @@
-import { useGoogleLogin ,GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { useState } from 'react';
 import apiClient from 'infrastructure/apiClient';
+import { Button } from '@mui/material';
 
 export default function GoogleLoginButton() {
     const [username, setUserName] =useState('');
@@ -18,7 +19,8 @@ export default function GoogleLoginButton() {
     };
     return (
         <div>
-            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} useOneTap/>
+            <Button onClick={googleLogout}>Logout</Button>
             <span>Logged in as {username}</span>
         </div>
     )
