@@ -1,14 +1,33 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import { useRouter } from 'next/router'
 import Comment from 'components/posts/Comment';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import { Button, Typography, Grid } from '@mui/material';
+import {List, ListItem} from '@mui/material';
+import { Button, Typography, TextField } from '@mui/material';
+import apiClient from 'infrastructure/apiClient';
+import {postContext} from 'contexts/post'
 
 
-const PostDetails = ({post={}, comments=[]}) => {
-const { title, author, content} = post;
+const PostDetails = ({post={}}) => {
+const { id:postId, title, author, content} = post;
+const [newComment, setNewComment] = useState('')
 const router = useRouter()
+const {comments, setComments} = useContext(postContext)
+const changeComment = (e) => {
+  setNewComment(e.target.value)
+}
+
+const postComment = () => {
+  apiClient.post(`/comments/`, {
+    post_id: postId,
+    text: newComment,
+  })
+      .then((response) => {
+        setComments([...comments, response.data])
+    })
+      .catch((error) => console.error('Error fetching posts:', error));
+}
+
+
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={() => router.back()}>Close Post</Button>
@@ -23,6 +42,8 @@ const router = useRouter()
           </ListItem>
         ))}
       </List>
+      <TextField id="standard-basic" label="Standard" variant="standard" value={newComment} onChange={changeComment}/>
+      <Button onClick={postComment}>Post Comment</Button>
     </div>
   );
 };

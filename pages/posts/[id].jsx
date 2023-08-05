@@ -33,7 +33,7 @@ const PostPage = () => {
   return (
     <Grid container spacing={2}>
       <postContext.Provider value={{ comments, setComments }}>
-        {PostDetails(post)}
+        <PostDetails post={post}/>
       </postContext.Provider>
     </Grid>
   )
