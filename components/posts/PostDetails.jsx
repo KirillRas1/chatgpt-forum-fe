@@ -6,9 +6,8 @@ import ListItem from '@mui/material/ListItem';
 import { Button, Typography, Grid } from '@mui/material';
 
 
-const PostDetails = (post={}, comments=[]) => {
+const PostDetails = ({post={}, comments=[]}) => {
 const { title, author, content} = post;
-
 const router = useRouter()
   return (
     <div>
@@ -19,7 +18,9 @@ const router = useRouter()
       <Typography variant="h3">Comments:</Typography>
       <List>
         {comments.map((comment, index) => (
-          <Comment author={comment.author} text={comment.text} index={index}/>
+          <ListItem key={index}>
+            <Comment author={comment.author} text={comment.text} index={index} key={index}/>
+          </ListItem>
         ))}
       </List>
     </div>

@@ -6,7 +6,6 @@ import Divider from '@mui/material/Divider';
 
 const Comment = ({ author, text, index }) => {
   return (
-    <ListItem key={index}>
         <Grid container spacing={0.5}>
           {/* <Grid item xs={0}>
             <Divider orientation='vertical'/>
@@ -18,7 +17,6 @@ const Comment = ({ author, text, index }) => {
             <Typography variant="body1" width="auto">{text}</Typography >
           </Grid>
         </Grid>
-    </ListItem>
   );
 };
 

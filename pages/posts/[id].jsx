@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import PostDetails from 'components/posts/PostDetails';
 import {useRouter} from 'next/router';
@@ -10,14 +10,15 @@ const PostPage = () => {
   const router = useRouter()
   
   useEffect(() => {
-    if (!router.isReady) return;
-    apiClient.get(`/posts/${router.query.id}/`)
+    if (router.isReady) {
+      apiClient.get(`/posts/${router.query.id}/`)
       .then((response) => {
         setPost(response.data)
         apiClient.get(`/comments/`).then((response) => {
           setComments(response.data)
         })})
       .catch((error) => console.error('Error fetching post:', error));
+    };
   }, [router.isReady]);
 
   if (!post) {
@@ -26,7 +27,7 @@ const PostPage = () => {
 
   return (
     <Grid container spacing={2}>
-      {PostDetails(post, comments)}
+      <PostDetails post={post} comments={comments}/>
     </Grid>
   )
   
