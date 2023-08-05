@@ -1,12 +1,10 @@
 import React, { useState, useEffect, use } from 'react';
-import { useParams } from 'react-router-dom';
 
 import PostDetails from 'components/posts/PostDetails';
 import {useRouter} from 'next/router';
 import apiClient from 'infrastructure/apiClient';
 import Grid from '@mui/material/Unstable_Grid2';
 const PostPage = () => {
-  const params = useParams();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const router = useRouter()
