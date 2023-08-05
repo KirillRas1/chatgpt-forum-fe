@@ -12,7 +12,7 @@ const Comment = ({ author, text, index }) => {
         
           <Grid item xs={4}>
             <Divider />
-            <Typography variant="caption" color={"primary.main"}>{author}</Typography >
+            <Typography variant="caption" color={"primary.main"}>{author || "AI"}</Typography >
             <Typography variant="body1" width="auto">{text}</Typography >
           </Grid>
         </Grid>
