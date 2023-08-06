@@ -15,10 +15,10 @@ const PostPage = () => {
 
   useEffect(() => {
     if (router.isReady) {
-      apiClient.get(`/posts/${router.query.id}/`)
+      apiClient.get(`posts/${router.query.id}/`)
       .then((response) => {
         setPost(response.data)
-        apiClient.get(`/comments/`).then((response) => {
+        apiClient.get(`comments/`).then((response) => {
           setComments(response.data)
         })
       })

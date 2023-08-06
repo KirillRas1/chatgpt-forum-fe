@@ -17,7 +17,7 @@ const changeComment = (e) => {
 }
 
 const postComment = () => {
-  apiClient.post(`/comments/`, {
+  apiClient.post(`comments/`, {
     post_id: postId,
     text: newComment,
   })
@@ -27,6 +27,11 @@ const postComment = () => {
       .catch((error) => console.error('Error fetching posts:', error));
 }
 
+const allowPrompt = ({comment={}, commentIndex}) => {
+  return comment.author// Human author
+  && commentIndex+1 === comments.length // Last comment of the post
+  && !comment.is_prompt // Already submitted as a prompt
+}
 
   return (
     <div>
@@ -38,7 +43,7 @@ const postComment = () => {
       <List>
         {comments.map((comment, index) => (
           <ListItem key={index}>
-            <Comment author={comment.author} text={comment.text} index={index} key={index}/>
+            <Comment comment={comment} allowPrompt={allowPrompt({comment, commentIndex: index})}/>
           </ListItem>
         ))}
       </List>
