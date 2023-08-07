@@ -20,8 +20,7 @@ const postComment = () => {
   apiClient.post(`comments/`, {
     post_id: postId,
     text: newComment,
-  })
-      .then((response) => {
+  }).then((response) => {
         setComments([...comments, response.data])
     })
       .catch((error) => console.error('Error fetching posts:', error));

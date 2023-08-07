@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Grid, Typography, Checkbox, CircularProgress } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import apiClient from 'infrastructure/apiClient';
-
+import {postContext} from 'contexts/post'
 
 const Comment = ({ comment={}, allowPrompt }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(comment.is_prompt);
   const {author, text, id} = comment;
+  const { getPostComments } = useContext(postContext)
   const makePrompt = () => {
     if (isPrompt || isLoading) {
       return
@@ -17,6 +18,7 @@ const Comment = ({ comment={}, allowPrompt }) => {
       is_prompt: true
     }).then((response) => {
       setIsPrompt(true)
+      getPostComments()
     }).finally(() => {
       setIsLoading(false)
     })
