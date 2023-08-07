@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Grid, Typography, Checkbox, CircularProgress } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import apiClient from 'infrastructure/apiClient';
@@ -6,7 +6,7 @@ import apiClient from 'infrastructure/apiClient';
 
 const Comment = ({ comment={}, allowPrompt }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isPrompt, setIsPrompt] = useState(false);
+  const [isPrompt, setIsPrompt] = useState(comment.is_prompt);
   const {author, text, id} = comment;
   const makePrompt = () => {
     if (isPrompt || isLoading) {
@@ -16,8 +16,9 @@ const Comment = ({ comment={}, allowPrompt }) => {
     apiClient.patch(`comments/${id}/`, {
       is_prompt: true
     }).then((response) => {
+      setIsPrompt(true)
+    }).finally(() => {
       setIsLoading(false)
-      console.log(response.data)
     })
   }
 
@@ -26,7 +27,7 @@ const Comment = ({ comment={}, allowPrompt }) => {
       return <CircularProgress />
     }
     if (allowPrompt){
-      return allowPrompt && <Checkbox checked={isPrompt} onChange={makePrompt}/>
+      return allowPrompt && <Checkbox checked={isPrompt} disabled={isPrompt} onChange={makePrompt}/>
     }
   }
 

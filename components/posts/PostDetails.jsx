@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { useRouter } from 'next/router'
 import Comment from 'components/posts/Comment';
 import {List, ListItem} from '@mui/material';
@@ -7,11 +7,11 @@ import apiClient from 'infrastructure/apiClient';
 import {postContext} from 'contexts/post'
 
 
-const PostDetails = ({post={}}) => {
-const { id:postId, title, author, content} = post;
+const PostDetails = () => {
 const [newComment, setNewComment] = useState('')
 const router = useRouter()
-const {comments, setComments} = useContext(postContext)
+const {post, comments, setComments} = useContext(postContext)
+const { id:postId, title, author, content} = post;
 const changeComment = (e) => {
   setNewComment(e.target.value)
 }
@@ -30,9 +30,10 @@ const postComment = () => {
 const allowPrompt = ({comment={}, commentIndex}) => {
   return comment.author// Human author
   && commentIndex+1 === comments.length // Last comment of the post
-  && !comment.is_prompt // Already submitted as a prompt
 }
-
+  if (!post) {
+    return <p>Loading...</p>;
+  }
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={() => router.back()}>Close Post</Button>
