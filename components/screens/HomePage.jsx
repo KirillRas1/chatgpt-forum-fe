@@ -14,4 +14,4 @@ export default function HomePage() {
       <GoogleLoginButton/>
     </div>
   );
-}//testhusky install .husky
+}//test
