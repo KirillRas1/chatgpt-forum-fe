@@ -27,11 +27,9 @@
     "styled-jsx": "^5.1.1",
     "tslib": "^2.5.0"
   },
+  "lint-staged": {"*.{js,jsx}": ["eslint --fix", "git add"]},
   "scripts": {
-    "precommit": "lint",
-    "prepush": "lint",
-    "start": "next dev",
-    "prepare": "husky install"
+    "start": "next dev"
   },
   "devDependencies": {
     "eslint": "8.46.0",
