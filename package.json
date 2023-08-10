@@ -12,6 +12,7 @@
     "caniuse-lite": "^1.0.30001457",
     "client-only": "^0.0.1",
     "js-tokens": "^4.0.0",
+    "lint-staged": "^13.2.3",
     "lodash": "^4.17.21",
     "loose-envify": "^1.4.0",
     "nanoid": "^3.3.4",
@@ -27,13 +28,15 @@
     "styled-jsx": "^5.1.1",
     "tslib": "^2.5.0"
   },
-  "lint-staged": {"*.{js,jsx}": ["eslint --fix", "git add"]},
   "scripts": {
     "start": "next dev"
   },
   "devDependencies": {
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
-    "husky": "^8.0.0"
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.0",
+    "prettier": "^3.0.1"
   }
 }
