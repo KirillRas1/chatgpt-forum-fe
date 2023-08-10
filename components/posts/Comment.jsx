@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Grid, Typography, Checkbox, CircularProgress } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import apiClient from 'infrastructure/apiClient';
+import { postContext } from 'contexts/post';
 
 const Comment = ({ comment = {}, allowPrompt }) => {
+  const { getPostComments } = useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(comment.is_prompt);
   const { author, text, id } = comment;
@@ -18,6 +20,7 @@ const Comment = ({ comment = {}, allowPrompt }) => {
       })
       .then(response => {
         setIsPrompt(true);
+        getPostComments();
       })
       .finally(() => {
         setIsLoading(false);
@@ -42,7 +45,7 @@ const Comment = ({ comment = {}, allowPrompt }) => {
   };
   return (
     <Grid container spacing={0.5}>
-      <Grid item xs={4}>
+      <Grid item>
         <Divider />
         <Typography variant="caption" color={'primary.main'}>
           {author || 'AI'}

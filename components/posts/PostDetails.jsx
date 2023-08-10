@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Comment from 'components/posts/Comment';
-import { List, ListItem } from '@mui/material';
+import { Grid, List, ListItem } from '@mui/material';
 import { Button, Typography, TextField } from '@mui/material';
 import apiClient from 'infrastructure/apiClient';
 import { postContext } from 'contexts/post';
@@ -22,29 +22,32 @@ const PostDetails = () => {
         text: newComment
       })
       .then(response => {
+        console.log(response.data);
+        console.log(comments);
         setComments([...comments, response.data]);
       })
-      .catch(error => console.error('Error fetching posts:', error));
+      .catch(error => console.error('Error fetching posts:', error))
+      .finally(setNewComment(''));
   };
 
   const allowPrompt = ({ comment = {}, commentIndex }) => {
     return (
-      comment.author && // Human author
-      commentIndex + 1 === comments.length
+      comment.is_prompt ||
+      (comment.author && // Human author
+        commentIndex + 1 === comments.length)
     ); // Last comment of the post
   };
   if (!post) {
     return <p>Loading...</p>;
   }
   return (
-    <div>
+    <Grid item>
       <Button variant="outlined" color="primary" onClick={() => router.back()}>
         Close Post
       </Button>
       <Typography variant="h2">{title}</Typography>
       <Typography variant="subtitle1">Author: {author}</Typography>
       <Typography variant="body1">{content}</Typography>
-      <Typography variant="h3">Comments:</Typography>
       <List>
         {comments.map((comment, index) => (
           <ListItem key={index}>
@@ -63,7 +66,7 @@ const PostDetails = () => {
         onChange={changeComment}
       />
       <Button onClick={postComment}>Post Comment</Button>
-    </div>
+    </Grid>
   );
 };
 

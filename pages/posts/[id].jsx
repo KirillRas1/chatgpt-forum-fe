@@ -1,13 +1,15 @@
 import { PostProvider } from 'contexts/post';
 import PostDetails from 'components/posts/PostDetails';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Grid } from '@mui/material';
 
 const PostPage = () => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} justifyContent="space-between">
+      <Grid item />
       <PostProvider>
         <PostDetails />
       </PostProvider>
+      <Grid item />
     </Grid>
   );
 };

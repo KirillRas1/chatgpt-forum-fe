@@ -33,7 +33,7 @@ export const PostProvider = ({ children }) => {
 
   const { Provider } = postContext;
   return (
-    <Provider value={{ post, comments, getPost, getPostComments }}>
+    <Provider value={{ post, comments, setComments, getPost, getPostComments }}>
       {children}
     </Provider>
   );
