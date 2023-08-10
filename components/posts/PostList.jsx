@@ -4,13 +4,13 @@ import { Typography, List, ListItem, ListItemText } from '@mui/material';
 import { useRouter } from 'next/router'
 
 const PostList = (posts = []) => {
-  if (!posts) {
-    
-    return <Typography>Loading...</Typography>;
-  }
+  
   const router = useRouter()
   const handlePostClick = (id) => () => {
     router.push({pathname: `/posts/${id}`})
+  }
+  if (!posts) {
+    return <Typography>Loading...</Typography>;
   }
   return (
     <div>
