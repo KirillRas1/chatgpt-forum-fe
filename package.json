@@ -31,6 +31,10 @@
   "scripts": {
     "precommit": "lint",
     "prepush": "lint",
-    "start": "next dev"
+    "start": "next dev",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.0"
   }
 }
