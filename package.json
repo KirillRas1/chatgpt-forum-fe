@@ -11,6 +11,7 @@
     "axios": "^1.4.0",
     "caniuse-lite": "^1.0.30001457",
     "client-only": "^0.0.1",
+    "husky": "^8.0.3",
     "js-tokens": "^4.0.0",
     "lodash": "^4.17.21",
     "loose-envify": "^1.4.0",
@@ -28,6 +29,8 @@
     "tslib": "^2.5.0"
   },
   "scripts": {
+    "precommit": "lint",
+    "prepush": "lint",
     "start": "next dev"
   }
 }
