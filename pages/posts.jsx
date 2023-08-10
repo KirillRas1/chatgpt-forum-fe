@@ -6,11 +6,12 @@ const PostsPage = () => {
 
   useEffect(() => {
     // Fetch the list of posts using Axios when the component mounts
-    apiClient.get('/posts/')
-      .then((response) => {
-        setPosts(response.data)
-    })
-      .catch((error) => console.error('Error fetching posts:', error));
+    apiClient
+      .get('/posts/')
+      .then(response => {
+        setPosts(response.data);
+      })
+      .catch(error => console.error('Error fetching posts:', error));
   }, []);
 
   return PostList(posts);
