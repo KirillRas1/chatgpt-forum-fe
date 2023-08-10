@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import {
   Typography,
@@ -9,7 +9,7 @@ import {
   Divider
 } from '@mui/material';
 import { useRouter } from 'next/router';
-
+import { getFormattedTimedelta } from 'functions/formatting/time';
 const PostList = (posts = []) => {
   const router = useRouter();
   const handlePostClick = id => () => {
@@ -18,6 +18,7 @@ const PostList = (posts = []) => {
   if (!posts) {
     return <Typography>Loading...</Typography>;
   }
+  //const getMemoizedFormattedTimedelta = useMemo(() => getFormattedTimedelta(time), [t])
   return (
     <div>
       <Typography variant="h2">Posts</Typography>
@@ -28,7 +29,7 @@ const PostList = (posts = []) => {
               <Typography variant="h3">{post.title}</Typography>
               <Grid item>
                 <Typography variant="body1">
-                  {Date.parse(post.created_at)}
+                  {getFormattedTimedelta(Date.parse(post.created_at))}
                 </Typography>
                 <Typography variant="body1">Author: {post.author}</Typography>
               </Grid>
