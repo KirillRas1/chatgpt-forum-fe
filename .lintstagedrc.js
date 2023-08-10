@@ -10,7 +10,7 @@ module.exports = {
   '**/*.(ts|tsx)': () => 'yarn tsc --noEmit',
 
   // Lint & Prettify TS and JS files
-  '**/*.(ts|tsx|js)': filenames => [
+  '**/*.(ts|tsx|js|jsx)': filenames => [
     `echo ${filenames.join(' ')}`,
     `yarn eslint ${filenames.join(' ')}`,
     `yarn prettier --write ${filenames.join(' ')}`
