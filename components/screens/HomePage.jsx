@@ -11,7 +11,6 @@ export default function HomePage() {
       <Link href={'/posts/'}>
         <h3>Posts</h3>
       </Link>
-      <GoogleLoginButton />
     </div>
   );
 } //test

@@ -29,7 +29,6 @@ export default function GoogleLoginButton() {
         useOneTap
       />
       <Button onClick={googleLogout}>Logout</Button>
-      <span>Logged in as {username}</span>
     </div>
   );
 }
