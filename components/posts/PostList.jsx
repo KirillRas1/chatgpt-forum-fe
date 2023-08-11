@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { getFormattedTimedelta } from 'functions/formatting/time';
+
 const PostList = (posts = []) => {
   const router = useRouter();
   const handlePostClick = id => () => {
@@ -18,27 +19,28 @@ const PostList = (posts = []) => {
   if (!posts) {
     return <Typography>Loading...</Typography>;
   }
-  //const getMemoizedFormattedTimedelta = useMemo(() => getFormattedTimedelta(time), [t])
   return (
-    <div>
+    <Grid container alignItems="center" flexDirection="column">
       <Typography variant="h2">Posts</Typography>
-      <List>
-        {posts.map(post => (
-          <ListItem key={post.id} onClick={handlePostClick(post.id)}>
-            <Grid container directon="row" justifyContent="space-between">
-              <Typography variant="h3">{post.title}</Typography>
-              <Grid item>
-                <Typography variant="body1">
-                  {getFormattedTimedelta(Date.parse(post.created_at))}
-                </Typography>
-                <Typography variant="body1">Author: {post.author}</Typography>
+      <Grid container item justifyContent="center">
+        <List>
+          {posts.map(post => (
+            <ListItem key={post.id} onClick={handlePostClick(post.id)}>
+              <Grid container directon="row" justifyContent="space-between">
+                <Typography variant="h3">{post.title}</Typography>
+                <Grid item>
+                  <Typography variant="body1">
+                    {getFormattedTimedelta(Date.parse(post.created_at))}
+                  </Typography>
+                  <Typography variant="body1">Author: {post.author}</Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <Divider />
-          </ListItem>
-        ))}
-      </List>
-    </div>
+              <Divider />
+            </ListItem>
+          ))}
+        </List>
+      </Grid>
+    </Grid>
   );
 };
 
