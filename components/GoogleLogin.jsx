@@ -23,6 +23,15 @@ export default function GoogleLoginButton() {
   useEffect(() => {
     setUserName(window?.localStorage?.username);
   }, []);
+
+  const logout = () => {
+    googleLogout();
+    localStorage.removeItem('jwt_token');
+    localStorage.removeItem('username');
+    delete headers.common['Authorization'];
+    setUserName('');
+  };
+
   return (
     <div>
       {!username ? (
@@ -32,7 +41,7 @@ export default function GoogleLoginButton() {
           useOneTap
         />
       ) : (
-        <Button variant="contained" color="secondary" onClick={googleLogout}>
+        <Button variant="contained" color="secondary" onClick={logout}>
           Logout
         </Button>
       )}
