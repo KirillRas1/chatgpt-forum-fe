@@ -22,6 +22,7 @@ function redirectOnTokenExpiration(error) {
     error.response.status === 401 &&
     error.response.data.detail === tokenExpirationDetails
   ) {
+    window.localStorage.removeItem('username');
     Router.push({ pathname: `/` });
   }
   return Promise.reject(error);

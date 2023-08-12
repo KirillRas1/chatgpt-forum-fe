@@ -75,7 +75,7 @@ export default function DefaultLayout({ children }) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <Grid container flexDirection="row" justifyContent="space-between">

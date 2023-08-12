@@ -1,8 +1,7 @@
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import React, { useState } from 'react';
+import React, { use, useState, useEffect } from 'react';
 import apiClient from 'infrastructure/apiClient';
 import { Button } from '@mui/material';
-
 export default function GoogleLoginButton() {
   const [username, setUserName] = useState('');
   const responseMessage = responseFromGoogle => {
@@ -21,14 +20,22 @@ export default function GoogleLoginButton() {
   const errorMessage = error => {
     console.log(error);
   };
+  useEffect(() => {
+    setUserName(window?.localStorage?.username);
+  }, []);
   return (
     <div>
-      <GoogleLogin
-        onSuccess={responseMessage}
-        onError={errorMessage}
-        useOneTap
-      />
-      <Button onClick={googleLogout}>Logout</Button>
+      {!username ? (
+        <GoogleLogin
+          onSuccess={responseMessage}
+          onError={errorMessage}
+          useOneTap
+        />
+      ) : (
+        <Button variant="contained" color="secondary" onClick={googleLogout}>
+          Logout
+        </Button>
+      )}
     </div>
   );
 }

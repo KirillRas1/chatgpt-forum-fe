@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { getFormattedTimedelta } from 'functions/formatting/time';
+import CircleIcon from '@mui/icons-material/Circle';
 
 const PostList = (posts = []) => {
   const router = useRouter();
@@ -22,20 +23,25 @@ const PostList = (posts = []) => {
   return (
     <Grid container alignItems="center" flexDirection="column">
       <Typography variant="h2">Posts</Typography>
-      <Grid container item justifyContent="center">
-        <List>
+      <Grid container item xs={6}>
+        <List sx={{ width: '100%' }}>
           {posts.map(post => (
             <ListItem key={post.id} onClick={handlePostClick(post.id)}>
-              <Grid container directon="row" justifyContent="space-between">
-                <Typography variant="h3">{post.title}</Typography>
-                <Grid item>
+              <Grid
+                container
+                flexDirection="column"
+                justifyContent="space-between"
+              >
+                <Typography variant="h4">{post.title}</Typography>
+                <Grid container gap={2}>
+                  <Typography variant="body1">{post.author}</Typography>
+                  <CircleIcon sx={{ fontSize: '50%', marginTop: '1%' }} />
                   <Typography variant="body1">
                     {getFormattedTimedelta(Date.parse(post.created_at))}
                   </Typography>
-                  <Typography variant="body1">Author: {post.author}</Typography>
                 </Grid>
+                <Divider />
               </Grid>
-              <Divider />
             </ListItem>
           ))}
         </List>
