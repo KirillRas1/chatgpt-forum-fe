@@ -21,7 +21,7 @@ const PostMini = ({ post }) => {
     );
   };
   return (
-    <Grid container wrap="no-wrap">
+    <Grid container wrap="nowrap">
       <ScoreButtons foreignKey={post.id} scoreType={'post'} initialScore={0} />
       {renderItems()}
     </Grid>

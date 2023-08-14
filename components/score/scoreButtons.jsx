@@ -9,7 +9,7 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
   console.log(score);
   const createScore = () => {
     apiClient
-      .post(`/${scoreType}_score`, {
+      .post(`/${scoreType}_score/`, {
         [scoreType]: foreignKey,
         score: score
       })
@@ -20,7 +20,7 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
 
   const updateScore = () => {
     apiClient
-      .patch(`/${scoreType}_score`, {
+      .patch(`/${scoreType}_score/`, {
         params: { [scoreType]: foreignKey },
         score: score
       })
@@ -31,7 +31,7 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
 
   const deleteScore = () => {
     apiClient
-      .delete(`/${scoreType}_score`, {
+      .delete(`/${scoreType}_score/`, {
         params: { [scoreType]: foreignKey }
       })
       .then(response => {
@@ -50,7 +50,7 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
   };
 
   return (
-    <Grid container item direction="column" marginTop="1%">
+    <Grid item marginTop="1%">
       <ThumbUpIcon
         color={score === 1 ? 'primary' : undefined}
         onClick={handleScoreClick(1)}
