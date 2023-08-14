@@ -1,17 +1,8 @@
-import React, { useMemo } from 'react';
-import {
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Grid,
-  Divider,
-  Box
-} from '@mui/material';
+import React from 'react';
+import { Typography, Grid, Divider } from '@mui/material';
 import { getFormattedTimedelta } from 'functions/formatting/time';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CircleIcon from '@mui/icons-material/Circle';
+import ScoreButtons from 'components/score/ScoreButtons';
 
 const PostMini = ({ post }) => {
   const renderItems = () => {
@@ -30,11 +21,8 @@ const PostMini = ({ post }) => {
     );
   };
   return (
-    <Grid container direction="row">
-      <Grid container item flexDirection="column">
-        <ThumbUpIcon />
-        <ThumbDownIcon />
-      </Grid>
+    <Grid container wrap="no-wrap">
+      <ScoreButtons foreignKey={post.id} scoreType={'post'} initialScore={0} />
       {renderItems()}
     </Grid>
   );

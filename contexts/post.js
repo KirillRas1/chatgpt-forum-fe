@@ -9,10 +9,12 @@ export const PostProvider = ({ children }) => {
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
 
-  const getPostComments = () => {
-    apiClient.get(`comments/`).then(response => {
-      setComments(response.data);
-    });
+  const getPostComments = postId => {
+    apiClient
+      .get(`comments/`, { params: { post_id: postId } })
+      .then(response => {
+        setComments(response.data);
+      });
   };
 
   const getPost = () => {
@@ -20,7 +22,7 @@ export const PostProvider = ({ children }) => {
       .get(`posts/${router.query.id}/`)
       .then(response => {
         setPost(response.data);
-        getPostComments();
+        getPostComments(router.query.id);
       })
       .catch(error => console.error('Error fetching post:', error));
   };
