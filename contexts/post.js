@@ -8,6 +8,7 @@ export const PostProvider = ({ children }) => {
   const router = useRouter();
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
+  const [commentLikes, setCommentLikes] = useState([]);
 
   const getPostComments = postId => {
     apiClient
@@ -16,6 +17,14 @@ export const PostProvider = ({ children }) => {
         setComments(response.data);
       });
   };
+
+  const getCommentLikes = (commentIds) => {
+    apiClient
+      .get(`comments/`, { params: { post_id: postId } })
+      .then(response => {
+        setComments(response.data);
+      });
+  }
 
   const getPost = () => {
     apiClient

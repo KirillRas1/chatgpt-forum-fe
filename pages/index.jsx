@@ -1,4 +1,7 @@
-import HomePage from 'components/screens/HomePage';
 export default function App() {
-  return <HomePage />;
+  return <div>
+  <Link href={'/posts/'}>
+    <h3>Posts</h3>
+  </Link>
+</div>;
 }

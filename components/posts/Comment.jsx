@@ -3,6 +3,7 @@ import { Grid, Typography, Checkbox, CircularProgress } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import apiClient from 'infrastructure/apiClient';
 import { postContext } from 'contexts/post';
+import ScoreButtons from 'components/score/ScoreButtons';
 
 const Comment = ({ comment = {}, allowPrompt }) => {
   const { getPostComments } = useContext(postContext);
@@ -44,16 +45,20 @@ const Comment = ({ comment = {}, allowPrompt }) => {
     }
   };
   return (
-    <Grid container spacing={0.5}>
-      <Grid item>
-        <Divider />
-        <Typography variant="caption" color={'primary.main'}>
-          {author || 'AI'}
-        </Typography>
-        {checkBox()}
-        <Typography variant="body1" width="auto">
-          {text}
-        </Typography>
+    <Grid container direction="row" wrap="nowrap" alignContent="flex-start">
+      <ScoreButtons foreignKey={comment.id} scoreType={'comment'} initialScore={comment.user_score} />
+      <Grid container spacing={0.5}>
+        
+        <Grid item>
+          <Divider />
+          <Typography variant="caption" color={'primary.main'}>
+            {author || 'AI'}
+          </Typography>
+          {checkBox()}
+          <Typography variant="body1" width="auto">
+            {text}
+          </Typography>
+        </Grid>
       </Grid>
     </Grid>
   );

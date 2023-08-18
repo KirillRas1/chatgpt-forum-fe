@@ -22,8 +22,6 @@ const PostDetails = () => {
         text: newComment
       })
       .then(response => {
-        console.log(response.data);
-        console.log(comments);
         setComments([...comments, response.data]);
       })
       .catch(error => console.error('Error fetching posts:', error))

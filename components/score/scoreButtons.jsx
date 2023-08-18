@@ -6,13 +6,14 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
   const [score, setScore] = useState(initialScore);
-  console.log(score);
-  const createScore = () => {
+  const createScore = (targetScore) => {
     apiClient
       .post(`/${scoreType}_score/`, {
         [scoreType]: foreignKey,
-        score: score
-      })
+        upvote: targetScore === 1 ? true : false
+      }).then(
+        setScore(targetScore)
+      )
       .catch(error => {
         setScore(0);
       });
@@ -22,7 +23,8 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
     apiClient
       .patch(`/${scoreType}_score/`, {
         params: { [scoreType]: foreignKey },
-        score: score
+        upvote: score === 1 ? false : true,
+        comment: foreignKey
       })
       .then(response => {
         setScore(-score);
