@@ -1,7 +1,9 @@
+import { useRouter } from 'next/router';
+
 export default function App() {
+  const router = useRouter();
+
   return <div>
-  <Link href={'/posts/'}>
-    <h3>Posts</h3>
-  </Link>
+  <h3 onClick={() => {router.push({ pathname: `/posts/` });}}>Posts</h3>
 </div>;
 }
