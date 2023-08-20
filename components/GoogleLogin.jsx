@@ -1,38 +1,18 @@
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import React, { use, useState, useEffect } from 'react';
-import apiClient from 'infrastructure/apiClient';
+import React, { use, useState, useEffect, useContext } from 'react';
 import { Button } from '@mui/material';
+import { authContext } from 'contexts/Auth';
+
+
 export default function GoogleLoginButton() {
-  const [username, setUserName] = useState('');
+  const { login, logout, username } = useContext(authContext);
   const responseMessage = responseFromGoogle => {
-    console.log(responseFromGoogle)
-    apiClient
-      .post('login/', {
-        jwt: responseFromGoogle.credential
-      })
-      .then(function (response) {
-        setUserName(response.data.email);
-        apiClient.defaults.headers.common['Authorization'] =
-          responseFromGoogle.credential;
-        localStorage.setItem('jwt_token', responseFromGoogle.credential);
-        localStorage.setItem('username', response.data.email);
-      });
+    login(responseFromGoogle.credential);
   };
   const errorMessage = error => {
     console.log(error);
   };
-  useEffect(() => {
-    setUserName(window?.localStorage?.username);
-  }, []);
-
-  const logout = () => {
-    googleLogout();
-    localStorage.removeItem('jwt_token');
-    localStorage.removeItem('username');
-    delete apiClient.defaults.headers.common['Authorization'];
-    setUserName('');
-  };
-
+  
   return (
     <div>
       {!username ? (
@@ -40,7 +20,6 @@ export default function GoogleLoginButton() {
           onSuccess={responseMessage}
           onError={errorMessage}
           useOneTap
-          prompt="consent"
         />
       ) : (
         <Button variant="contained" color="secondary" onClick={logout}>
