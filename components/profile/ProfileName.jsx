@@ -7,10 +7,11 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { authContext } from 'contexts/Auth';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import apiClient from 'infrastructure/apiClient';
 
 function EditableTextField() {
   const [isEditing, setIsEditing] = useState(false);
-  const { username } = useContext(authContext);
+  const { username, userId, setUser } = useContext(authContext);
   const [originalText, setOriginalText] = useState(username);
   const [editedText, setEditedText] = useState(username);
   
@@ -30,8 +31,16 @@ function EditableTextField() {
   };
 
   const handleSubmitClick = () => {
-    setOriginalText(editedText);
-    setIsEditing(false);
+    apiClient.patch(`users/${userId}/`, {
+        name: editedText
+    }).then(response => {
+        setOriginalText(editedText);
+        setUser(editedText);
+    }).catch(error => {
+        setEditedText(originalText)
+    }).finally(() => {
+        setIsEditing(false);
+    })
   };
 
   const handleChange = (event) => {
