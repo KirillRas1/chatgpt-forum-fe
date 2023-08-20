@@ -5,7 +5,7 @@ import apiClient from 'infrastructure/apiClient';
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState('');
     const login = (jwtToken) => {
         apiClient
         .post('login/', {
@@ -35,6 +35,10 @@ export const AuthProvider = ({ children }) => {
         }
         setUser(localStorage.getItem('username'));
     }, [])
+
+    useEffect(() => {
+        localStorage.setItem('username', user);
+    }, [user])
 
     const { Provider } = authContext;
     return (
