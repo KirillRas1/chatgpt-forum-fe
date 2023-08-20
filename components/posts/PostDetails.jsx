@@ -4,7 +4,7 @@ import Comment from 'components/posts/Comment';
 import { Grid, List, ListItem } from '@mui/material';
 import { Button, Typography, TextField } from '@mui/material';
 import apiClient from 'infrastructure/apiClient';
-import { postContext } from 'contexts/post';
+import { postContext } from 'contexts/Post';
 
 const PostDetails = () => {
   const [newComment, setNewComment] = useState('');
@@ -57,9 +57,7 @@ const PostDetails = () => {
         ))}
       </List>
       <TextField
-        id="standard-basic"
-        label="Standard"
-        variant="standard"
+        variant="outlined"
         value={newComment}
         onChange={changeComment}
       />

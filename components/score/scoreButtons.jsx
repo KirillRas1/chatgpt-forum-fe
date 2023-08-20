@@ -52,7 +52,7 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
   };
 
   return (
-    <Grid item marginTop="1%">
+    <Grid container alignSelf="center" width="fit-content" direction="column">
       <ThumbUpIcon
         color={score === 1 ? 'primary' : undefined}
         onClick={handleScoreClick(1)}

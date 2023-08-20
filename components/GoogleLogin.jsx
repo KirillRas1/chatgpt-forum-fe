@@ -5,6 +5,7 @@ import { Button } from '@mui/material';
 export default function GoogleLoginButton() {
   const [username, setUserName] = useState('');
   const responseMessage = responseFromGoogle => {
+    console.log(responseFromGoogle)
     apiClient
       .post('login/', {
         jwt: responseFromGoogle.credential
@@ -28,7 +29,7 @@ export default function GoogleLoginButton() {
     googleLogout();
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('username');
-    delete headers.common['Authorization'];
+    delete apiClient.defaults.headers.common['Authorization'];
     setUserName('');
   };
 
@@ -39,6 +40,7 @@ export default function GoogleLoginButton() {
           onSuccess={responseMessage}
           onError={errorMessage}
           useOneTap
+          prompt="consent"
         />
       ) : (
         <Button variant="contained" color="secondary" onClick={logout}>

@@ -1,4 +1,4 @@
-import { PostProvider } from 'contexts/post';
+import { PostProvider } from 'contexts/Post';
 import PostDetails from 'components/posts/PostDetails';
 import { Grid } from '@mui/material';
 

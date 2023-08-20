@@ -26,9 +26,18 @@ const PostMini = ({ post }) => {
       </Grid>
     );
   };
+
+  const renderTotalScore = (total_score) => {
+    return <Grid item direction="column" alignSelf="center">
+    <Typography variant="body1">{total_score}</Typography>
+    </Grid>
+  }
+
   return (
     <Grid container wrap="nowrap">
       <ScoreButtons foreignKey={post.id} scoreType={'post'} initialScore={post.user_score} />
+      {renderTotalScore(post.total_score)}
+      <Divider orientation="vertical" flexItem />
       {renderItems()}
     </Grid>
   );
