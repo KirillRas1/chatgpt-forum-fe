@@ -24,7 +24,7 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
       .patch(`/${scoreType}_score/`, {
         params: { [scoreType]: foreignKey },
         upvote: score === 1 ? false : true,
-        comment: foreignKey
+        [scoreType]: foreignKey
       })
       .then(response => {
         setScore(-score);

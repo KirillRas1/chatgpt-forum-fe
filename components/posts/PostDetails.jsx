@@ -39,7 +39,7 @@ const PostDetails = () => {
     return <p>Loading...</p>;
   }
   return (
-    <Grid item>
+    <Grid item width="70%">
       <Button variant="outlined" color="primary" onClick={() => router.back()}>
         Close Post
       </Button>
