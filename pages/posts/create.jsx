@@ -5,8 +5,14 @@ import {
   TextField,
   Button,
 } from '@mui/material';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 import apiClient from 'infrastructure/apiClient';
 
+const validationSchema = Yup.object().shape({
+    title: Yup.string().required('Title is required'),
+    content: Yup.string().required('Content is required'),
+  });
 
 const CreatePost = () => {
   const [title, setTitle] = useState('');
@@ -20,11 +26,11 @@ const CreatePost = () => {
     setContent(event.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (formikValues) => {
     try {
       const payload = {
-        title: title,
-        chat_role: content,
+        title: formikValues.title,
+        chat_role: formikValues.content,
       };
 
       // Make a POST request to the API endpoint
@@ -44,30 +50,44 @@ const CreatePost = () => {
       <Typography variant="h4" style={{ marginBottom: '1rem' }}>
         Create a New Post
       </Typography>
-      <TextField
-        label="Title"
-        fullWidth
-        style={{ marginBottom: '1rem' }}
-        value={title}
-        onChange={handleTitleChange}
-      />
-      <TextField
-        label="Initial Prompt"
-        fullWidth
-        multiline
-        rows={4}
-        style={{ marginBottom: '1rem' }}
-        value={content}
-        onChange={handleContentChange}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSubmit}
-        style={{ marginTop: '1rem' }}
+      <Formik
+        initialValues={{ title: '', content: '' }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
       >
-        Create Post
-      </Button>
+        {({ errors, touched }) => (
+          <Form>
+            <Field
+              name="title"
+              label="Title"
+              fullWidth
+              component={TextField}
+              helperText={touched.title && errors.title}
+              error={touched.title && !!errors.title}
+              style={{ marginBottom: '1rem' }}
+            />
+            <Field
+              name="content"
+              label="Content"
+              fullWidth
+              multiline
+              rows={4}
+              component={TextField}
+              helperText={touched.content && errors.content}
+              error={touched.content && !!errors.content}
+              style={{ marginBottom: '1rem' }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ marginTop: '1rem' }}
+            >
+              Create Post
+            </Button>
+          </Form>
+        )}
+      </Formik>
     </Container>
   );
 };

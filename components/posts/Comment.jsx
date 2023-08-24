@@ -21,7 +21,7 @@ const Comment = ({ comment = {}, allowPrompt }) => {
       })
       .then(response => {
         setIsPrompt(true);
-        getPostComments(comment.post_id);
+        getPostComments(comment.post);
       })
       .finally(() => {
         setIsLoading(false);

@@ -18,7 +18,7 @@ const PostDetails = () => {
   const postComment = () => {
     apiClient
       .post(`comments/`, {
-        post_id: postId,
+        post: postId,
         text: newComment
       })
       .then(response => {

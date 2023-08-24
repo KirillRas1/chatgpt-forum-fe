@@ -12,6 +12,7 @@
     "axios": "^1.4.0",
     "caniuse-lite": "^1.0.30001457",
     "client-only": "^0.0.1",
+    "formik": "^2.4.3",
     "js-tokens": "^4.0.0",
     "lint-staged": "^13.2.3",
     "lodash": "^4.17.21",
@@ -27,7 +28,8 @@
     "source-map-js": "^1.0.2",
     "styled-components": "^5.3.6",
     "styled-jsx": "^5.1.1",
-    "tslib": "^2.5.0"
+    "tslib": "^2.5.0",
+    "yup": "^1.2.0"
   },
   "scripts": {
     "start": "next dev"
