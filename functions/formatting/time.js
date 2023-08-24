@@ -7,12 +7,10 @@ export function getFormattedTimedelta(startTimeTimestamp) {
     { step: 31, name: 'months' },
     { step: 12, name: 'years' }
   ];
-  const start = 1691705258000;
   const now = Date.parse(Date());
   let diff = 1;
   let maxStep = 0;
-  const delta = now - start;
-  let divUnit = 1;
+  const delta = now - startTimeTimestamp;
   while (diff * steps[maxStep].step < delta) {
     diff *= steps[maxStep].step;
     maxStep++;
