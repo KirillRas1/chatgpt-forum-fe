@@ -5,9 +5,10 @@ import {
   TextField,
   Button,
 } from '@mui/material';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, useFormik } from 'formik';
 import * as Yup from 'yup';
 import apiClient from 'infrastructure/apiClient';
+import { useRouter } from 'next/router';
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -17,77 +18,72 @@ const validationSchema = Yup.object().shape({
 const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const router = useRouter()
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      content: '',
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const payload = {
+          title: values.title,
+          chat_role: values.content,
+        };
 
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
-  };
+        // Make a POST request to the API endpoint
+        const response = await apiClient.post('posts/', payload)
+        console.log(response)
+        router.push(`/posts/${response?.data.id}`);
 
-  const handleSubmit = async (formikValues) => {
-    try {
-      const payload = {
-        title: formikValues.title,
-        chat_role: formikValues.content,
-      };
-
-      // Make a POST request to the API endpoint
-      const response = await apiClient.post('posts/', payload);
-      
-      // Handle the response, e.g. show a success message
-      console.log('Post created:', response.data);
-
-    } catch (error) {
-      // Handle error, e.g. show an error message
-      console.error('Error creating post:', error);
-    }
-  };
+      } catch (error) {
+        // Handle error, e.g. show an error message
+        console.error('Error creating post:', error);
+      }
+    },
+  });
 
   return (
     <Container maxWidth="sm" style={{ marginTop: '1rem' }}>
       <Typography variant="h4" style={{ marginBottom: '1rem' }}>
         Create a New Post
       </Typography>
-      <Formik
-        initialValues={{ title: '', content: '' }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ errors, touched }) => (
-          <Form>
-            <Field
-              name="title"
-              label="Title"
-              fullWidth
-              component={TextField}
-              helperText={touched.title && errors.title}
-              error={touched.title && !!errors.title}
-              style={{ marginBottom: '1rem' }}
-            />
-            <Field
-              name="content"
-              label="Content"
-              fullWidth
-              multiline
-              rows={4}
-              component={TextField}
-              helperText={touched.content && errors.content}
-              error={touched.content && !!errors.content}
-              style={{ marginBottom: '1rem' }}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              style={{ marginTop: '1rem' }}
-            >
-              Create Post
-            </Button>
-          </Form>
-        )}
-      </Formik>
+      <form onSubmit={formik.handleSubmit}>
+        <TextField
+          label="Title"
+          fullWidth
+          name="title"
+          value={formik.values.title}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          helperText={formik.touched.title && formik.errors.title}
+          error={formik.touched.title && !!formik.errors.title}
+          style={{ marginBottom: '1rem' }}
+        />
+        <TextField
+          label="Content"
+          fullWidth
+          multiline
+          rows={4}
+          name="content"
+          value={formik.values.content}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          helperText={formik.touched.content && formik.errors.content}
+          error={formik.touched.content && !!formik.errors.content}
+          style={{ marginBottom: '1rem' }}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          style={{ marginTop: '1rem' }}
+        >
+          Create Post
+        </Button>
+      </form>
     </Container>
   );
 };
