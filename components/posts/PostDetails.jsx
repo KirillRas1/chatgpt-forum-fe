@@ -7,7 +7,7 @@ import apiClient from 'infrastructure/apiClient';
 import { postContext } from 'contexts/Post';
 import CircleIcon from '@mui/icons-material/Circle';
 
-
+//test
 const styles = {
   container: {
     width: '70%',
@@ -15,31 +15,31 @@ const styles = {
     padding: '20px',
     border: '1px solid #ccc',
     borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
   },
   closeButton: {
-    marginBottom: '10px',
+    marginBottom: '10px'
   },
   titleWrapper: {
     display: 'flex',
     alignItems: 'center',
-    marginBottom: '10px',
+    marginBottom: '10px'
   },
   title: {
     fontSize: '24px',
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   content: {
-    marginBottom: '20px',
+    marginBottom: '20px'
   },
   commentInput: {
-    marginBottom: '10px',
+    marginBottom: '10px'
   },
   subtitle: {
     fontSize: '16px',
     color: '#888',
-    fontStyle: 'italic',
-  },
+    fontStyle: 'italic'
+  }
 };
 
 const PostDetails = () => {
@@ -56,7 +56,7 @@ const PostDetails = () => {
     apiClient
       .post(`comments/`, {
         post: postId,
-        text: newComment,
+        text: newComment
       })
       .then(response => {
         setComments([...comments, response.data]);
@@ -90,14 +90,14 @@ const PostDetails = () => {
         <Typography variant="h2" style={styles.title}>
           {title}
         </Typography>
-        <CircleIcon sx={{ fontSize: '30%', paddingRight:'1%', paddingLeft:'1%' }} />
+        <CircleIcon
+          sx={{ fontSize: '30%', paddingRight: '1%', paddingLeft: '1%' }}
+        />
         <Typography variant="subtitle1" style={styles.subtitle}>
           {author}
         </Typography>
       </div>
-      <Typography variant="subtitle1">
-        {chat_role}
-      </Typography>
+      <Typography variant="subtitle1">{chat_role}</Typography>
       <Typography variant="body1" style={styles.content}>
         {content}
       </Typography>
