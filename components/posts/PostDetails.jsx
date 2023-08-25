@@ -44,7 +44,7 @@ const styles = {
 
 const PostDetails = () => {
   const router = useRouter();
-  const { post, comments, setComments } = useContext(postContext);
+  const { post, comments } = useContext(postContext);
   const { id: postId, title, author, content, chat_role } = post;
 
   const allowPrompt = ({ comment = {}, commentIndex }) => {
