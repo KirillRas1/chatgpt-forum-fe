@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import Comment from 'components/posts/Comment';
+import Comment from 'components/comments/Comment';
 import { Grid, List, ListItem } from '@mui/material';
 import { Button, Typography, TextField, Container } from '@mui/material';
 import apiClient from 'infrastructure/apiClient';
 import { postContext } from 'contexts/Post';
 import CircleIcon from '@mui/icons-material/Circle';
+import CommentInput from 'components/comments/CommentInput';
 
 const styles = {
   container: {
@@ -110,13 +111,15 @@ const PostDetails = () => {
           </ListItem>
         ))}
       </List>
-      <TextField
+      <CommentInput onSubmit={postComment} />
+      {/* <TextField
         variant="outlined"
         value={newComment}
         onChange={changeComment}
         style={styles.commentInput}
+        width="auto"
       />
-      <Button onClick={postComment}>Post Comment</Button>
+      <Button onClick={postComment}>Post Comment</Button> */}
     </Grid>
   );
 };
