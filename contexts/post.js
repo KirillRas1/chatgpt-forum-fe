@@ -11,19 +11,21 @@ export const PostProvider = ({ children }) => {
   const [commentLikes, setCommentLikes] = useState([]);
 
   const getPostComments = postId => {
-    apiClient.get(`comments/`, { params: { post: postId } }).then(response => {
-      setComments(response.data);
-    });
+    return apiClient.get(`comments/`, { params: { post: postId } });
   };
 
-  const getPost = () => {
-    apiClient
-      .get(`posts/${router.query.id}/`)
-      .then(response => {
-        setPost(response.data);
-        getPostComments(router.query.id);
-      })
-      .catch(error => console.error('Error fetching post:', error));
+  const getPost = async () => {
+    try {
+      const [postResponse, commentsResponse] = await Promise.all([
+        apiClient.get(`posts/${router.query.id}/`),
+        getPostComments(router.query.id)
+      ]);
+
+      setPost(postResponse.data);
+      setComments(commentsResponse.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   useEffect(() => {

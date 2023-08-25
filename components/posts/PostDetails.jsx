@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 import Comment from 'components/comments/Comment';
 import { Grid, List, ListItem } from '@mui/material';
-import { Button, Typography, TextField, Container } from '@mui/material';
-import apiClient from 'infrastructure/apiClient';
+import { Button, Typography } from '@mui/material';
+
 import { postContext } from 'contexts/Post';
 import CircleIcon from '@mui/icons-material/Circle';
 import CommentInput from 'components/comments/CommentInput';
@@ -43,27 +43,9 @@ const styles = {
 };
 
 const PostDetails = () => {
-  const [newComment, setNewComment] = useState('');
   const router = useRouter();
   const { post, comments, setComments } = useContext(postContext);
   const { id: postId, title, author, content, chat_role } = post;
-
-  const changeComment = e => {
-    setNewComment(e.target.value);
-  };
-
-  const postComment = () => {
-    apiClient
-      .post(`comments/`, {
-        post: postId,
-        text: newComment
-      })
-      .then(response => {
-        setComments([...comments, response.data]);
-      })
-      .catch(error => console.error('Error posting comment:', error))
-      .finally(() => setNewComment(''));
-  };
 
   const allowPrompt = ({ comment = {}, commentIndex }) => {
     return (
@@ -111,15 +93,7 @@ const PostDetails = () => {
           </ListItem>
         ))}
       </List>
-      <CommentInput onSubmit={postComment} />
-      {/* <TextField
-        variant="outlined"
-        value={newComment}
-        onChange={changeComment}
-        style={styles.commentInput}
-        width="auto"
-      />
-      <Button onClick={postComment}>Post Comment</Button> */}
+      <CommentInput postId={postId} />
     </Grid>
   );
 };

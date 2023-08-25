@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid, Divider } from '@mui/material';
+import { Typography, Grid, Divider, Container } from '@mui/material';
 import { getFormattedTimedelta } from 'functions/formatting/time';
 import CircleIcon from '@mui/icons-material/Circle';
 import ScoreButtons from 'components/score/ScoreButtons';
@@ -31,9 +31,9 @@ const PostMini = ({ post }) => {
 
   const renderTotalScore = total_score => {
     return (
-      <Grid item direction="column" alignSelf="center">
-        <Typography variant="body1">{total_score}</Typography>
-      </Grid>
+      <Typography variant="body1" alignSelf="center">
+        {total_score}
+      </Typography>
     );
   };
 
