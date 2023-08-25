@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { googleLogout } from '@react-oauth/google';
-import apiClient from 'infrastructure/apiClient';
+import apiClient from 'infrastructure/api/apiClient';
 
 export const authContext = createContext();
 

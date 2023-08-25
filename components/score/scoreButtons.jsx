@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import apiClient from 'infrastructure/apiClient';
+import apiClient from 'infrastructure/api/apiClient';
 import { Grid } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';

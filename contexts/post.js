@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import apiClient from 'infrastructure/apiClient';
+import apiClient from 'infrastructure/api/apiClient';
 
 export const postContext = createContext();
 

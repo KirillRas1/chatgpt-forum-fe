@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 // import dynamic from 'next/dynamic';
 // import 'react-quill/dist/quill.snow.css';
 import { Button, TextField, Container } from '@mui/material';
-import apiClient from 'infrastructure/apiClient';
+import apiClient from 'infrastructure/api/apiClient';
 import { postContext } from 'contexts/Post';
 //const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -24,7 +24,7 @@ const CommentInput = ({ postId }) => {
   };
 
   return (
-    <div width="100%">
+    <div>
       {/* <ReactQuill value={comment} onChange={handleCommentChange} /> */}
       <TextField
         variant="outlined"

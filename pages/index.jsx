@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import apiClient from 'infrastructure/apiClient';
+import apiClient from 'infrastructure/api/apiClient';
 import PostList from 'components/posts/PostList';
 const PostsPage = () => {
   const [posts, setPosts] = useState([]);

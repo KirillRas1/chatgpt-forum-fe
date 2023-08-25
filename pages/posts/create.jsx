@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import { Formik, Form, Field, useFormik } from 'formik';
 import * as Yup from 'yup';
-import apiClient from 'infrastructure/apiClient';
+import apiClient from 'infrastructure/api/apiClient';
 import { useRouter } from 'next/router';
 
 const validationSchema = Yup.object().shape({
@@ -11,8 +11,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const CreatePost = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
   const router = useRouter();
 
   const formik = useFormik({
@@ -20,6 +18,8 @@ const CreatePost = () => {
       title: '',
       content: ''
     },
+    title: '',
+    content: '',
     validationSchema,
     onSubmit: async values => {
       try {

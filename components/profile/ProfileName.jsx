@@ -7,7 +7,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { authContext } from 'contexts/Auth';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import apiClient from 'infrastructure/apiClient';
+import apiClient from 'infrastructure/api/apiClient';
 
 function EditableTextField() {
   const [isEditing, setIsEditing] = useState(false);
