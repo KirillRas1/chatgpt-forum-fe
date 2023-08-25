@@ -35,7 +35,6 @@ const CreatePost = () => {
 
         // Make a POST request to the API endpoint
         const response = await apiClient.post('posts/', payload)
-        console.log(response)
         router.push(`/posts/${response?.data.id}`);
 
       } catch (error) {
