@@ -7,7 +7,6 @@ import apiClient from 'infrastructure/apiClient';
 import { postContext } from 'contexts/Post';
 import CircleIcon from '@mui/icons-material/Circle';
 
-//test
 const styles = {
   container: {
     width: '70%',

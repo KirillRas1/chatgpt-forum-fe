@@ -46,9 +46,12 @@ const Comment = ({ comment = {}, allowPrompt }) => {
   };
   return (
     <Grid container direction="row" wrap="nowrap" alignContent="flex-start">
-      <ScoreButtons foreignKey={comment.id} scoreType={'comment'} initialScore={comment.user_score} />
+      <ScoreButtons
+        foreignKey={comment.id}
+        scoreType={'comment'}
+        initialScore={comment.user_score}
+      />
       <Grid container spacing={0.5}>
-        
         <Grid item>
           <Divider />
           <Typography variant="caption" color={'primary.main'}>

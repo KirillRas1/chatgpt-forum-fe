@@ -11,7 +11,13 @@ const PostList = (posts = []) => {
   }
   return (
     <Grid container alignItems="center" flexDirection="column">
-      <Button variant="contained" color="primary" onClick={() => {router.push({ pathname: `/posts/create` })}}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          router.push({ pathname: `/posts/create` });
+        }}
+      >
         Create new post
       </Button>
       <Grid container item xs={6}>

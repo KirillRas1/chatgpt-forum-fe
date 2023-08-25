@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -14,8 +14,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import GoogleLoginButton from 'components/GoogleLogin';
 import { Grid } from '@mui/material';
 import EditableTextField from 'components/profile/ProfileName';
-
-
 
 const drawerWidth = 240;
 

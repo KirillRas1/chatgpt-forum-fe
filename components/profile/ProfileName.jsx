@@ -14,15 +14,15 @@ function EditableTextField() {
   const { username, userId, setUser } = useContext(authContext);
   const [originalText, setOriginalText] = useState(username);
   const [editedText, setEditedText] = useState(username);
-  
+
   useEffect(() => {
     setOriginalText(username);
     setEditedText(username);
-  }, [username])
+  }, [username]);
 
   const handleEditClick = () => {
     setIsEditing(true);
-    console.log(editedText)
+    console.log(editedText);
   };
 
   const handleDiscardClick = () => {
@@ -31,57 +31,61 @@ function EditableTextField() {
   };
 
   const handleSubmitClick = () => {
-    apiClient.patch(`users/${userId}/`, {
+    apiClient
+      .patch(`users/${userId}/`, {
         name: editedText
-    }).then(response => {
+      })
+      .then(response => {
         setOriginalText(editedText);
         setUser(editedText);
-    }).catch(error => {
-        setEditedText(originalText)
-    }).finally(() => {
+      })
+      .catch(error => {
+        setEditedText(originalText);
+      })
+      .finally(() => {
         setIsEditing(false);
-    })
+      });
   };
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setEditedText(event.target.value);
   };
 
   return (
     <Grid container alignItems="center" direction="column">
-    <Typography variant="caption">Profile:</Typography>
-    <Grid container direction="row" wrap="nowrap" width="90%">
-    {isEditing ? (
-        <>
-          <TextField
-            fullWidth
-            value={editedText}
-            onChange={handleChange}
-            variant="standard"
-          />
-          <IconButton onClick={handleSubmitClick} aria-label="Submit">
-            <CheckIcon />
-          </IconButton>
-          <IconButton onClick={handleDiscardClick} aria-label="Discard">
-            <ClearIcon />
-          </IconButton>
-        </>
-      ) : (
-        <>
-          <TextField
-            fullWidth
-            value={originalText}
-            InputProps={{
-              readOnly: true,
-            }}
-            variant="standard"
-          />
-          <IconButton onClick={handleEditClick} aria-label="Edit">
-            <EditIcon />
-          </IconButton>
-        </>
-      )}
-    </Grid>
+      <Typography variant="caption">Profile:</Typography>
+      <Grid container direction="row" wrap="nowrap" width="90%">
+        {isEditing ? (
+          <>
+            <TextField
+              fullWidth
+              value={editedText}
+              onChange={handleChange}
+              variant="standard"
+            />
+            <IconButton onClick={handleSubmitClick} aria-label="Submit">
+              <CheckIcon />
+            </IconButton>
+            <IconButton onClick={handleDiscardClick} aria-label="Discard">
+              <ClearIcon />
+            </IconButton>
+          </>
+        ) : (
+          <>
+            <TextField
+              fullWidth
+              value={originalText}
+              InputProps={{
+                readOnly: true
+              }}
+              variant="standard"
+            />
+            <IconButton onClick={handleEditClick} aria-label="Edit">
+              <EditIcon />
+            </IconButton>
+          </>
+        )}
+      </Grid>
     </Grid>
   );
 }

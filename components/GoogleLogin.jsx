@@ -3,7 +3,6 @@ import React, { use, useState, useEffect, useContext } from 'react';
 import { Button } from '@mui/material';
 import { authContext } from 'contexts/Auth';
 
-
 export default function GoogleLoginButton() {
   const { login, logout, username } = useContext(authContext);
   const responseMessage = responseFromGoogle => {
@@ -12,7 +11,7 @@ export default function GoogleLoginButton() {
   const errorMessage = error => {
     console.log(error);
   };
-  
+
   return (
     <div>
       {!username ? (

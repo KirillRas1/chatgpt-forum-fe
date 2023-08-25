@@ -11,11 +11,9 @@ export const PostProvider = ({ children }) => {
   const [commentLikes, setCommentLikes] = useState([]);
 
   const getPostComments = postId => {
-    apiClient
-      .get(`comments/`, { params: { post: postId } })
-      .then(response => {
-        setComments(response.data);
-      });
+    apiClient.get(`comments/`, { params: { post: postId } }).then(response => {
+      setComments(response.data);
+    });
   };
 
   const getPost = () => {

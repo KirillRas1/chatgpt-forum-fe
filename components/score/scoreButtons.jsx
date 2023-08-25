@@ -6,14 +6,13 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
   const [score, setScore] = useState(initialScore);
-  const createScore = (targetScore) => {
+  const createScore = targetScore => {
     apiClient
       .post(`/${scoreType}_score/`, {
         [scoreType]: foreignKey,
         upvote: targetScore === 1 ? true : false
-      }).then(
-        setScore(targetScore)
-      )
+      })
+      .then(setScore(targetScore))
       .catch(error => {
         setScore(0);
       });

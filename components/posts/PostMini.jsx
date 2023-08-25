@@ -14,7 +14,9 @@ const PostMini = ({ post }) => {
   const renderItems = () => {
     return (
       <Grid container justifyContent="space-between">
-        <Typography variant="h4" onClick={handlePostClick(post.id)}>{post.title}</Typography>
+        <Typography variant="h4" onClick={handlePostClick(post.id)}>
+          {post.title}
+        </Typography>
         <Grid container gap={2}>
           <Typography variant="body1">{post.author}</Typography>
           <CircleIcon sx={{ fontSize: '50%', marginTop: '1%' }} />
@@ -27,15 +29,21 @@ const PostMini = ({ post }) => {
     );
   };
 
-  const renderTotalScore = (total_score) => {
-    return <Grid item direction="column" alignSelf="center">
-    <Typography variant="body1">{total_score}</Typography>
-    </Grid>
-  }
+  const renderTotalScore = total_score => {
+    return (
+      <Grid item direction="column" alignSelf="center">
+        <Typography variant="body1">{total_score}</Typography>
+      </Grid>
+    );
+  };
 
   return (
     <Grid container wrap="nowrap">
-      <ScoreButtons foreignKey={post.id} scoreType={'post'} initialScore={post.user_score} />
+      <ScoreButtons
+        foreignKey={post.id}
+        scoreType={'post'}
+        initialScore={post.user_score}
+      />
       {renderTotalScore(post.total_score)}
       <Divider orientation="vertical" flexItem />
       {renderItems()}
