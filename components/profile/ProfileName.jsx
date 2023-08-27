@@ -9,9 +9,9 @@ import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { axiosContext } from 'contexts/Axios';
 
-function EditableTextField() {
+function ProfileDisplayName() {
   const [isEditing, setIsEditing] = useState(false);
-  const { username, userId, setUser } = useContext(authContext);
+  const { username = '', userId, setUser } = useContext(authContext);
   const { apiClient } = useContext(axiosContext);
   const [originalText, setOriginalText] = useState(username);
   const [editedText, setEditedText] = useState(username);
@@ -90,4 +90,4 @@ function EditableTextField() {
   );
 }
 
-export default EditableTextField;
+export default ProfileDisplayName;

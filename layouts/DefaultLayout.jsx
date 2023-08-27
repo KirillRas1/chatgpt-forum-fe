@@ -13,7 +13,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import GoogleLoginButton from 'components/GoogleLogin';
 import { Grid } from '@mui/material';
-import EditableTextField from 'components/profile/ProfileName';
+import ProfileDisplayName from 'components/profile/ProfileName';
+import { useRouter } from 'next/router';
+import { ProfileItems } from 'components/profile/ProfileItems';
 
 const drawerWidth = 240;
 
@@ -74,6 +76,8 @@ export default function DefaultLayout({ children }) {
     setOpen(false);
   };
 
+  const router = useRouter();
+
   return (
     <Box sx={{ display: 'flex' }}>
       {/* <CssBaseline /> */}
@@ -89,8 +93,16 @@ export default function DefaultLayout({ children }) {
             >
               <MenuIcon />
             </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              onClick={() => router.push('/')}
+            >
+              Posts page
+            </Typography>
             <Typography variant="h6" noWrap component="div">
-              Persistent drawer
+              Site name
             </Typography>
             <GoogleLoginButton />
           </Grid>
@@ -118,9 +130,8 @@ export default function DefaultLayout({ children }) {
             )}
           </IconButton>
         </DrawerHeader>
-        <EditableTextField />
-        <Divider />
-        {/* Add left Drawer items */}
+        <ProfileDisplayName />
+        <ProfileItems />
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
