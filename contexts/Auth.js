@@ -1,12 +1,22 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  use
+} from 'react';
 import { googleLogout } from '@react-oauth/google';
-import apiClient from 'infrastructure/api/apiClient';
+import { axiosContext } from './Axios';
+import { Dialog, DialogTitle } from '@mui/material';
 
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState('');
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { apiClient } = useContext(axiosContext);
+
   const login = jwtToken => {
     apiClient
       .post('login/', {
@@ -46,9 +56,32 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user_id', userId);
   }, [user]);
 
+  function redirectOnTokenExpiration(error) {
+    const tokenExpirationDetails =
+      'Authentication credentials were not provided.';
+    if (
+      error.response.status === 401 &&
+      error.response.data.detail === tokenExpirationDetails
+    ) {
+      window.localStorage.removeItem('username');
+      setShowLoginModal(true);
+    }
+    return Promise.reject(error);
+  }
+
+  useEffect(() => {
+    apiClient.interceptors.response.use(
+      response => response,
+      redirectOnTokenExpiration
+    );
+  }, []);
+
   const { Provider } = authContext;
   return (
     <Provider value={{ login, logout, username: user, userId, setUser }}>
+      <Dialog open={showLoginModal} onClose={() => setShowLoginModal(false)}>
+        <DialogTitle>Login</DialogTitle>
+      </Dialog>
       {children}
     </Provider>
   );

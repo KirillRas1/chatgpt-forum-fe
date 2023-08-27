@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
-import { Formik, Form, Field, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import apiClient from 'infrastructure/api/apiClient';
 import { useRouter } from 'next/router';
+import { axiosContext } from 'contexts/Axios';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
 
 const CreatePost = () => {
   const router = useRouter();
-
+  const { apiClient } = useContext(axiosContext);
   const formik = useFormik({
     initialValues: {
       title: '',

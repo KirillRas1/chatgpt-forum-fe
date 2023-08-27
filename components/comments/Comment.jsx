@@ -1,11 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { Grid, Typography, Checkbox, CircularProgress } from '@mui/material';
 import Divider from '@mui/material/Divider';
-import apiClient from 'infrastructure/api/apiClient';
 import { postContext } from 'contexts/Post';
 import ScoreButtons from 'components/score/ScoreButtons';
+import { axiosContext } from 'contexts/Axios';
 
 const Comment = ({ comment = {}, allowPrompt }) => {
+  const { apiClient } = useContext(axiosContext);
   const { getPostComments } = useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(comment.is_prompt);

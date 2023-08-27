@@ -7,11 +7,12 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { authContext } from 'contexts/Auth';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import apiClient from 'infrastructure/api/apiClient';
+import { axiosContext } from 'contexts/Axios';
 
 function EditableTextField() {
   const [isEditing, setIsEditing] = useState(false);
   const { username, userId, setUser } = useContext(authContext);
+  const { apiClient } = useContext(axiosContext);
   const [originalText, setOriginalText] = useState(username);
   const [editedText, setEditedText] = useState(username);
 
