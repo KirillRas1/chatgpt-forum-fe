@@ -7,8 +7,7 @@ import React, {
 } from 'react';
 import { googleLogout } from '@react-oauth/google';
 import { axiosContext } from './Axios';
-import { Dialog, DialogTitle } from '@mui/material';
-import GoogleLoginButton from 'components/GoogleLogin';
+import LoginDialog from 'components/modals/LoginModal';
 
 export const authContext = createContext();
 
@@ -80,19 +79,15 @@ export const AuthProvider = ({ children }) => {
       response => response,
       redirectOnTokenExpiration
     );
-  }, []);
+  }, [apiClient]);
 
   const { Provider } = authContext;
   return (
     <Provider value={{ login, logout, username: user, userId, setUser }}>
-      <Dialog
-        fullWidth
+      <LoginDialog
         open={showLoginModal}
         onClose={() => setShowLoginModal(false)}
-      >
-        <DialogTitle>Login required</DialogTitle>
-        <GoogleLoginButton />
-      </Dialog>
+      />
       {children}
     </Provider>
   );

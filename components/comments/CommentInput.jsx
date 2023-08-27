@@ -2,14 +2,14 @@ import React, { useState, useContext } from 'react';
 // import dynamic from 'next/dynamic';
 // import 'react-quill/dist/quill.snow.css';
 import { Button, TextField, Container } from '@mui/material';
-import apiClient from 'infrastructure/api/apiClient';
 import { postContext } from 'contexts/Post';
+import { axiosContext } from 'contexts/Axios';
 //const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CommentInput = ({ postId }) => {
   const [comment, setComment] = useState('');
   const { comments, setComments } = useContext(postContext);
-
+  const { apiClient } = useContext(axiosContext);
   const postComment = () => {
     apiClient
       .post(`comments/`, {
