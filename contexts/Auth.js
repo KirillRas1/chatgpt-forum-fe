@@ -8,6 +8,7 @@ import React, {
 import { googleLogout } from '@react-oauth/google';
 import { axiosContext } from './Axios';
 import { Dialog, DialogTitle } from '@mui/material';
+import GoogleLoginButton from 'components/GoogleLogin';
 
 export const authContext = createContext();
 
@@ -35,8 +36,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     googleLogout();
     localStorage.removeItem('jwt_token');
-    localStorage.removeItem('username');
-    localStorage.removeItem('user_id');
     delete apiClient.defaults.headers.common['Authorization'];
     setUser('');
     setUserId('');
@@ -52,8 +51,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('username', user);
-    localStorage.setItem('user_id', userId);
+    if (user) {
+      localStorage.setItem('username', user);
+      localStorage.setItem('user_id', userId);
+    } else {
+      localStorage.removeItem('username');
+      localStorage.removeItem('user_id');
+    }
   }, [user]);
 
   function redirectOnTokenExpiration(error) {
@@ -65,6 +69,8 @@ export const AuthProvider = ({ children }) => {
     ) {
       window.localStorage.removeItem('username');
       setShowLoginModal(true);
+      setUser('');
+      setUserId('');
     }
     return Promise.reject(error);
   }
@@ -79,8 +85,13 @@ export const AuthProvider = ({ children }) => {
   const { Provider } = authContext;
   return (
     <Provider value={{ login, logout, username: user, userId, setUser }}>
-      <Dialog open={showLoginModal} onClose={() => setShowLoginModal(false)}>
-        <DialogTitle>Login</DialogTitle>
+      <Dialog
+        fullWidth
+        open={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+      >
+        <DialogTitle>Login required</DialogTitle>
+        <GoogleLoginButton />
       </Dialog>
       {children}
     </Provider>
