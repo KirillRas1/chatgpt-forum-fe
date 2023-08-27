@@ -22,7 +22,6 @@ function EditableTextField() {
 
   const handleEditClick = () => {
     setIsEditing(true);
-    console.log(editedText);
   };
 
   const handleDiscardClick = () => {

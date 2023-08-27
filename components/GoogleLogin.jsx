@@ -8,18 +8,11 @@ export default function GoogleLoginButton() {
   const responseMessage = responseFromGoogle => {
     login(responseFromGoogle.credential);
   };
-  const errorMessage = error => {
-    console.log(error);
-  };
 
   return (
     <div>
       {!username ? (
-        <GoogleLogin
-          onSuccess={responseMessage}
-          onError={errorMessage}
-          useOneTap
-        />
+        <GoogleLogin onSuccess={responseMessage} useOneTap />
       ) : (
         <Button variant="contained" color="secondary" onClick={logout}>
           Logout
