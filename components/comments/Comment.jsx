@@ -1,11 +1,18 @@
 import React, { useState, useContext } from 'react';
-import { Grid, Typography, Checkbox, CircularProgress } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  Checkbox,
+  CircularProgress,
+  List,
+  ListItem
+} from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { postContext } from 'contexts/Post';
 import ScoreButtons from 'components/score/ScoreButtons';
 import { axiosContext } from 'contexts/Axios';
 
-const Comment = ({ comment = {}, allowPrompt }) => {
+const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   const { apiClient } = useContext(axiosContext);
   const { getPostComments } = useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +45,7 @@ const Comment = ({ comment = {}, allowPrompt }) => {
         allowPrompt && (
           <Checkbox
             checked={isPrompt}
-            disabled={isPrompt}
+            disabled={readOnly || isPrompt}
             onChange={makePrompt}
           />
         )
@@ -65,6 +72,29 @@ const Comment = ({ comment = {}, allowPrompt }) => {
         </Grid>
       </Grid>
     </Grid>
+  );
+};
+
+export const CommentList = ({ comments = [], readOnly = false }) => {
+  const allowPrompt = ({ comment = {}, commentIndex }) => {
+    return (
+      comment.is_prompt ||
+      (comment.author && commentIndex + 1 === comments.length)
+    );
+  };
+
+  return (
+    <List>
+      {comments.map((comment, index) => (
+        <ListItem key={index}>
+          <Comment
+            comment={comment}
+            allowPrompt={allowPrompt({ comment, commentIndex: index })}
+            readOnly={readOnly}
+          />
+        </ListItem>
+      ))}
+    </List>
   );
 };
 

@@ -15,16 +15,18 @@ export const PostProvider = ({ children }) => {
   };
 
   const getPost = async () => {
-    try {
-      const [postResponse, commentsResponse] = await Promise.all([
-        apiClient.get(`posts/${router.query.id}/`),
-        getPostComments(router.query.id)
-      ]);
-
-      setPost(postResponse.data);
-      setComments(commentsResponse.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    if (router.query.id) {
+      try {
+        const [postResponse, commentsResponse] = await Promise.all([
+          apiClient.get(`posts/${router.query.id}/`),
+          getPostComments(router.query.id)
+        ]);
+  
+        setPost(postResponse.data);
+        setComments(commentsResponse.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     }
   };
 

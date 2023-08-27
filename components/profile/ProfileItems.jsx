@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { authContext } from 'contexts/Auth';
 
-export const MyComments = userId => {
+export const MyComments = ({ userId }) => {
   const router = useRouter();
   const link = () => {
     router.push({ pathname: '/comments', query: { author: userId } });

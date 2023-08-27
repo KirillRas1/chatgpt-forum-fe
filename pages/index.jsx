@@ -10,7 +10,6 @@ const PostsPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Fetch the list of posts using Axios when the component mounts
     if (router.isReady) {
       apiClient
         .get('/posts/', { params: router.query })
@@ -19,7 +18,7 @@ const PostsPage = () => {
         })
         .catch(error => console.error('Error fetching posts:', error));
     }
-  }, [router.query?.userId, router.isReady]);
+  }, [router.query, router.isReady]);
 
   return PostList(posts);
 };

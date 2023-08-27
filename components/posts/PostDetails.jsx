@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
-import Comment from 'components/comments/Comment';
+import Comment, { CommentList } from 'components/comments/Comment';
 import { Grid, List, ListItem } from '@mui/material';
 import { Button, Typography } from '@mui/material';
 
@@ -47,13 +47,6 @@ const PostDetails = () => {
   const { post, comments } = useContext(postContext);
   const { id: postId, title, author, content, chat_role } = post;
 
-  const allowPrompt = ({ comment = {}, commentIndex }) => {
-    return (
-      comment.is_prompt ||
-      (comment.author && commentIndex + 1 === comments.length)
-    );
-  };
-
   if (!post) {
     return <p>Loading...</p>;
   }
@@ -83,16 +76,7 @@ const PostDetails = () => {
       <Typography variant="body1" style={styles.content}>
         {content}
       </Typography>
-      <List>
-        {comments.map((comment, index) => (
-          <ListItem key={index}>
-            <Comment
-              comment={comment}
-              allowPrompt={allowPrompt({ comment, commentIndex: index })}
-            />
-          </ListItem>
-        ))}
-      </List>
+      <CommentList comments={comments} />
       <CommentInput postId={postId} />
     </Grid>
   );
