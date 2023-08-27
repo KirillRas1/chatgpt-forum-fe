@@ -8,7 +8,7 @@ export const PostProvider = ({ children }) => {
   const router = useRouter();
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
-  const { apiClient } = useContext(axiosContext)
+  const { apiClient } = useContext(axiosContext);
 
   const getPostComments = postId => {
     return apiClient.get(`comments/`, { params: { post: postId } });
