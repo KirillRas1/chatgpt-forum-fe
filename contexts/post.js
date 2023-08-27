@@ -21,7 +21,7 @@ export const PostProvider = ({ children }) => {
           apiClient.get(`posts/${router.query.id}/`),
           getPostComments(router.query.id)
         ]);
-  
+
         setPost(postResponse.data);
         setComments(commentsResponse.data);
       } catch (error) {
