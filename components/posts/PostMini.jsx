@@ -1,9 +1,10 @@
 import React from 'react';
-import { Typography, Grid, Divider, Container } from '@mui/material';
+import { Typography, Grid, Divider, Container, Box } from '@mui/material';
 import { getFormattedTimedelta } from 'functions/formatting/time';
 import CircleIcon from '@mui/icons-material/Circle';
 import ScoreButtons from 'components/score/ScoreButtons';
 import { useRouter } from 'next/router';
+import { TagList } from 'components/tags/Tag';
 
 const PostMini = ({ post }) => {
   const router = useRouter();
@@ -14,9 +15,12 @@ const PostMini = ({ post }) => {
   const renderItems = () => {
     return (
       <Grid container justifyContent="space-between">
-        <Typography variant="h4" onClick={handlePostClick(post.id)}>
-          {post.title}
-        </Typography>
+        <Grid container direction="row">
+          <Typography variant="h4" onClick={handlePostClick(post.id)}>
+            {post.title}
+          </Typography>
+          <TagList tagNames={post.tags || []} />
+        </Grid>
         <Grid container gap={2}>
           <Typography variant="body1">{post.author}</Typography>
           <CircleIcon sx={{ fontSize: '50%', marginTop: '1%' }} />

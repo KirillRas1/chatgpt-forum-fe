@@ -20,8 +20,8 @@ const PostList = (posts = []) => {
       >
         Create new post
       </Button>
-      <Grid container item xs={6}>
-        <List sx={{ width: '100%' }}>
+      <Grid>
+        <List>
           {posts.map(post => (
             <ListItem key={post.id}>
               <PostMini post={post} />

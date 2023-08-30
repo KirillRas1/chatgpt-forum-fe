@@ -7,6 +7,7 @@ import { Button, Typography } from '@mui/material';
 import { postContext } from 'contexts/Post';
 import CircleIcon from '@mui/icons-material/Circle';
 import CommentInput from 'components/comments/CommentInput';
+import { TagList } from 'components/tags/Tag';
 
 const styles = {
   container: {
@@ -50,7 +51,7 @@ const PostDetails = () => {
   if (!post) {
     return <p>Loading...</p>;
   }
-
+  console.log(post);
   return (
     <Grid style={styles.container}>
       <Button
@@ -76,6 +77,7 @@ const PostDetails = () => {
       <Typography variant="body1" style={styles.content}>
         {content}
       </Typography>
+      <TagList tagNames={post.tags || []} />
       <CommentList comments={comments} />
       <CommentInput postId={postId} />
     </Grid>
