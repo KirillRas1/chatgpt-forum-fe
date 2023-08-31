@@ -4,7 +4,7 @@ import { getFormattedTimedelta } from 'functions/formatting/time';
 import CircleIcon from '@mui/icons-material/Circle';
 import ScoreButtons from 'components/score/ScoreButtons';
 import { useRouter } from 'next/router';
-import { TagList } from 'components/tags/Tag';
+import TagList from 'components/tags/TagList';
 
 const PostMini = ({ post }) => {
   const router = useRouter();

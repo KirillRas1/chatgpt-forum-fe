@@ -7,7 +7,7 @@ import { Button, Typography } from '@mui/material';
 import { postContext } from 'contexts/Post';
 import CircleIcon from '@mui/icons-material/Circle';
 import CommentInput from 'components/comments/CommentInput';
-import { TagList } from 'components/tags/Tag';
+import TagList from 'components/tags/TagList';
 
 const styles = {
   container: {

@@ -21,21 +21,3 @@ const Tag = ({ name }) => {
 };
 
 export default Tag;
-
-const tagListStyles = {
-  tagList: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '1%' // Adjust the spacing between tags
-  }
-};
-
-export const TagList = ({ tagNames }) => {
-  return (
-    <Box style={tagListStyles.tagList}>
-      {tagNames.map((tagName, index) => (
-        <Tag key={index} name={tagName} />
-      ))}
-    </Box>
-  );
-};
