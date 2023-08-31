@@ -10,11 +10,15 @@ const tagListStyles = {
   }
 };
 
-const TagList = ({ tagNames }) => {
+const TagList = ({ tagNames, onDeleteHandler }) => {
   return (
     <Box style={tagListStyles.tagList}>
       {tagNames.map((tagName, index) => (
-        <Tag key={index} name={tagName} />
+        <Tag
+          key={index}
+          name={tagName}
+          onDeleteHandler={() => onDeleteHandler(index)}
+        />
       ))}
     </Box>
   );

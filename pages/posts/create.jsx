@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { axiosContext } from 'contexts/Axios';
+import TagList from 'components/tags/TagList';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
@@ -55,6 +56,11 @@ const CreatePost = () => {
     }
   };
 
+  const onDeleteTag = tagIndex => {
+    const newTagsList = tags.filter((value, index) => index !== tagIndex);
+    setTags(newTagsList);
+  };
+
   return (
     <Container maxWidth="sm" style={{ marginTop: '1rem' }}>
       <Typography variant="h4" style={{ marginBottom: '1rem' }}>
@@ -92,16 +98,7 @@ const CreatePost = () => {
         style={{ marginBottom: '1rem' }}
         onKeyDown={handleTagInputKeyPress}
       />
-      <div>
-        {tags.map((tag, index) => (
-          <Chip
-            key={index}
-            label={tag}
-            onDelete={() => setTags(tags.filter((_, i) => i !== index))}
-            style={{ margin: '0.5rem' }}
-          />
-        ))}
-      </div>
+      <TagList tagNames={tags} onDeleteHandler={onDeleteTag} />
 
       <Button
         variant="contained"
