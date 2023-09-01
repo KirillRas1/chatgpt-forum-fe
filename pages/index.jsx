@@ -20,7 +20,7 @@ const PostsPage = () => {
     }
   }, [router.query, router.isReady]);
 
-  return PostList(posts);
+  return PostList(posts, setPosts);
 };
 
 export default PostsPage;

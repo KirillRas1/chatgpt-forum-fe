@@ -17,7 +17,9 @@ const TagList = ({ tagNames, onDeleteHandler }) => {
         <Tag
           key={index}
           name={tagName}
-          onDeleteHandler={() => onDeleteHandler(index)}
+          onDeleteHandler={
+            onDeleteHandler ? () => onDeleteHandler(index) : undefined
+          }
         />
       ))}
     </Box>

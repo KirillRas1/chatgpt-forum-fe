@@ -51,7 +51,6 @@ const PostDetails = () => {
   if (!post) {
     return <p>Loading...</p>;
   }
-  console.log(post);
   return (
     <Grid style={styles.container}>
       <Button
