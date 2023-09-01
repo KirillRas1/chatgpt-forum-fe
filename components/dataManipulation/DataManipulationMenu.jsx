@@ -3,15 +3,15 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-export default function SortingMenu({ items = [] }) {
+export default function DataHandlingMenu({ items = [], label }) {
   const [showMenu, setShowMenu] = React.useState(null);
   const open = Boolean(showMenu);
   const handleClick = event => {
     setShowMenu(event.currentTarget);
   };
-  const handleClose = itemSideEffect => {
+  const handleClose = ({ itemSideEffect }) => {
     setShowMenu(null);
-    itemSideEffect();
+    itemSideEffect && itemSideEffect();
   };
 
   return (
@@ -23,7 +23,7 @@ export default function SortingMenu({ items = [] }) {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        Sort
+        {label}
       </Button>
       <Menu
         id="basic-menu"
@@ -35,7 +35,10 @@ export default function SortingMenu({ items = [] }) {
         }}
       >
         {items.map((item, index) => (
-          <MenuItem key={index} onClick={() => handleClose(item.sideEffect)}>
+          <MenuItem
+            key={index}
+            onClick={() => handleClose({ itemSideEffect: item.sideEffect })}
+          >
             {item.name}
           </MenuItem>
         ))}
