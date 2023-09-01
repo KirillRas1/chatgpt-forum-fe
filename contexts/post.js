@@ -8,6 +8,7 @@ export const PostProvider = ({ children }) => {
   const router = useRouter();
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
+  const [commentToReply, setCommentToReply] = useState(null)
   const { apiClient } = useContext(authContext);
 
   const getPostComments = postId => {
@@ -38,7 +39,7 @@ export const PostProvider = ({ children }) => {
 
   const { Provider } = postContext;
   return (
-    <Provider value={{ post, comments, setComments, getPost, getPostComments }}>
+    <Provider value={{ post, comments, setComments, getPost, getPostComments, commentToReply, setCommentToReply }}>
       {children}
     </Provider>
   );

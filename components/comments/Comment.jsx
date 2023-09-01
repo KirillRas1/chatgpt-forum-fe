@@ -5,16 +5,18 @@ import {
   Checkbox,
   CircularProgress,
   List,
-  ListItem
+  ListItem,
+  IconButton
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { postContext } from 'contexts/Post';
 import ScoreButtons from 'components/score/ScoreButtons';
 import { authContext } from 'contexts/Auth';
+import ReplyIcon from '@mui/icons-material/Reply';
 
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   const { apiClient } = useContext(authContext);
-  const { getPostComments } = useContext(postContext);
+  const { getPostComments, setCommentToReply } = useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(comment.is_prompt);
   const { author, text, id } = comment;
@@ -65,6 +67,14 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
           <Typography variant="caption" color={'primary.main'}>
             {author || 'AI'}
           </Typography>
+          <IconButton
+            onClick={() => {
+              setCommentToReply(comment);
+            }}
+          >
+            <ReplyIcon fontSize="small" />
+          </IconButton>
+
           {checkBox()}
           <Typography variant="body1" width="auto">
             {text}
