@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PostList from 'components/posts/PostList';
-import { axiosContext } from 'contexts/Axios';
+import { authContext } from 'contexts/Auth';
 import { useRouter } from 'next/router';
 
 const PostsPage = () => {
   const [posts, setPosts] = useState([]);
-  const { apiClient } = useContext(axiosContext);
+  const { apiClient } = useContext(authContext);
 
   const router = useRouter();
 

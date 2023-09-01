@@ -3,7 +3,7 @@ import { Container, Typography, TextField, Button, Chip } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import { axiosContext } from 'contexts/Axios';
+import { authContext } from 'contexts/Auth';
 import TagList from 'components/tags/TagList';
 
 const validationSchema = Yup.object().shape({
@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
 
 const CreatePost = () => {
   const router = useRouter();
-  const { apiClient } = useContext(axiosContext);
+  const { apiClient } = useContext(authContext);
   const [tags, setTags] = useState([]);
 
   const formik = useFormik({

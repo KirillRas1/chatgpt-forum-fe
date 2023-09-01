@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
-import { axiosContext } from './Axios';
+import { authContext } from 'contexts/Auth';
 
 export const postContext = createContext();
 
@@ -8,7 +8,7 @@ export const PostProvider = ({ children }) => {
   const router = useRouter();
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
-  const { apiClient } = useContext(axiosContext);
+  const { apiClient } = useContext(authContext);
 
   const getPostComments = postId => {
     return apiClient.get(`comments/`, { params: { post: postId } });

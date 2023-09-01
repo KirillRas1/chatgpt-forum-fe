@@ -4,15 +4,14 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import { authContext } from 'contexts/Auth';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { axiosContext } from 'contexts/Axios';
+import { authContext } from 'contexts/Auth';
 
 function ProfileDisplayName() {
   const [isEditing, setIsEditing] = useState(false);
   const { username, userId, setUser } = useContext(authContext);
-  const { apiClient } = useContext(axiosContext);
+  const { apiClient } = useContext(authContext);
   const [originalText, setOriginalText] = useState('');
   const [editedText, setEditedText] = useState('');
 

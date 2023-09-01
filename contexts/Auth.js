@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
     }
     setUser(localStorage.getItem('username'));
     setUserId(localStorage.getItem('user_id'));
-  }, []);
+  }, [apiClient]);
 
   useEffect(() => {
     if (user) {
@@ -83,7 +83,9 @@ export const AuthProvider = ({ children }) => {
 
   const { Provider } = authContext;
   return (
-    <Provider value={{ login, logout, username: user, userId, setUser }}>
+    <Provider
+      value={{ login, logout, username: user, userId, setUser, apiClient }}
+    >
       <LoginDialog
         open={showLoginModal}
         onClose={() => setShowLoginModal(false)}

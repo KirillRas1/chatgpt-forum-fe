@@ -3,13 +3,13 @@ import React, { useState, useContext } from 'react';
 // import 'react-quill/dist/quill.snow.css';
 import { Button, TextField, Container } from '@mui/material';
 import { postContext } from 'contexts/Post';
-import { axiosContext } from 'contexts/Axios';
+import { authContext } from 'contexts/Auth';
 //const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CommentInput = ({ postId }) => {
   const [comment, setComment] = useState('');
   const { comments, setComments } = useContext(postContext);
-  const { apiClient } = useContext(axiosContext);
+  const { apiClient } = useContext(authContext);
   const postComment = () => {
     apiClient
       .post(`comments/`, {

@@ -10,10 +10,10 @@ import {
 import Divider from '@mui/material/Divider';
 import { postContext } from 'contexts/Post';
 import ScoreButtons from 'components/score/ScoreButtons';
-import { axiosContext } from 'contexts/Axios';
+import { authContext } from 'contexts/Auth';
 
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
-  const { apiClient } = useContext(axiosContext);
+  const { apiClient } = useContext(authContext);
   const { getPostComments } = useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(comment.is_prompt);

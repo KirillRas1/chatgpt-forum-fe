@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { axiosContext } from 'contexts/Axios';
+import { authContext } from 'contexts/Auth';
 import { useRouter } from 'next/router';
 import { CommentList } from 'components/comments/Comment';
 import { PostProvider } from 'contexts/Post';
@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 
 const CommentsPage = () => {
   const [comments, setComments] = useState([]);
-  const { apiClient } = useContext(axiosContext);
+  const { apiClient } = useContext(authContext);
 
   const router = useRouter();
 
