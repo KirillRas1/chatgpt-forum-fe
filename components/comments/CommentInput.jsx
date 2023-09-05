@@ -11,20 +11,22 @@ const CommentInput = ({ postId }) => {
   const { apiClient } = useContext(authContext);
 
   const postComment = () => {
-    apiClient
-      .post(`comments/`, {
-        post: postId,
-        text: comment,
-        parent_comment: commentToReply.id || undefined
-      })
-      .then(response => {
-        setComments([...comments, response.data]);
-      })
-      .catch(error => console.error('Error posting comment:', error))
-      .finally(() => {
-        setComment('');
-        setCommentToReply(null);
-      });
+    if (comment) {
+      apiClient
+        .post(`comments/`, {
+          post: postId,
+          text: comment,
+          parent_comment: commentToReply?.id || undefined
+        })
+        .then(response => {
+          setComments([...comments, response.data]);
+        })
+        .catch(error => console.error('Error posting comment:', error))
+        .finally(() => {
+          setComment('');
+          setCommentToReply(null);
+        });
+    }
   };
 
   const closeReply = () => {
