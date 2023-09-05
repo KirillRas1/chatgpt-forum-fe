@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import {
   Grid,
   Typography,
@@ -13,8 +13,10 @@ import { postContext } from 'contexts/Post';
 import ScoreButtons from 'components/score/ScoreButtons';
 import { authContext } from 'contexts/Auth';
 import ReplyIcon from '@mui/icons-material/Reply';
+import { setWith, isEmpty } from 'lodash';
 
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
+  console.log(comment);
   const { apiClient } = useContext(authContext);
   const { getPostComments, setCommentToReply } = useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -85,7 +87,11 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   );
 };
 
-export const CommentList = ({ comments = [], readOnly = false }) => {
+export const CommentList = ({
+  comments = [],
+  readOnly = false,
+  commentTree = {}
+}) => {
   const allowPrompt = ({ comment = {}, commentIndex }) => {
     return (
       comment.is_prompt ||
@@ -93,19 +99,47 @@ export const CommentList = ({ comments = [], readOnly = false }) => {
     );
   };
 
-  return (
-    <List>
-      {comments.map((comment, index) => (
-        <ListItem key={index}>
-          <Comment
-            comment={comment}
-            allowPrompt={allowPrompt({ comment, commentIndex: index })}
-            readOnly={readOnly}
-          />
-        </ListItem>
-      ))}
-    </List>
+  const formatCommentTree = () => {
+    const localCommentTree = commentTree;
+    if (comments && isEmpty(commentTree)) {
+      for (const comment of comments) {
+        const lodashPath = comment?.tree_path
+          .flatMap((value, index) =>
+            index > 0 ? ['children', value] : [value]
+          )
+          .join('.');
+        setWith(localCommentTree, lodashPath, comment, Object);
+      }
+    }
+    return localCommentTree;
+  };
+
+  const memoizedCommentTree = useMemo(
+    () => formatCommentTree(),
+    [comments, commentTree]
   );
+
+  const renderCommentTree = () => {
+    return Object.entries(memoizedCommentTree).map(
+      ([id, comment] = value, index) => {
+        const childrenComments = comment?.children;
+        return (
+          <ListItem key={index}>
+            <Comment
+              comment={comment}
+              allowPrompt={allowPrompt({ comment, commentIndex: index })}
+              readOnly={readOnly}
+            />
+            {!isEmpty(childrenComments) && (
+              <CommentList readOnly={readOnly} commentTree={childrenComments} />
+            )}
+          </ListItem>
+        );
+      }
+    );
+  };
+  console.log(Object.entries(memoizedCommentTree));
+  return <List>{renderCommentTree()}</List>;
 };
 
 export default Comment;

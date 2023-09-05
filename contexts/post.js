@@ -12,7 +12,7 @@ export const PostProvider = ({ children }) => {
   const { apiClient } = useContext(authContext);
 
   const getPostComments = postId => {
-    return apiClient.get(`comments/`, { params: { post: postId } });
+    return apiClient.get(`comments/tree`, { params: { post: postId } });
   };
 
   const getPost = async () => {

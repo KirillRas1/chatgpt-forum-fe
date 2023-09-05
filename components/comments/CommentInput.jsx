@@ -16,7 +16,7 @@ const CommentInput = ({ postId }) => {
         .post(`comments/`, {
           post: postId,
           text: comment,
-          parent_comment: commentToReply?.id || undefined
+          parent: commentToReply?.id || undefined
         })
         .then(response => {
           setComments([...comments, response.data]);
