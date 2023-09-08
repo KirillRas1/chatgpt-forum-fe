@@ -15,6 +15,7 @@ import ScoreButtons from 'components/score/ScoreButtons';
 import { authContext } from 'contexts/Auth';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { setWith, isEmpty } from 'lodash';
+import { randomColor } from 'functions/formatting/colors';
 
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   const { apiClient } = useContext(authContext);
@@ -117,7 +118,6 @@ export const CommentList = ({
     () => formatCommentTree(),
     [comments, commentTree]
   );
-  //const memoizedCommentTree = formatCommentTree()
   const renderCommentTree = () => {
     return Object.entries(memoizedCommentTree).map(
       ([id, comment] = value, index) => {
@@ -132,7 +132,11 @@ export const CommentList = ({
               />
               {!isEmpty(childrenComments) && (
                 <Grid container direction="row">
-                  <Divider orientation="vertical" flexItem />
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    color={randomColor()}
+                  />
                   <CommentList
                     readOnly={readOnly}
                     commentTree={childrenComments}
