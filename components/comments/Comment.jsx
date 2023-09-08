@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import {
   Grid,
   Typography,
@@ -6,13 +6,16 @@ import {
   CircularProgress,
   List,
   ListItem,
-  IconButton
+  IconButton,
+  Box
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { postContext } from 'contexts/Post';
 import ScoreButtons from 'components/score/ScoreButtons';
 import { authContext } from 'contexts/Auth';
 import ReplyIcon from '@mui/icons-material/Reply';
+import { setWith, isEmpty } from 'lodash';
+import { randomColor } from 'functions/formatting/colors';
 
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   const { apiClient } = useContext(authContext);
@@ -63,7 +66,6 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
       />
       <Grid container spacing={0.5}>
         <Grid item>
-          <Divider />
           <Typography variant="caption" color={'primary.main'}>
             {author || 'AI'}
           </Typography>
@@ -85,7 +87,11 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   );
 };
 
-export const CommentList = ({ comments = [], readOnly = false }) => {
+export const CommentList = ({
+  comments = [],
+  readOnly = false,
+  commentTree = {}
+}) => {
   const allowPrompt = ({ comment = {}, commentIndex }) => {
     return (
       comment.is_prompt ||
@@ -93,19 +99,57 @@ export const CommentList = ({ comments = [], readOnly = false }) => {
     );
   };
 
-  return (
-    <List>
-      {comments.map((comment, index) => (
-        <ListItem key={index}>
-          <Comment
-            comment={comment}
-            allowPrompt={allowPrompt({ comment, commentIndex: index })}
-            readOnly={readOnly}
-          />
-        </ListItem>
-      ))}
-    </List>
+  const formatCommentTree = () => {
+    const localCommentTree = commentTree;
+    if (comments && isEmpty(commentTree)) {
+      for (const comment of comments) {
+        const lodashPath = comment?.tree_path
+          .flatMap((value, index) =>
+            index > 0 ? ['children', value] : [value]
+          )
+          .join('.');
+        setWith(localCommentTree, lodashPath, comment, Object);
+      }
+    }
+    return localCommentTree;
+  };
+
+  const memoizedCommentTree = useMemo(
+    () => formatCommentTree(),
+    [comments, commentTree]
   );
+  const renderCommentTree = () => {
+    return Object.entries(memoizedCommentTree).map(
+      ([id, comment] = value, index) => {
+        const childrenComments = comment?.children;
+        return (
+          <ListItem key={index}>
+            <Grid>
+              <Comment
+                comment={comment}
+                allowPrompt={allowPrompt({ comment, commentIndex: index })}
+                readOnly={readOnly}
+              />
+              {!isEmpty(childrenComments) && (
+                <Grid container direction="row">
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    color={randomColor()}
+                  />
+                  <CommentList
+                    readOnly={readOnly}
+                    commentTree={childrenComments}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          </ListItem>
+        );
+      }
+    );
+  };
+  return <List>{renderCommentTree()}</List>;
 };
 
 export default Comment;
