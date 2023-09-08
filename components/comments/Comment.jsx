@@ -6,7 +6,8 @@ import {
   CircularProgress,
   List,
   ListItem,
-  IconButton
+  IconButton,
+  Box
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { postContext } from 'contexts/Post';
@@ -16,7 +17,6 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import { setWith, isEmpty } from 'lodash';
 
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
-  console.log(comment);
   const { apiClient } = useContext(authContext);
   const { getPostComments, setCommentToReply } = useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,7 +65,6 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
       />
       <Grid container spacing={0.5}>
         <Grid item>
-          <Divider />
           <Typography variant="caption" color={'primary.main'}>
             {author || 'AI'}
           </Typography>
@@ -118,27 +117,34 @@ export const CommentList = ({
     () => formatCommentTree(),
     [comments, commentTree]
   );
-
+  //const memoizedCommentTree = formatCommentTree()
   const renderCommentTree = () => {
     return Object.entries(memoizedCommentTree).map(
       ([id, comment] = value, index) => {
         const childrenComments = comment?.children;
         return (
           <ListItem key={index}>
-            <Comment
-              comment={comment}
-              allowPrompt={allowPrompt({ comment, commentIndex: index })}
-              readOnly={readOnly}
-            />
-            {!isEmpty(childrenComments) && (
-              <CommentList readOnly={readOnly} commentTree={childrenComments} />
-            )}
+            <Grid>
+              <Comment
+                comment={comment}
+                allowPrompt={allowPrompt({ comment, commentIndex: index })}
+                readOnly={readOnly}
+              />
+              {!isEmpty(childrenComments) && (
+                <Grid container direction="row">
+                  <Divider orientation="vertical" flexItem />
+                  <CommentList
+                    readOnly={readOnly}
+                    commentTree={childrenComments}
+                  />
+                </Grid>
+              )}
+            </Grid>
           </ListItem>
         );
       }
     );
   };
-  console.log(Object.entries(memoizedCommentTree));
   return <List>{renderCommentTree()}</List>;
 };
 

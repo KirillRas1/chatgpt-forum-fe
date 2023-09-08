@@ -19,7 +19,11 @@ const CommentInput = ({ postId }) => {
           parent: commentToReply?.id || undefined
         })
         .then(response => {
-          setComments([...comments, response.data]);
+          const commentWithExtraData = {
+            ...response.data,
+            tree_path: commentToReply.tree_path.concat(response.data.id)
+          };
+          setComments([...comments, commentWithExtraData]);
         })
         .catch(error => console.error('Error posting comment:', error))
         .finally(() => {
