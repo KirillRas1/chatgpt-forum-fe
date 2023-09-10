@@ -33,9 +33,11 @@ export const PostProvider = ({ children }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      getPost();
+      getPost()
     }
   }, [router.isReady]);
+
+  
 
   const { Provider } = postContext;
   return (
