@@ -1,14 +1,7 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-  use
-} from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { googleLogout } from '@react-oauth/google';
-import { axiosContext } from './Axios';
 import LoginDialog from 'components/modals/LoginModal';
-
+import { apiClient } from 'infrastructure/api/apiClient';
 export const authContext = createContext();
 
 function setTokenExpirationTimes() {
@@ -23,7 +16,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const { apiClient } = useContext(axiosContext);
 
   const login = jwtToken => {
     apiClient
@@ -55,42 +47,19 @@ export const AuthProvider = ({ children }) => {
     setUserId('');
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem('access');
-    if (token) {
-      apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    }
+  function loadUserInfo() {
     setUser(localStorage.getItem('username'));
     setUserId(localStorage.getItem('user_id'));
-  }, [apiClient]);
+  }
+  useEffect(loadUserInfo, []);
 
-  useEffect(() => {
+  function loadAxiosInterceptors() {
     apiClient.interceptors.response.use(
       response => response,
       showAnonUserModal
     );
-    apiClient.interceptors.request.use(
-      async config => {
-        if (!config.url.includes('token/')) {
-          const expirationTime = localStorage.getItem(
-            'accessTokenExpirationTime'
-          );
-          if (expirationTime) {
-            const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
-            if (currentTime > expirationTime) {
-              const newAccessToken = await refreshToken();
-              config.headers['Authorization'] = `Bearer ${newAccessToken}`;
-            }
-          }
-        }
-        return config;
-      },
-      error => {
-        return Promise.reject(error);
-      }
-    );
-  }, [apiClient]);
-
+  }
+  useEffect(loadAxiosInterceptors, [apiClient]);
   useEffect(() => {
     if (user) {
       localStorage.setItem('username', user);
@@ -114,17 +83,6 @@ export const AuthProvider = ({ children }) => {
     }
     return Promise.reject(error);
   }
-
-  const refreshToken = async () => {
-    const response = await apiClient.post('token/refresh/', {
-      refresh: localStorage.getItem('refresh')
-    });
-    apiClient.defaults.headers.common[
-      'Authorization'
-    ] = `Bearer ${response.data.access}`;
-    localStorage.setItem('access', response.data.access);
-    return response.data.access;
-  };
 
   const { Provider } = authContext;
   return (

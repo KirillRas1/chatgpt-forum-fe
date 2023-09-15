@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import apiClient from 'infrastructure/api/apiClient';
+import React, { useState, useContext } from 'react';
 import { Grid } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import { authContext } from 'contexts/Auth';
 
 const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
   const [score, setScore] = useState(initialScore);
+  const { apiClient } = useContext(authContext);
+
   const createScore = targetScore => {
     apiClient
       .post(`/${scoreType}_score/`, {

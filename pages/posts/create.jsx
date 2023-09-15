@@ -28,7 +28,6 @@ const CreatePost = () => {
       console.log('called handleSubmit');
     },
     onSubmit: async values => {
-      console.log(values);
       try {
         const payload = {
           title: values.title,

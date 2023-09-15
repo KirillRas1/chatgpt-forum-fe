@@ -21,7 +21,9 @@ const CommentInput = ({ postId }) => {
         .then(response => {
           const commentWithExtraData = {
             ...response.data,
-            tree_path: commentToReply.tree_path.concat(response.data.id)
+            tree_path: commentToReply
+              ? commentToReply.tree_path.concat(response.data.id)
+              : [response.data.id]
           };
           setComments([...comments, commentWithExtraData]);
         })
