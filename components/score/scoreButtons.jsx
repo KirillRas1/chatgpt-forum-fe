@@ -8,7 +8,6 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore }) => {
   const [score, setScore] = useState(initialScore);
   const { apiClient } = useContext(authContext);
 
-
   const createScore = targetScore => {
     apiClient
       .post(`/${scoreType}_score/`, {
