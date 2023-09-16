@@ -8,6 +8,7 @@ import { postContext } from 'contexts/Post';
 import CircleIcon from '@mui/icons-material/Circle';
 import CommentInput from 'components/comments/CommentInput';
 import TagList from 'components/tags/TagList';
+import { PromptModeTooltip } from 'components/common/dataDisplay/tooltips/PromptModeTooltip';
 
 const styles = {
   container: {
@@ -70,6 +71,16 @@ const PostDetails = () => {
         />
         <Typography variant="subtitle1" style={styles.subtitle}>
           {author}
+        </Typography>
+        <CircleIcon
+          sx={{ fontSize: '30%', paddingRight: '1%', paddingLeft: '1%' }}
+        />
+        <Typography variant="subtitle1" style={styles.subtitle}>
+          <PromptModeTooltip promptMode={post.prompt_mode}>
+            {post.prompt_mode === 'score'
+              ? 'Score Based Prompting'
+              : 'Author based prompting'}
+          </PromptModeTooltip>
         </Typography>
       </div>
       <Typography variant="subtitle1">{chat_role}</Typography>

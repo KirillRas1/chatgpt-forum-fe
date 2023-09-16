@@ -1,10 +1,18 @@
 import React, { useContext, useState } from 'react';
-import { Container, Typography, TextField, Button, Chip } from '@mui/material';
-import { useFormik } from 'formik';
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  ToggleButtonGroup,
+  ToggleButton
+} from '@mui/material';
+import { useFormik, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { authContext } from 'contexts/Auth';
 import TagList from 'components/tags/TagList';
+import { PromptModeTooltip } from 'components/common/dataDisplay/tooltips/PromptModeTooltip';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
@@ -15,14 +23,15 @@ const CreatePost = () => {
   const router = useRouter();
   const { apiClient } = useContext(authContext);
   const [tags, setTags] = useState([]);
-
   const formik = useFormik({
     initialValues: {
       title: '',
-      content: ''
+      content: '',
+      promptMode: 'author'
     },
     title: '',
     content: '',
+    promptMode: 'author',
     validationSchema,
     handleSubmit: () => {
       console.log('called handleSubmit');
@@ -32,7 +41,8 @@ const CreatePost = () => {
         const payload = {
           title: values.title,
           chat_role: values.content,
-          tags
+          tags,
+          prompt_mode: values.promptMode
         };
 
         // Make a POST request to the API endpoint
@@ -65,6 +75,25 @@ const CreatePost = () => {
       <Typography variant="h4" style={{ marginBottom: '1rem' }}>
         Create a New Post
       </Typography>
+      <ToggleButtonGroup
+        color="primary"
+        name="promptMode"
+        value={formik.values.promptMode}
+        exclusive
+        onChange={formik.handleChange}
+        aria-label="Platform"
+      >
+        <ToggleButton value="author" name="promptMode">
+          <PromptModeTooltip promptMode={'author'}>
+            Author Approved
+          </PromptModeTooltip>
+        </ToggleButton>
+        <ToggleButton value="score" name="promptMode">
+          <PromptModeTooltip promptMode={'score'}>
+            Score Based
+          </PromptModeTooltip>
+        </ToggleButton>
+      </ToggleButtonGroup>
       <TextField
         label="Title"
         fullWidth
@@ -77,7 +106,7 @@ const CreatePost = () => {
         style={{ marginBottom: '1rem' }}
       />
       <TextField
-        label="Content"
+        label="AI Role"
         fullWidth
         multiline
         rows={4}
@@ -85,7 +114,7 @@ const CreatePost = () => {
         value={formik.values.content}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        helperText={formik.touched.content && formik.errors.content}
+        placeholder="Write a role for the AI to assume, eg., 'Pretend you are a cowboy'"
         error={formik.touched.content && !!formik.errors.content}
         style={{ marginBottom: '1rem' }}
       />

@@ -5,13 +5,15 @@ import {
   apiClient,
   setTokenExpirationTimes
 } from 'infrastructure/api/apiClient';
+import { useRouter } from 'next/router';
+
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
-
+  const router = useRouter();
   const login = jwtToken => {
     apiClient
       .post('token/', {
@@ -28,6 +30,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('access', response.data.access);
         localStorage.setItem('refresh', response.data.refresh);
         setTokenExpirationTimes();
+        router.reload();
       });
   };
 
