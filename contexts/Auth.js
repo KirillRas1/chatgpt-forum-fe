@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { googleLogout } from '@react-oauth/google';
-import LoginDialog from 'components/modals/LoginModal';
+import LoginDialog from 'components/common/dataDisplay/modals/LoginModal';
 import {
   apiClient,
   setTokenExpirationTimes
