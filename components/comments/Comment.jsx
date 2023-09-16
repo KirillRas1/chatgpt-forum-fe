@@ -34,7 +34,7 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
       })
       .then(response => {
         setIsPrompt(true);
-        getPostComments(comment.post);
+        //getPostComments(comment.post);
       })
       .finally(() => {
         setIsLoading(false);
@@ -92,11 +92,8 @@ export const CommentList = ({
   readOnly = false,
   commentTree = {}
 }) => {
-  const allowPrompt = ({ comment = {}, commentIndex }) => {
-    return (
-      comment.is_prompt ||
-      (comment.author && commentIndex + 1 === comments.length)
-    );
+  const allowPrompt = ({ comment = {} }) => {
+    return comment.is_prompt || (comment.author && isEmpty(comment.children));
   };
 
   const formatCommentTree = () => {
@@ -127,7 +124,7 @@ export const CommentList = ({
             <Grid>
               <Comment
                 comment={comment}
-                allowPrompt={allowPrompt({ comment, commentIndex: index })}
+                allowPrompt={allowPrompt({ comment })}
                 readOnly={readOnly}
               />
               {!isEmpty(childrenComments) && (

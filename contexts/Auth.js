@@ -1,16 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { googleLogout } from '@react-oauth/google';
 import LoginDialog from 'components/modals/LoginModal';
-import { apiClient } from 'infrastructure/api/apiClient';
+import {
+  apiClient,
+  setTokenExpirationTimes
+} from 'infrastructure/api/apiClient';
 export const authContext = createContext();
-
-function setTokenExpirationTimes() {
-  const currentTimeEpoch = Math.floor(new Date().getTime() / 1000);
-  const oneHourFromNow = currentTimeEpoch + 3600 * 3;
-  const oneMonthFromNow = currentTimeEpoch + 3600 * 24 * 30;
-  localStorage.setItem('accessTokenExpirationTime', oneHourFromNow);
-  localStorage.setItem('refreshTokenExpirationTime', oneMonthFromNow);
-}
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('');

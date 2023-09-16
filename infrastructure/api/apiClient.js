@@ -8,6 +8,14 @@ export const apiClient = axios.create({
   }
 });
 
+export function setTokenExpirationTimes() {
+  const currentTimeEpoch = Math.floor(new Date().getTime() / 1000);
+  const oneHourFromNow = currentTimeEpoch + 3600 * 3;
+  const oneMonthFromNow = currentTimeEpoch + 3600 * 24 * 30;
+  localStorage.setItem('accessTokenExpirationTime', oneHourFromNow);
+  localStorage.setItem('refreshTokenExpirationTime', oneMonthFromNow);
+}
+
 const refreshToken = async () => {
   const response = await apiClient.post('token/refresh/', {
     refresh: localStorage.getItem('refresh')
@@ -16,6 +24,7 @@ const refreshToken = async () => {
     'Authorization'
   ] = `Bearer ${response.data.access}`;
   localStorage.setItem('access', response.data.access);
+  setTokenExpirationTimes();
   return response.data.access;
 };
 
@@ -32,7 +41,6 @@ apiClient.interceptors.request.use(
         if (currentTime > expirationTime) {
           const newAccessToken = await refreshToken();
           config.headers['Authorization'] = `Bearer ${newAccessToken}`;
-          localStorage.setItem('access', newAccessToken);
         }
       }
     }
