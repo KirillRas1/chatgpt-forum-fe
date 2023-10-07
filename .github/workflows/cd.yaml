@@ -4,7 +4,7 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
   NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
-  BACKEND_URL: http://gptforumlb-16906afbca996ba9.elb.eu-west-1.amazonaws.com/
+  NEXT_PUBLIC_BACKEND_URL: http://gptforumlb-16906afbca996ba9.elb.eu-west-1.amazonaws.com/
 on:
   push:
     branches:

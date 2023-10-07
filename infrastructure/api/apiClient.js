@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export const apiClient = axios.create({
-  baseURL: process.env.BACKED_URL,
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
   }
 });
-
+console.log(apiClient);
 export function setTokenExpirationTimes() {
   const currentTimeEpoch = Math.floor(new Date().getTime() / 1000);
   const oneHourFromNow = currentTimeEpoch + 3600 * 3;
@@ -17,7 +17,7 @@ export function setTokenExpirationTimes() {
 }
 
 const refreshToken = async () => {
-  const response = await apiClient.post('token/refresh/', {
+  const response = await apiClient.post('token/refresh', {
     refresh: localStorage.getItem('refresh')
   });
   apiClient.defaults.headers.common[
