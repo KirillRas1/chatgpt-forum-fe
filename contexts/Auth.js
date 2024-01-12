@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         setUserId(response.data.id);
         apiClient.defaults.headers.common[
           'Authorization'
-        ] = `Bearer ${response.data.access}`;
+        ] = response.data.access ? `Bearer ${response.data.access}` : null;
         localStorage.setItem('username', response.data.name);
         localStorage.setItem('user_id', response.data.id);
         localStorage.setItem('access', response.data.access);

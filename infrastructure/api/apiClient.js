@@ -22,14 +22,14 @@ const refreshToken = async () => {
   });
   apiClient.defaults.headers.common[
     'Authorization'
-  ] = `Bearer ${response.data.access}`;
+  ] = response.data.access ? `Bearer ${response.data.access}` : null;
   localStorage.setItem('access', response.data.access);
   setTokenExpirationTimes();
   return response.data.access;
 };
 
 apiClient.interceptors.request.use(config => {
-  config.headers['Authorization'] = `Bearer ${localStorage.getItem('access')}`;
+  config.headers['Authorization'] = localStorage.getItem('access') ? `Bearer ${localStorage.getItem('access')}` : null;
   return config;
 });
 apiClient.interceptors.request.use(
