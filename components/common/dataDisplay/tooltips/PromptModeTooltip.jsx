@@ -2,7 +2,7 @@ import { Tooltip } from '@mui/material';
 import { isValidElement } from 'react';
 
 export const PromptModeTooltip = ({ promptMode, children }) => {
-  function getTooltipText(promptMode) {
+  function getTooltipText() {
     if (promptMode === 'author') {
       return "Only the post's author can submit comments as prompt";
     } else {
