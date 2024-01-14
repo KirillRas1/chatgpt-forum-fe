@@ -40,6 +40,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user_id');
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
+    localStorage.removeItem('accessTokenExpirationTime');
+    localStorage.removeItem('refreshTokenExpirationTime');
     delete apiClient.defaults.headers.common['Authorization'];
     setUser('');
     setUserId('');
