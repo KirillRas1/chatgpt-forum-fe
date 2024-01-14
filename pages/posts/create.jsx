@@ -85,12 +85,13 @@ const CreatePost = () => {
       >
         <ToggleButton value="author" name="promptMode">
           <PromptModeTooltip promptMode={'author'}>
-            Author Approved
+            {/* Set formik values explicitly since the tooltip causes the text to no trigger a button click */}
+            <span value="author" onClick={() => formik.setFieldValue('promptMode', 'author')}>Author Approved</span>
           </PromptModeTooltip>
         </ToggleButton>
         <ToggleButton value="score" name="promptMode">
           <PromptModeTooltip promptMode={'score'}>
-            Score Based
+          <span value="author" onClick={() => formik.setFieldValue('promptMode', 'score')}>Score Based</span>
           </PromptModeTooltip>
         </ToggleButton>
       </ToggleButtonGroup>
