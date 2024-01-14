@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         setUserId(response.data.id);
         apiClient.defaults.headers.common[
           'Authorization'
-        ] = `Bearer ${response.data.access}`;
+        ] = response.data.access ? `Bearer ${response.data.access}` : null;
         localStorage.setItem('username', response.data.name);
         localStorage.setItem('user_id', response.data.id);
         localStorage.setItem('access', response.data.access);
@@ -40,6 +40,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user_id');
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
+    localStorage.removeItem('accessTokenExpirationTime');
+    localStorage.removeItem('refreshTokenExpirationTime');
     delete apiClient.defaults.headers.common['Authorization'];
     setUser('');
     setUserId('');

@@ -33,7 +33,8 @@
     "yup": "^1.2.0"
   },
   "scripts": {
-    "start": "next dev"
+    "start": "next dev",
+    "build": "next build"
   },
   "devDependencies": {
     "eslint": "8.46.0",

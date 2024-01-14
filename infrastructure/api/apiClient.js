@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/',
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
   }
 });
-
+console.log(apiClient);
 export function setTokenExpirationTimes() {
   const currentTimeEpoch = Math.floor(new Date().getTime() / 1000);
   const oneHourFromNow = currentTimeEpoch + 3600 * 3;
@@ -17,19 +17,19 @@ export function setTokenExpirationTimes() {
 }
 
 const refreshToken = async () => {
-  const response = await apiClient.post('token/refresh/', {
+  const response = await apiClient.post('token/refresh', {
     refresh: localStorage.getItem('refresh')
   });
   apiClient.defaults.headers.common[
     'Authorization'
-  ] = `Bearer ${response.data.access}`;
+  ] = response.data.access ? `Bearer ${response.data.access}` : null;
   localStorage.setItem('access', response.data.access);
   setTokenExpirationTimes();
   return response.data.access;
 };
 
 apiClient.interceptors.request.use(config => {
-  config.headers['Authorization'] = `Bearer ${localStorage.getItem('access')}`;
+  config.headers['Authorization'] = localStorage.getItem('access') ? `Bearer ${localStorage.getItem('access')}` : null;
   return config;
 });
 apiClient.interceptors.request.use(
