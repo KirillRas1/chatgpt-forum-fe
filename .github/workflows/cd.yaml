@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - main
-      - vercel-cd
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
