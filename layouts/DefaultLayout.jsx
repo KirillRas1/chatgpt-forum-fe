@@ -6,7 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -16,7 +15,7 @@ import { Grid } from '@mui/material';
 import ProfileDisplayName from 'components/profile/ProfileName';
 import { useRouter } from 'next/router';
 import { ProfileItems } from 'components/profile/ProfileItems';
-
+import { authContext } from 'contexts/Auth';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(
@@ -67,7 +66,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function DefaultLayout({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+  const { userId } = useContext(authContext);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -78,13 +77,12 @@ export default function DefaultLayout({ children }) {
 
   const router = useRouter();
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      {/* <CssBaseline /> */}
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <Grid container flexDirection="row" justifyContent="space-between">
-            <IconButton
+  const MenuIconButton = () => {
+    if (!userId) {
+      return null
+    }
+
+    return <IconButton
               color="inherit"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
@@ -93,6 +91,15 @@ export default function DefaultLayout({ children }) {
             >
               <MenuIcon />
             </IconButton>
+  }
+
+  return (
+    <Box sx={{ display: 'flex' }}>
+      {/* <CssBaseline /> */}
+      <AppBar position="fixed" open={open}>
+        <Toolbar>
+          <Grid container flexDirection="row" justifyContent="space-between">
+            <MenuIconButton />
             <Typography
               variant="h6"
               noWrap
