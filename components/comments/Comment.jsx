@@ -46,15 +46,11 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
       return <CircularProgress />;
     }
     if (allowPrompt) {
-      return (
-        allowPrompt && (
-          <Checkbox
-            checked={isPrompt}
-            disabled={readOnly || isPrompt}
-            onChange={makePrompt}
-          />
-        )
-      );
+      return <Checkbox
+      checked={isPrompt}
+      disabled={readOnly || isPrompt}
+      onChange={makePrompt}
+    />
     }
   };
   return (
