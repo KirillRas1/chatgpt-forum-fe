@@ -34,7 +34,6 @@ const CreatePost = () => {
     promptMode: 'author',
     validationSchema,
     handleSubmit: () => {
-      console.log('called handleSubmit');
     },
     onSubmit: async values => {
       try {

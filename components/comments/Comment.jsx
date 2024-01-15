@@ -86,10 +86,14 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
 export const CommentList = ({
   comments = [],
   readOnly = false,
-  commentTree = {}
+  commentTree = {},
+  isPostAuthor,
+  isAuthorMode
 }) => {
-  const allowPrompt = ({ comment = {} }) => {
-    return comment.is_prompt || (comment.author && isEmpty(comment.children));
+  const showPromptCheckbox = ({ comment = {} }) => {
+    return comment.author && // Never show checkbox for ai comments
+    (comment.is_prompt || // For user comments that are already prompts always show disabled checkbox
+    (isPostAuthor && isAuthorMode)); // In author based prompts show interactive checkbox only to the post author
   };
 
   const formatCommentTree = () => {
@@ -120,7 +124,7 @@ export const CommentList = ({
             <Grid>
               <Comment
                 comment={comment}
-                allowPrompt={allowPrompt({ comment })}
+                allowPrompt={showPromptCheckbox({ comment })}
                 readOnly={readOnly}
               />
               {!isEmpty(childrenComments) && (

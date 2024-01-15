@@ -9,6 +9,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import CommentInput from 'components/comments/CommentInput';
 import TagList from 'components/tags/TagList';
 import { PromptModeTooltip } from 'components/common/dataDisplay/tooltips/PromptModeTooltip';
+import { authContext } from 'contexts/Auth';
 
 const styles = {
   container: {
@@ -47,8 +48,8 @@ const styles = {
 const PostDetails = () => {
   const router = useRouter();
   const { post, comments } = useContext(postContext);
-  const { id: postId, title, author, content, chat_role } = post;
-
+  const { id: postId, title, author, content, chat_role, prompt_mode } = post;
+  const { username } = useContext(authContext)
   if (!post) {
     return <p>Loading...</p>;
   }
@@ -76,8 +77,8 @@ const PostDetails = () => {
           sx={{ fontSize: '30%', paddingRight: '1%', paddingLeft: '1%' }}
         />
         <Typography variant="subtitle1" style={styles.subtitle}>
-          <PromptModeTooltip promptMode={post.prompt_mode}>
-            {post.prompt_mode === 'score'
+          <PromptModeTooltip promptMode={prompt_mode}>
+            {prompt_mode === 'score'
               ? 'Score Based Prompting'
               : 'Author based prompting'}
           </PromptModeTooltip>
@@ -88,7 +89,7 @@ const PostDetails = () => {
         {content}
       </Typography>
       <TagList tagNames={post.tags || []} />
-      <CommentList comments={comments} />
+      <CommentList comments={comments} isPostAuthor={username === author} isAuthorMode={prompt_mode === 'author'}/>
       <CommentInput postId={postId} />
     </Grid>
   );
