@@ -85,6 +85,12 @@ export const AuthProvider = ({ children }) => {
     return Promise.reject(error);
   }
 
+  useEffect(() => {
+    if (user) {
+      setShowLoginModal(false)
+    }
+  }, [user])
+
   const { Provider } = authContext;
   return (
     <Provider
