@@ -15,6 +15,10 @@ export const PostProvider = ({ children }) => {
     return apiClient.get(`comments/tree`, { params: { post: postId } });
   };
 
+  const getCommentTree = parentCommentId => {
+    return apiClient.get(`comments/tree`, { params: { parent_id: parentCommentId } });
+  }
+
   const getPost = async () => {
     if (router.query.id) {
       try {
@@ -46,6 +50,7 @@ export const PostProvider = ({ children }) => {
         setComments,
         getPost,
         getPostComments,
+        getCommentTree,
         commentToReply,
         setCommentToReply
       }}

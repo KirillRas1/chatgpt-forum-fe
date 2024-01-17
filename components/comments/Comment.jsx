@@ -19,7 +19,7 @@ import { randomColor } from 'functions/formatting/colors';
 
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   const { apiClient } = useContext(authContext);
-  const { getPostComments, setCommentToReply } = useContext(postContext);
+  const { getCommentTree, setCommentToReply, setComments, comments } = useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(comment.is_prompt);
   const { author, text, id } = comment;
@@ -32,9 +32,10 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
       .patch(`comments/${id}/`, {
         is_prompt: true
       })
-      .then(response => {
+      .then(async response => {
         setIsPrompt(true);
-        //getPostComments(comment.post);
+        const promptComment = await getCommentTree(id)
+        setComments([...comments, ...promptComment.data])
       })
       .finally(() => {
         setIsLoading(false);
