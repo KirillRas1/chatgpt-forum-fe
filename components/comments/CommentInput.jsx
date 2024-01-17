@@ -26,10 +26,10 @@ const CommentInput = ({ postId }) => {
               : [response.data.id]
           };
           setComments([...comments, commentWithExtraData]);
+          setComment('');
         })
         .catch(error => console.error('Error posting comment:', error))
         .finally(() => {
-          setComment('');
           setCommentToReply(null);
         });
     }
