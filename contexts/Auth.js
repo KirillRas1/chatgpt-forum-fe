@@ -26,11 +26,12 @@ export const AuthProvider = ({ children }) => {
           'Authorization'
         ] = response.data.access ? `Bearer ${response.data.access}` : null;
         localStorage.setItem('username', response.data.name);
+        setUser(response.data.name)
         localStorage.setItem('user_id', response.data.id);
+        setUserId(response.data.id)
         localStorage.setItem('access', response.data.access);
         localStorage.setItem('refresh', response.data.refresh);
         setTokenExpirationTimes();
-        router.reload();
       });
   };
 

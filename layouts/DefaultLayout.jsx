@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -65,38 +65,37 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function DefaultLayout({ children }) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const { userId } = useContext(authContext);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const { username } = useContext(authContext);
 
   const router = useRouter();
 
   const MenuIconButton = () => {
-    if (!userId) {
+    if (!username) {
       return null
     }
 
     return <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={handleDrawerOpen}
+              onClick={() => setDrawerOpen(true)}
               edge="start"
-              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+              sx={{ mr: 2, ...(drawerOpen && { display: 'none' }) }}
             >
               <MenuIcon />
             </IconButton>
   }
 
+  useEffect(() => {
+    if (drawerOpen&&!username) {
+      setDrawerOpen(false)
+    }
+  }, [username])
+
   return (
     <Box sx={{ display: 'flex' }}>
       {/* <CssBaseline /> */}
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={drawerOpen}>
         <Toolbar>
           <Grid container flexDirection="row" justifyContent="space-between">
             <MenuIconButton />
@@ -126,10 +125,10 @@ export default function DefaultLayout({ children }) {
         }}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={drawerOpen}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={() => setDrawerOpen(false)}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
             ) : (
@@ -140,7 +139,7 @@ export default function DefaultLayout({ children }) {
         <ProfileDisplayName />
         <ProfileItems />
       </Drawer>
-      <Main open={open}>
+      <Main open={drawerOpen}>
         <DrawerHeader />
         {children}
       </Main>
