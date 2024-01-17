@@ -16,6 +16,7 @@ import ProfileDisplayName from 'components/profile/ProfileName';
 import { useRouter } from 'next/router';
 import { ProfileItems } from 'components/profile/ProfileItems';
 import { authContext } from 'contexts/Auth';
+import Image from 'next/image';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(
@@ -107,9 +108,12 @@ export default function DefaultLayout({ children }) {
             >
               Posts page
             </Typography>
-            <Typography variant="h6" noWrap component="div">
-              Site name
+            <Box sx={{ display: 'flex', alignItems:"center"}}>
+            <Image src="/website_logo.svg" alt="logo" width="40" height="40" />
+            <Typography>
+            Geppeta Boards
             </Typography>
+            </Box>
             <GoogleLoginButton />
           </Grid>
         </Toolbar>
