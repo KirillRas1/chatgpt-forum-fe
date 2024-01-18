@@ -7,7 +7,6 @@ export const apiClient = axios.create({
     'Content-Type': 'application/json'
   }
 });
-console.log(apiClient);
 export function setTokenExpirationTimes() {
   const currentTimeEpoch = Math.floor(new Date().getTime() / 1000);
   const oneHourFromNow = currentTimeEpoch + 3600 * 3;

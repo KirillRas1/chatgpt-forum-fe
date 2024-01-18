@@ -19,7 +19,7 @@ import { randomColor } from 'functions/formatting/colors';
 
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   const { apiClient } = useContext(authContext);
-  const { getPostComments, setCommentToReply } = useContext(postContext);
+  const { getCommentTree, setCommentToReply, setComments, comments } = useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(comment.is_prompt);
   const { author, text, id } = comment;
@@ -32,9 +32,10 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
       .patch(`comments/${id}/`, {
         is_prompt: true
       })
-      .then(response => {
+      .then(async response => {
         setIsPrompt(true);
-        //getPostComments(comment.post);
+        const promptComment = await getCommentTree(id)
+        setComments([...comments, ...promptComment.data])
       })
       .finally(() => {
         setIsLoading(false);
@@ -46,15 +47,11 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
       return <CircularProgress />;
     }
     if (allowPrompt) {
-      return (
-        allowPrompt && (
-          <Checkbox
-            checked={isPrompt}
-            disabled={readOnly || isPrompt}
-            onChange={makePrompt}
-          />
-        )
-      );
+      return <Checkbox
+      checked={isPrompt}
+      disabled={readOnly || isPrompt}
+      onChange={makePrompt}
+    />
     }
   };
   return (
@@ -90,10 +87,14 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
 export const CommentList = ({
   comments = [],
   readOnly = false,
-  commentTree = {}
+  commentTree = {},
+  isPostAuthor,
+  isAuthorMode
 }) => {
-  const allowPrompt = ({ comment = {} }) => {
-    return comment.is_prompt || (comment.author && isEmpty(comment.children));
+  const showPromptCheckbox = ({ comment = {} }) => {
+    return comment.author && // Never show checkbox for ai comments
+    (comment.is_prompt || // For user comments that are already prompts always show disabled checkbox
+    (isPostAuthor && isAuthorMode)); // In author based prompts show interactive checkbox only to the post author
   };
 
   const formatCommentTree = () => {
@@ -124,7 +125,7 @@ export const CommentList = ({
             <Grid>
               <Comment
                 comment={comment}
-                allowPrompt={allowPrompt({ comment })}
+                allowPrompt={showPromptCheckbox({ comment })}
                 readOnly={readOnly}
               />
               {!isEmpty(childrenComments) && (
