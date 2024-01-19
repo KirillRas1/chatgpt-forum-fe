@@ -7,6 +7,9 @@ export const postContext = createContext();
 export const PostProvider = ({ children }) => {
   const router = useRouter();
   const [post, setPost] = useState({});
+  const [page, setPage] = useState(1);
+  const [posts, setPosts] = useState([]);
+  const [totalPages, setTotalPages] = useState(0)
   const [comments, setComments] = useState([]);
   const [commentToReply, setCommentToReply] = useState(null);
   const { apiClient } = useContext(authContext);
@@ -26,7 +29,6 @@ export const PostProvider = ({ children }) => {
           apiClient.get(`posts/${router.query.id}/`),
           getPostComments(router.query.id)
         ]);
-
         setPost(postResponse.data);
         setComments(commentsResponse.data);
       } catch (error) {
@@ -34,6 +36,8 @@ export const PostProvider = ({ children }) => {
       }
     }
   };
+
+  
 
   useEffect(() => {
     if (router.isReady) {
@@ -52,7 +56,13 @@ export const PostProvider = ({ children }) => {
         getPostComments,
         getCommentTree,
         commentToReply,
-        setCommentToReply
+        setCommentToReply,
+        posts,
+        setPosts,
+        totalPages,
+        setTotalPages,
+        page,
+        setPage
       }}
     >
       {children}
