@@ -133,12 +133,13 @@ export const CommentList = ({
                 readOnly={readOnly}
               />
               {!isEmpty(childrenComments) && (
-                <Grid container direction="row">
+                <Grid container direction="row" wrap='nowrap'>
+                  <Grid item>
                   <Divider
                     orientation="vertical"
-                    flexItem
                     color={randomColor()}
                   />
+                  </Grid>
                   <CommentList
                     readOnly={readOnly}
                     commentTree={childrenComments}
