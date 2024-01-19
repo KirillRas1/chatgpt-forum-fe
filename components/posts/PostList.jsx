@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Typography, List, ListItem, Grid } from '@mui/material';
 import PostMini from 'components/posts/PostMini';
 import { Button } from '@mui/material';
@@ -13,14 +13,32 @@ import {
   getTimeThresholdsDict
 } from 'functions/formatting/time';
 import { filterOlderThan } from 'components/dataManipulation/FilterFunctions';
+import { postContext } from 'contexts/Post';
+import { authContext } from 'contexts/Auth';
 
-const PostList = (posts = [], setPosts = () => {}) => {
+const PostList = () => {
   const router = useRouter();
+  const { apiClient } = useContext(authContext);
+  const { posts, setPosts } = useContext(postContext);
   const [filteredPosts, setFilteredPosts] = useState(posts);
-
+  
   useEffect(() => {
     setFilteredPosts(posts);
   }, [posts]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      apiClient
+        .get('/posts/', { params: router.query })
+        .then(response => {
+          setPosts(response.data.results);
+          setTotalPages(response.data.count)
+          setPreviousPostPage(response.data.previous)
+          setNextPostPage(response.data.next)
+        })
+        .catch(error => console.error('Error fetching posts:', error));
+    }
+  }, [router.query, router.isReady]);
 
   const sortingOptions = [
     {

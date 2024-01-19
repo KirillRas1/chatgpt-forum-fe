@@ -7,6 +7,11 @@ export const postContext = createContext();
 export const PostProvider = ({ children }) => {
   const router = useRouter();
   const [post, setPost] = useState({});
+  const [page, setPage] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [totalPages, setTotalPages] = useState(0)
+  const [nextPostPage, setNextPostPage] = useState(null)
+  const [previousPostPage, setPreviousPostPage] = useState(null)
   const [comments, setComments] = useState([]);
   const [commentToReply, setCommentToReply] = useState(null);
   const { apiClient } = useContext(authContext);
@@ -35,6 +40,8 @@ export const PostProvider = ({ children }) => {
     }
   };
 
+  
+
   useEffect(() => {
     if (router.isReady) {
       getPost();
@@ -52,7 +59,17 @@ export const PostProvider = ({ children }) => {
         getPostComments,
         getCommentTree,
         commentToReply,
-        setCommentToReply
+        setCommentToReply,
+        posts,
+        setPosts,
+        totalPages,
+        setTotalPages,
+        previousPostPage,
+        setPreviousPostPage,
+        nextPostPage,
+        setNextPostPage,
+        page,
+        setPage
       }}
     >
       {children}
