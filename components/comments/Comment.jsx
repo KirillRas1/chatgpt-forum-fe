@@ -60,6 +60,8 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
         foreignKey={comment.id}
         scoreType={'comment'}
         initialScore={comment.user_score}
+        initialTotalScore={comment.total_score}
+        mini
       />
       <Grid container spacing={0.5}>
         <Grid item>
