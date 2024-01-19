@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Typography, List, ListItem, Grid } from '@mui/material';
+import { Typography, List, ListItem, Grid, Pagination } from '@mui/material';
 import PostMini from 'components/posts/PostMini';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -16,10 +16,12 @@ import { filterOlderThan } from 'components/dataManipulation/FilterFunctions';
 import { postContext } from 'contexts/Post';
 import { authContext } from 'contexts/Auth';
 
+const POSTS_PER_PAGE = 20
+
 const PostList = () => {
   const router = useRouter();
   const { apiClient } = useContext(authContext);
-  const { posts, setPosts } = useContext(postContext);
+  const { page, setPage, totalPages, setTotalPages, posts, setPosts } = useContext(postContext);
   const [filteredPosts, setFilteredPosts] = useState(posts);
   
   useEffect(() => {
@@ -28,17 +30,20 @@ const PostList = () => {
 
   useEffect(() => {
     if (router.isReady) {
+      const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`
       apiClient
-        .get('/posts/', { params: router.query })
+        .get(postsUrl, { params: router.query })
         .then(response => {
           setPosts(response.data.results);
-          setTotalPages(response.data.count)
-          setPreviousPostPage(response.data.previous)
-          setNextPostPage(response.data.next)
+          setTotalPages(Math.ceil(response.data.count / POSTS_PER_PAGE))
         })
         .catch(error => console.error('Error fetching posts:', error));
     }
-  }, [router.query, router.isReady]);
+  }, [router.query, router.isReady, page]);
+
+  const handlePageChange = (event, value) => {
+    setPage(value)
+  }
 
   const sortingOptions = [
     {
@@ -94,6 +99,7 @@ const PostList = () => {
             </ListItem>
           ))}
         </List>
+        <Pagination count={totalPages} page={page} onChange={handlePageChange} />
       </Grid>
     </Grid>
   );

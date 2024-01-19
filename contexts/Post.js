@@ -7,11 +7,9 @@ export const postContext = createContext();
 export const PostProvider = ({ children }) => {
   const router = useRouter();
   const [post, setPost] = useState({});
-  const [page, setPage] = useState(null);
+  const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [totalPages, setTotalPages] = useState(0)
-  const [nextPostPage, setNextPostPage] = useState(null)
-  const [previousPostPage, setPreviousPostPage] = useState(null)
   const [comments, setComments] = useState([]);
   const [commentToReply, setCommentToReply] = useState(null);
   const { apiClient } = useContext(authContext);
@@ -31,7 +29,6 @@ export const PostProvider = ({ children }) => {
           apiClient.get(`posts/${router.query.id}/`),
           getPostComments(router.query.id)
         ]);
-
         setPost(postResponse.data);
         setComments(commentsResponse.data);
       } catch (error) {
@@ -64,10 +61,6 @@ export const PostProvider = ({ children }) => {
         setPosts,
         totalPages,
         setTotalPages,
-        previousPostPage,
-        setPreviousPostPage,
-        nextPostPage,
-        setNextPostPage,
         page,
         setPage
       }}
