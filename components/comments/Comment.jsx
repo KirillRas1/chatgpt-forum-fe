@@ -94,6 +94,8 @@ export const CommentList = ({
   isAuthorMode
 }) => {
   const showPromptCheckbox = ({ comment = {} }) => {
+    console.log(`author ${comment.author}`)
+    console.log(`is author ${isPostAuthor}`)
     return comment.author && // Never show checkbox for ai comments
     (comment.is_prompt || // For user comments that are already prompts always show disabled checkbox
     (isPostAuthor && isAuthorMode)); // In author based prompts show interactive checkbox only to the post author
