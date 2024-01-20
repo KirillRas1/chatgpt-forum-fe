@@ -12,7 +12,7 @@ export const PostProvider = ({ children }) => {
   const [totalPages, setTotalPages] = useState(0)
   const [comments, setComments] = useState([]);
   const [commentToReply, setCommentToReply] = useState(null);
-  const { apiClient, username } = useContext(authContext);
+  const { apiClient } = useContext(authContext);
 
   const getPostComments = postId => {
     return apiClient.get(`comments/tree`, { params: { post: postId } });
@@ -21,10 +21,6 @@ export const PostProvider = ({ children }) => {
   const getCommentTree = parentCommentId => {
     return apiClient.get(`comments/tree`, { params: { parent_id: parentCommentId } });
   }
-
-  useEffect(() => {
-    getPost()
-  }, [username])
 
   const getPost = async () => {
     if (router.query.id) {
