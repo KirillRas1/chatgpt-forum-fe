@@ -22,8 +22,8 @@ export const PostProvider = ({ children }) => {
     return apiClient.get(`comments/tree`, { params: { parent_id: parentCommentId } });
   }
 
-  useEffect(async () => {
-    await getPost()
+  useEffect(() => {
+    getPost()
   }, [username])
 
   const getPost = async () => {
