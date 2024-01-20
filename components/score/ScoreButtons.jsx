@@ -61,7 +61,7 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore, initialTotalScore, 
 
   const renderTotalScore = total_score => {
     return (
-      <Typography variant={mini ? "h6" : "h5"} alignSelf="center">
+      <Typography variant={mini ? "h6" : "h5"} alignSelf="center" sx={{paddingRight: 1}}>
         {total_score}
       </Typography>
     );
