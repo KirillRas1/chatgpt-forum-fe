@@ -141,7 +141,7 @@ export default function DefaultLayout({ children }) {
           </IconButton>
         </DrawerHeader>
         <ProfileDisplayName />
-        <ProfileItems />
+        {/* <ProfileItems /> */}
       </Drawer>
       <Main open={drawerOpen}>
         <DrawerHeader />
