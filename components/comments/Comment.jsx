@@ -143,8 +143,8 @@ export const CommentList = ({
                   <CommentList
                     readOnly={readOnly}
                     commentTree={childrenComments}
-                    isPostAuthor
-                    isAuthorMode
+                    isPostAuthor={isPostAuthor}
+                    isAuthorMode={isAuthorMode}
                   />
                 </Grid>
               )}

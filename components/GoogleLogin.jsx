@@ -12,7 +12,7 @@ export default function GoogleLoginButton() {
   return (
     <div>
       {!username ? (
-        <GoogleLogin onSuccess={responseMessage} useOneTap />
+        <GoogleLogin onSuccess={responseMessage} />
       ) : (
         <Button variant="contained" color="secondary" onClick={logout}>
           Logout
