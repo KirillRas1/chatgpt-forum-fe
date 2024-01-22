@@ -45,7 +45,7 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore, initialTotalScore, 
       })
       .then(response => {
         setScore(0);
-        setTotalScore(initialScore)
+        setTotalScore(initialTotalScore)
       });
   };
 
