@@ -105,8 +105,9 @@ export default function DefaultLayout({ children }) {
               noWrap
               component="div"
               onClick={() => router.push('/')}
+              sx={{ cursor: 'pointer' }}
             >
-              Posts page
+              Home Page
             </Typography>
             <Box sx={{ display: 'flex', alignItems:"center"}}>
             <Image src="/website_logo.svg" alt="logo" width="40" height="40" />

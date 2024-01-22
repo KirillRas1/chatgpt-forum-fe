@@ -16,7 +16,7 @@ const PostMini = ({ post }) => {
     return (
       <Grid container justifyContent="space-between">
         <Grid container direction="row">
-          <Typography variant="h4" onClick={handlePostClick(post.id)}>
+          <Typography variant="h4" onClick={handlePostClick(post.id)} sx={{ cursor: 'pointer' }}>
             {post.title}
           </Typography>
           <TagList tagNames={post.tags || []} />
