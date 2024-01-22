@@ -74,11 +74,13 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore, initialTotalScore, 
         color={score === 1 ? 'primary' : undefined}
         onClick={handleScoreClick(1)}
         fontSize={mini ? 's' : undefined}
+        sx={{ cursor: 'pointer' }}
       />
       <ThumbDownIcon
         color={score === -1 ? 'primary' : undefined}
         onClick={handleScoreClick(-1)}
         fontSize={mini ? 's' : undefined}
+        sx={{ cursor: 'pointer' }}
       />
     </Grid>
     {renderTotalScore(totalScore)}
