@@ -8,7 +8,6 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore, initialTotalScore, 
   const [score, setScore] = useState(initialScore);
   const [totalScore, setTotalScore] = useState(initialTotalScore)
   const { apiClient } = useContext(authContext);
-
   const createScore = targetScore => {
     apiClient
       .post(`/${scoreType}_score/`, {
@@ -17,7 +16,6 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore, initialTotalScore, 
       })
       .then(() => {
         setScore(targetScore)
-        console.log(targetScore)
         setTotalScore(totalScore+targetScore)
       })
       .catch(error => {
@@ -28,10 +26,10 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore, initialTotalScore, 
   const updateScore = () => {
     apiClient
       .patch(`/${scoreType}_score/`, {
-        params: { [scoreType]: foreignKey },
-        upvote: score === 1 ? false : true,
-        [scoreType]: foreignKey
-      })
+        upvote: score === 1 ? false : true
+      }, 
+      { params: { [scoreType]: foreignKey } }
+      )
       .then(response => {
         setScore(-score);
         setTotalScore(totalScore-2*score)
@@ -44,8 +42,8 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore, initialTotalScore, 
         params: { [scoreType]: foreignKey }
       })
       .then(response => {
+        setTotalScore(totalScore-score)
         setScore(0);
-        setTotalScore(initialTotalScore)
       });
   };
 
