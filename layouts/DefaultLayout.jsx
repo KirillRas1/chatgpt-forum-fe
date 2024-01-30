@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import { ProfileItems } from 'components/profile/ProfileItems';
 import { authContext } from 'contexts/Auth';
 import Image from 'next/image';
+import { GitHub } from '@mui/icons-material';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(
@@ -112,8 +113,11 @@ export default function DefaultLayout({ children }) {
             <Box sx={{ display: 'flex', alignItems:"center"}}>
             <Image src="/website_logo.svg" alt="logo" width="40" height="40" />
             <Typography>
-            Geppeta Boards
+            Geppeta Board
             </Typography>
+            <IconButton href='https://github.com/KirillRas1/geppeta-board-fe'>
+              <GitHub/>
+            </IconButton>
             </Box>
             <GoogleLoginButton />
           </Grid>
