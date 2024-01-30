@@ -1,1 +1,2 @@
-# chatgpt-forum-fe
+# Geppeta Board
+Readme in progress, sorry!
