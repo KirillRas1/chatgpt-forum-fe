@@ -15,6 +15,7 @@ function ProfileDisplayName() {
   const { apiClient } = useContext(authContext);
   const [originalText, setOriginalText] = useState('');
   const [editedText, setEditedText] = useState('');
+  const [error, setError] = useState(null); // New state for error
 
   useEffect(() => {
     setOriginalText(username || '');
@@ -22,38 +23,45 @@ function ProfileDisplayName() {
   }, [username]);
 
   const handleSubmitClick = () => {
-    apiClient
+    if (editedText !== originalText) {
+      apiClient
       .patch(`users/${username}/`, {
         name: editedText
       })
       .then(response => {
         setOriginalText(editedText);
         setUser(editedText);
+        setError(null); // Clear any previous errors
       })
       .catch(error => {
         setEditedText(originalText);
-      })
+        setError(error.response.data?.name); // Set the error message from the server
+      });
+    }
   };
 
   const handleChange = event => {
     setEditedText(event.target.value);
+    setError(null); // Clear error when text is changed
   };
 
   return (
     <Grid container alignItems="center" direction="column">
       <Typography variant="caption">Profile:</Typography>
       <Grid container direction="row" wrap="nowrap" width="90%">
-      <>
-            <TextField
-              fullWidth
-              value={editedText}
-              onChange={handleChange}
-              variant="standard"
-            />
-            <IconButton onClick={handleSubmitClick} aria-label="Edit">
-              <DoneIcon/>
-            </IconButton>
-          </>
+        <>
+          <TextField
+            fullWidth
+            value={editedText}
+            onChange={handleChange}
+            variant="standard"
+            error={!!error} // Set error prop based on whether there is an error
+            helperText={error} // Display error message
+          />
+          <IconButton onClick={handleSubmitClick} aria-label="Edit">
+            <DoneIcon />
+          </IconButton>
+        </>
       </Grid>
     </Grid>
   );
