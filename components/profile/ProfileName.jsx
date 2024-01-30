@@ -4,12 +4,13 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import SaveIcon from '@mui/icons-material/Save';
+import DoneIcon from '@mui/icons-material/Done';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { authContext } from 'contexts/Auth';
 
 function ProfileDisplayName() {
-  const [isEditing, setIsEditing] = useState(false);
   const { username, userId, setUser } = useContext(authContext);
   const { apiClient } = useContext(authContext);
   const [originalText, setOriginalText] = useState('');
@@ -20,18 +21,9 @@ function ProfileDisplayName() {
     setEditedText(username || '');
   }, [username]);
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleDiscardClick = () => {
-    setEditedText(originalText);
-    setIsEditing(false);
-  };
-
   const handleSubmitClick = () => {
     apiClient
-      .patch(`users/${userId}/`, {
+      .patch(`users/${username}/`, {
         name: editedText
       })
       .then(response => {
@@ -41,9 +33,6 @@ function ProfileDisplayName() {
       .catch(error => {
         setEditedText(originalText);
       })
-      .finally(() => {
-        setIsEditing(false);
-      });
   };
 
   const handleChange = event => {
@@ -54,36 +43,17 @@ function ProfileDisplayName() {
     <Grid container alignItems="center" direction="column">
       <Typography variant="caption">Profile:</Typography>
       <Grid container direction="row" wrap="nowrap" width="90%">
-        {isEditing ? (
-          <>
+      <>
             <TextField
               fullWidth
               value={editedText}
               onChange={handleChange}
               variant="standard"
             />
-            <IconButton onClick={handleSubmitClick} aria-label="Submit">
-              <CheckIcon />
-            </IconButton>
-            <IconButton onClick={handleDiscardClick} aria-label="Discard">
-              <ClearIcon />
+            <IconButton onClick={handleSubmitClick} aria-label="Edit">
+              <DoneIcon/>
             </IconButton>
           </>
-        ) : (
-          <>
-            <TextField
-              fullWidth
-              value={originalText}
-              InputProps={{
-                readOnly: true
-              }}
-              variant="standard"
-            />
-            <IconButton onClick={handleEditClick} aria-label="Edit">
-              <EditIcon />
-            </IconButton>
-          </>
-        )}
       </Grid>
     </Grid>
   );
