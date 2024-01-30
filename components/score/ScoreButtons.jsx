@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Box, Divider, Grid, Typography } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -8,6 +8,11 @@ const ScoreButtons = ({ foreignKey, scoreType, initialScore, initialTotalScore, 
   const [score, setScore] = useState(initialScore);
   const [totalScore, setTotalScore] = useState(initialTotalScore)
   const { apiClient } = useContext(authContext);
+
+  useEffect(() => {
+    setScore(initialScore)
+  }, [initialScore])
+
   const createScore = targetScore => {
     apiClient
       .post(`/${scoreType}_score/`, {

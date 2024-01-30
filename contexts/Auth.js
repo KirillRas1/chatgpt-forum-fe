@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginStatus, setLoginStatus] = useState(false) 
   const router = useRouter();
   const login = jwtToken => {
     apiClient
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('access', response.data.access);
         localStorage.setItem('refresh', response.data.refresh);
         setTokenExpirationTimes();
+        setLoginStatus(true)
       });
   };
 
@@ -46,6 +48,7 @@ export const AuthProvider = ({ children }) => {
     delete apiClient.defaults.headers.common['Authorization'];
     setUser('');
     setUserId('');
+    setLoginStatus(false)
   };
 
   function loadUserInfo() {
@@ -94,7 +97,7 @@ export const AuthProvider = ({ children }) => {
   const { Provider } = authContext;
   return (
     <Provider
-      value={{ login, logout, username: user, userId, setUser, apiClient }}
+      value={{ login, loginStatus, logout, username: user, userId, setUser, apiClient }}
     >
       <LoginDialog
         open={showLoginModal}

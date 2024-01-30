@@ -20,7 +20,7 @@ const POSTS_PER_PAGE = 20
 
 const PostList = () => {
   const router = useRouter();
-  const { apiClient } = useContext(authContext);
+  const { apiClient, loginStatus } = useContext(authContext);
   const { page, setPage, totalPages, setTotalPages, posts, setPosts } = useContext(postContext);
   const [filteredPosts, setFilteredPosts] = useState(posts);
   
@@ -39,7 +39,7 @@ const PostList = () => {
         })
         .catch(error => console.error('Error fetching posts:', error));
     }
-  }, [router.query, router.isReady, page]);
+  }, [router.query, router.isReady, page, loginStatus]);
 
   const handlePageChange = (event, value) => {
     setPage(value)

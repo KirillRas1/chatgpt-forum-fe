@@ -12,7 +12,7 @@ export const PostProvider = ({ children }) => {
   const [totalPages, setTotalPages] = useState(0)
   const [comments, setComments] = useState([]);
   const [commentToReply, setCommentToReply] = useState(null);
-  const { apiClient } = useContext(authContext);
+  const { apiClient, loginStatus } = useContext(authContext);
 
   const getPostComments = postId => {
     return apiClient.get(`comments/tree`, { params: { post: postId } });
@@ -43,7 +43,7 @@ export const PostProvider = ({ children }) => {
     if (router.isReady) {
       getPost();
     }
-  }, [router.isReady]);
+  }, [router.isReady, loginStatus]);
 
   const { Provider } = postContext;
   return (
