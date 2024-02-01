@@ -9,7 +9,7 @@ on:
   push:
     branches:
       - main
-      - fix-some-bugs
+      - seo-optimization
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
