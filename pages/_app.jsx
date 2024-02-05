@@ -9,8 +9,8 @@ export default function MyApp({ Component, pageProps }) {
     <>
     <Head>
     <title>Geppeta Board</title>
-      </Head>
-      
+    <link rel="preconnect" href="https://kirillras.net"/>
+    </Head>
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
 <Script
   async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9479755495142783"
