@@ -81,7 +81,7 @@ const PostList = () => {
       //     setTotalPages(Math.ceil(response.data.count / POSTS_PER_PAGE))
       //   })
       //   .catch(error => console.error('Error fetching posts:', error));
-      setPosts(dummyPosts)
+      setPosts(dummyPosts.results)
       setTotalPages(1)
     }
   }, [router.query, router.isReady, page, loginStatus]);
