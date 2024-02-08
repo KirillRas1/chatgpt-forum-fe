@@ -9,6 +9,7 @@
     "@mui/icons-material": "^5.15.7",
     "@mui/material": "^5.15.7",
     "@react-oauth/google": "^0.8.1",
+    "@vercel/kv": "^1.0.1",
     "axios": "^1.6.7",
     "caniuse-lite": "^1.0.30001583",
     "client-only": "^0.0.1",
@@ -34,9 +35,11 @@
   },
   "scripts": {
     "start": "next dev",
-    "build": "next build"
+    "build": "next build",
+    "analyze": "yarn build"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.1.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
     "eslint-config-prettier": "^9.1.0",
