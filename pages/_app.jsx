@@ -9,7 +9,7 @@ export default function MyApp({ Component, pageProps }) {
     <>
     <Head>
     <title>Geppeta Board</title>
-    <link rel="preconnect" href="https://kirillras.net" crossOrigin/>
+    <link rel="preconnect" href="https://kirillras.net" crossOrigin="true"/>
     <link rel="preconnect" href="https://adservice.google.com"/>
     <link rel="preconnect" href="https://googleads.g.doubleclick.net"/>
     <link rel="preconnect" href="https://www.googletagservices.com"/>
