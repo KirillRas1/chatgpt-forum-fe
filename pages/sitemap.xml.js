@@ -26,7 +26,7 @@ function SiteMap() {
 export async function getServerSideProps({ res }) {
   const request = await fetch(`https://kirillras.net/posts/`);
   const posts = await request.json();
-  const sitemap = generateSiteMap(posts);
+  const sitemap = generateSiteMap(posts.results);
   res.setHeader('Content-Type', 'text/xml');
   res.write(sitemap);
   res.end();
