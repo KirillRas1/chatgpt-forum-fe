@@ -16,6 +16,7 @@ import { authContext } from 'contexts/Auth';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { setWith, isEmpty } from 'lodash';
 import { randomColor } from 'functions/formatting/colors';
+import MuiMarkdown from 'mui-markdown';
 
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   const { apiClient } = useContext(authContext);
@@ -63,7 +64,7 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
         initialTotalScore={comment.total_score}
         mini
       />
-      <Grid container spacing={0.5}>
+      <Grid container spacing={0.5} direction="column">
         <Grid item>
           <Typography variant="caption" color={'primary.main'}>
             {author || 'AI'}
@@ -77,9 +78,11 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
           </IconButton>
 
           {checkBox()}
-          <Typography variant="body1" width="auto">
+        </Grid>
+        <Grid item>
+        <MuiMarkdown options={{width: "auto"}}>
             {text}
-          </Typography>
+          </MuiMarkdown>
         </Grid>
       </Grid>
     </Grid>

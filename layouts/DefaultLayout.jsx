@@ -101,15 +101,6 @@ export default function DefaultLayout({ children }) {
         <Toolbar>
           <Grid container flexDirection="row" justifyContent="space-between">
             <MenuIconButton />
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              onClick={() => router.push('/')}
-              sx={{ cursor: 'pointer' }}
-            >
-              Home Page
-            </Typography>
             <Box sx={{ display: 'flex', alignItems:"center"}}>
             <Image src="/website_logo.svg" alt="logo" width="40" height="40" />
             <Typography>
@@ -119,6 +110,15 @@ export default function DefaultLayout({ children }) {
               <GitHub/>
             </IconButton>
             </Box>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              onClick={() => router.push('/')}
+              sx={{ cursor: 'pointer' }}
+            >
+              Home Page
+            </Typography>
             <GoogleLoginButton />
           </Grid>
         </Toolbar>

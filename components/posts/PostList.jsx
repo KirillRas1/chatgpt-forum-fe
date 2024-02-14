@@ -27,19 +27,29 @@ const PostList = () => {
   useEffect(() => {
     setFilteredPosts(posts);
   }, [posts]);
-
   useEffect(() => {
-    if (router.isReady) {
+    async function getPosts() {
       const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`
-      apiClient
-        .get(postsUrl, { params: router.query })
-        .then(response => {
-          setPosts(response.data.results);
-          setTotalPages(Math.ceil(response.data.count / POSTS_PER_PAGE))
-        })
-        .catch(error => console.error('Error fetching posts:', error));
+      const postsResponse = await apiClient.get(postsUrl, { params: router.query })
+      const posts = postsResponse?.data?.results || []
+      setTotalPages(Math.ceil(postsResponse.data.count / POSTS_PER_PAGE))
+      const postDict = {}
+      posts.forEach(post => {
+        postDict[post.id] = post
+      });
+      const scoreResponse = await apiClient.get(`/post_score/?post__in=${Object.keys(postDict).join(',')}`)
+      scoreResponse.data.forEach((score) => {
+        postDict[score.post].user_score = score.upvote ? 1 : -1
+      })
+      setPosts(Object.values(postDict))
+    }
+    if (router.isReady) {
+      getPosts()
     }
   }, [router.query, router.isReady, page, loginStatus]);
+
+
+  
 
   const handlePageChange = (event, value) => {
     setPage(value)
