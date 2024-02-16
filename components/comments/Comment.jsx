@@ -17,13 +17,15 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import { setWith, isEmpty } from 'lodash';
 import { randomColor } from 'functions/formatting/colors';
 import MuiMarkdown from 'mui-markdown';
-
+import scrollToBottom from 'functions/window/scroll';
 const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
   const { apiClient } = useContext(authContext);
-  const { getCommentTree, setCommentToReply, setComments, comments } = useContext(postContext);
+  const { getCommentTree, setCommentToReply, setComments, comments } =
+    useContext(postContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(comment.is_prompt);
   const { author, text, id } = comment;
+
   const makePrompt = () => {
     if (isPrompt || isLoading) {
       return;
@@ -35,8 +37,8 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
       })
       .then(async response => {
         setIsPrompt(true);
-        const promptComment = await getCommentTree(id)
-        setComments([...comments, ...promptComment.data])
+        const promptComment = await getCommentTree(id);
+        setComments([...comments, ...promptComment.data]);
       })
       .finally(() => {
         setIsLoading(false);
@@ -48,11 +50,13 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
       return <CircularProgress />;
     }
     if (allowPrompt) {
-      return <Checkbox
-      checked={isPrompt}
-      disabled={readOnly || isPrompt}
-      onChange={makePrompt}
-    />
+      return (
+        <Checkbox
+          checked={isPrompt}
+          disabled={readOnly || isPrompt}
+          onChange={makePrompt}
+        />
+      );
     }
   };
   return (
@@ -71,6 +75,7 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
           </Typography>
           <IconButton
             onClick={() => {
+              scrollToBottom();
               setCommentToReply(comment);
             }}
           >
@@ -80,9 +85,7 @@ const Comment = ({ comment = {}, allowPrompt, readOnly }) => {
           {checkBox()}
         </Grid>
         <Grid item>
-        <MuiMarkdown options={{width: "auto"}}>
-            {text}
-          </MuiMarkdown>
+          <MuiMarkdown options={{ width: 'auto' }}>{text}</MuiMarkdown>
         </Grid>
       </Grid>
     </Grid>
@@ -97,9 +100,11 @@ export const CommentList = ({
   isAuthorMode
 }) => {
   const showPromptCheckbox = ({ comment = {} }) => {
-    return comment.author && // Never show checkbox for ai comments
-    (comment.is_prompt || // For user comments that are already prompts always show disabled checkbox
-    (isPostAuthor && isAuthorMode)); // In author based prompts show interactive checkbox only to the post author
+    return (
+      comment.author && // Never show checkbox for ai comments
+      (comment.is_prompt || // For user comments that are already prompts always show disabled checkbox
+        (isPostAuthor && isAuthorMode))
+    ); // In author based prompts show interactive checkbox only to the post author
   };
 
   const formatCommentTree = () => {
@@ -134,12 +139,9 @@ export const CommentList = ({
                 readOnly={readOnly}
               />
               {!isEmpty(childrenComments) && (
-                <Grid container direction="row" wrap='nowrap'>
+                <Grid container direction="row" wrap="nowrap">
                   <Grid item>
-                  <Divider
-                    orientation="vertical"
-                    color={randomColor()}
-                  />
+                    <Divider orientation="vertical" color={randomColor()} />
                   </Grid>
                   <CommentList
                     readOnly={readOnly}

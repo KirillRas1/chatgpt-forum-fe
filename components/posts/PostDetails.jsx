@@ -49,10 +49,11 @@ const PostDetails = () => {
   const router = useRouter();
   const { post, comments } = useContext(postContext);
   const { id: postId, title, author, content, chat_role, prompt_mode } = post;
-  const { username } = useContext(authContext)
+  const { username } = useContext(authContext);
   if (!post) {
     return <p>Loading...</p>;
   }
+
   return (
     <Grid style={styles.container}>
       <Button
@@ -89,7 +90,11 @@ const PostDetails = () => {
         {content}
       </Typography>
       <TagList tagNames={post.tags || []} />
-      <CommentList comments={comments} isPostAuthor={username === author} isAuthorMode={prompt_mode === 'author'}/>
+      <CommentList
+        comments={comments}
+        isPostAuthor={username === author}
+        isAuthorMode={prompt_mode === 'author'}
+      />
       <CommentInput postId={postId} />
     </Grid>
   );
