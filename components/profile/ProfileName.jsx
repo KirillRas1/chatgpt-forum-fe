@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { authContext } from 'contexts/Auth';
 
 function ProfileDisplayName() {
-  const { displayName, userId, setUser } = useContext(authContext);
+  const { displayName, userId, setDisplayName } = useContext(authContext);
   const { apiClient } = useContext(authContext);
   const [originalText, setOriginalText] = useState('');
   const [editedText, setEditedText] = useState('');
@@ -30,7 +30,7 @@ function ProfileDisplayName() {
         })
         .then(response => {
           setOriginalText(editedText);
-          setUser(editedText);
+          setDisplayName(editedText);
           setError(null); // Clear any previous errors
         })
         .catch(error => {
