@@ -68,31 +68,33 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function DefaultLayout({ children }) {
   const theme = useTheme();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const { username } = useContext(authContext);
+  const { displayName } = useContext(authContext);
 
   const router = useRouter();
 
   const MenuIconButton = () => {
-    if (!username) {
-      return null
+    if (!displayName) {
+      return null;
     }
 
-    return <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={() => setDrawerOpen(true)}
-              edge="start"
-              sx={{ mr: 2, ...(drawerOpen && { display: 'none' }) }}
-            >
-              <MenuIcon />
-            </IconButton>
-  }
+    return (
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        onClick={() => setDrawerOpen(true)}
+        edge="start"
+        sx={{ mr: 2, ...(drawerOpen && { display: 'none' }) }}
+      >
+        <MenuIcon />
+      </IconButton>
+    );
+  };
 
   useEffect(() => {
-    if (drawerOpen&&!username) {
-      setDrawerOpen(false)
+    if (drawerOpen && !displayName) {
+      setDrawerOpen(false);
     }
-  }, [username])
+  }, [displayName]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -101,14 +103,17 @@ export default function DefaultLayout({ children }) {
         <Toolbar>
           <Grid container flexDirection="row" justifyContent="space-between">
             <MenuIconButton />
-            <Box sx={{ display: 'flex', alignItems:"center"}}>
-            <Image src="/website_logo.svg" alt="logo" width="40" height="40" />
-            <Typography>
-            Geppeta Board
-            </Typography>
-            <IconButton href='https://github.com/KirillRas1/geppeta-board-fe'>
-              <GitHub/>
-            </IconButton>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Image
+                src="/website_logo.svg"
+                alt="logo"
+                width="40"
+                height="40"
+              />
+              <Typography>Geppeta Board</Typography>
+              <IconButton href="https://github.com/KirillRas1/geppeta-board-fe">
+                <GitHub />
+              </IconButton>
             </Box>
             <Typography
               variant="h6"

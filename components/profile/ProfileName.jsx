@@ -11,32 +11,32 @@ import Typography from '@mui/material/Typography';
 import { authContext } from 'contexts/Auth';
 
 function ProfileDisplayName() {
-  const { username, userId, setUser } = useContext(authContext);
+  const { displayName, userId, setUser } = useContext(authContext);
   const { apiClient } = useContext(authContext);
   const [originalText, setOriginalText] = useState('');
   const [editedText, setEditedText] = useState('');
   const [error, setError] = useState(null); // New state for error
 
   useEffect(() => {
-    setOriginalText(username || '');
-    setEditedText(username || '');
-  }, [username]);
+    setOriginalText(displayName || '');
+    setEditedText(displayName || '');
+  }, [displayName]);
 
   const handleSubmitClick = () => {
     if (editedText !== originalText) {
       apiClient
-      .patch(`users/${username}/`, {
-        name: editedText
-      })
-      .then(response => {
-        setOriginalText(editedText);
-        setUser(editedText);
-        setError(null); // Clear any previous errors
-      })
-      .catch(error => {
-        setEditedText(originalText);
-        setError(error.response.data?.name); // Set the error message from the server
-      });
+        .patch(`users/${displayName}/`, {
+          name: editedText
+        })
+        .then(response => {
+          setOriginalText(editedText);
+          setUser(editedText);
+          setError(null); // Clear any previous errors
+        })
+        .catch(error => {
+          setEditedText(originalText);
+          setError(error.response.data?.name); // Set the error message from the server
+        });
     }
   };
 

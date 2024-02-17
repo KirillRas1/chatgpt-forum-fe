@@ -4,14 +4,14 @@ import { Button } from '@mui/material';
 import { authContext } from 'contexts/Auth';
 
 export default function GoogleLoginButton() {
-  const { login, logout, username } = useContext(authContext);
+  const { login, logout, displayName } = useContext(authContext);
   const responseMessage = responseFromGoogle => {
     login(responseFromGoogle.credential);
   };
 
   return (
     <div>
-      {!username ? (
+      {!displayName ? (
         <GoogleLogin onSuccess={responseMessage} />
       ) : (
         <Button variant="contained" color="secondary" onClick={logout}>

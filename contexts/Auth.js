@@ -10,10 +10,10 @@ import { useRouter } from 'next/router';
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [loginStatus, setLoginStatus] = useState(false) 
+  const [loginStatus, setLoginStatus] = useState(false);
   const router = useRouter();
   const login = jwtToken => {
     apiClient
@@ -21,38 +21,39 @@ export const AuthProvider = ({ children }) => {
         jwt: jwtToken
       })
       .then(function (response) {
-        setUser(response.data.name);
+        setDisplayName(response.data.name);
         setUserId(response.data.id);
-        apiClient.defaults.headers.common[
-          'Authorization'
-        ] = response.data.access ? `Bearer ${response.data.access}` : null;
-        localStorage.setItem('username', response.data.name);
-        setUser(response.data.name)
+        apiClient.defaults.headers.common['Authorization'] = response.data
+          .access
+          ? `Bearer ${response.data.access}`
+          : null;
+        localStorage.setItem('displayName', response.data.name);
+        setDisplayName(response.data.name);
         localStorage.setItem('user_id', response.data.id);
-        setUserId(response.data.id)
+        setUserId(response.data.id);
         localStorage.setItem('access', response.data.access);
         localStorage.setItem('refresh', response.data.refresh);
         setTokenExpirationTimes();
-        setLoginStatus(true)
+        setLoginStatus(true);
       });
   };
 
   const logout = () => {
     googleLogout();
-    localStorage.removeItem('username');
+    localStorage.removeItem('displayName');
     localStorage.removeItem('user_id');
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
     localStorage.removeItem('accessTokenExpirationTime');
     localStorage.removeItem('refreshTokenExpirationTime');
     delete apiClient.defaults.headers.common['Authorization'];
-    setUser('');
+    setDisplayName('');
     setUserId('');
-    setLoginStatus(false)
+    setLoginStatus(false);
   };
 
   function loadUserInfo() {
-    setUser(localStorage.getItem('username'));
+    setDisplayName(localStorage.getItem('displayName'));
     setUserId(localStorage.getItem('user_id'));
   }
   useEffect(loadUserInfo, []);
@@ -65,14 +66,14 @@ export const AuthProvider = ({ children }) => {
   }
   useEffect(loadAxiosInterceptors, [apiClient]);
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('username', user);
+    if (displayName) {
+      localStorage.setItem('displayName', displayName);
       localStorage.setItem('user_id', userId);
     } else {
-      localStorage.removeItem('username');
+      localStorage.removeItem('displayName');
       localStorage.removeItem('user_id');
     }
-  }, [user]);
+  }, [displayName]);
 
   function showAnonUserModal(error) {
     const errorDetails = 'Authentication credentials were not provided.';
@@ -80,24 +81,32 @@ export const AuthProvider = ({ children }) => {
       error?.response?.status === 401 &&
       error?.response?.data?.detail === errorDetails
     ) {
-      window.localStorage.removeItem('username');
+      window.localStorage.removeItem('displayName');
       setShowLoginModal(true);
-      setUser('');
+      setDisplayName('');
       setUserId('');
     }
     return Promise.reject(error);
   }
 
   useEffect(() => {
-    if (user) {
-      setShowLoginModal(false)
+    if (displayName) {
+      setShowLoginModal(false);
     }
-  }, [user])
+  }, [displayName]);
 
   const { Provider } = authContext;
   return (
     <Provider
-      value={{ login, loginStatus, logout, username: user, userId, setUser, apiClient }}
+      value={{
+        login,
+        loginStatus,
+        logout,
+        displayName,
+        userId,
+        setDisplayName,
+        apiClient
+      }}
     >
       <LoginDialog
         open={showLoginModal}

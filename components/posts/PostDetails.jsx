@@ -49,7 +49,7 @@ const PostDetails = () => {
   const router = useRouter();
   const { post, comments } = useContext(postContext);
   const { id: postId, title, author, content, chat_role, prompt_mode } = post;
-  const { username } = useContext(authContext);
+  const { displayName } = useContext(authContext);
   if (!post) {
     return <p>Loading...</p>;
   }
@@ -92,7 +92,7 @@ const PostDetails = () => {
       <TagList tagNames={post.tags || []} />
       <CommentList
         comments={comments}
-        isPostAuthor={username === author}
+        isPostAuthor={displayName === author}
         isAuthorMode={prompt_mode === 'author'}
       />
       <CommentInput postId={postId} />
