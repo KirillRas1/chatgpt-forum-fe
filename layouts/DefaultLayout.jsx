@@ -13,7 +13,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import GoogleLoginButton from 'components/GoogleLogin';
 import { Grid } from '@mui/material';
 import ProfileDisplayName from 'components/profile/ProfileName';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { ProfileItems } from 'components/profile/ProfileItems';
 import { authContext } from 'contexts/Auth';
 import Image from 'next/image';

@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { authContext } from 'contexts/Auth';
 
 export const postContext = createContext();

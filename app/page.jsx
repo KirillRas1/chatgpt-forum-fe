@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import PostList from 'components/posts/PostList';
 import { PostProvider } from 'contexts/Post';
@@ -10,3 +11,5 @@ const PostsPage = () => {
 };
 
 export default PostsPage;
+// const x = () => <span>Hello World</span>
+// export default x

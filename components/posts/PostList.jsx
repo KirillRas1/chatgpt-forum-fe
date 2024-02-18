@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Typography, List, ListItem, Grid, Pagination } from '@mui/material';
 import PostMini from 'components/posts/PostMini';
 import { Button } from '@mui/material';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import DataHandlingMenu from 'components/dataManipulation/DataManipulationMenu';
 import {
   sortById,

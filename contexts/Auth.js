@@ -6,7 +6,7 @@ import {
   apiClient,
   setTokenExpirationTimes
 } from 'infrastructure/api/apiClient';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export const authContext = createContext();
 

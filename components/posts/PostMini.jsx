@@ -3,7 +3,7 @@ import { Typography, Grid, Divider, Container, Box } from '@mui/material';
 import { getFormattedTimedelta } from 'functions/formatting/time';
 import CircleIcon from '@mui/icons-material/Circle';
 import ScoreButtons from 'components/score/ScoreButtons';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import TagList from 'components/tags/TagList';
 
 const PostMini = ({ post }) => {
@@ -16,7 +16,11 @@ const PostMini = ({ post }) => {
     return (
       <Grid container justifyContent="space-between">
         <Grid container direction="row">
-          <Typography variant="h4" onClick={handlePostClick(post.id)} sx={{ cursor: 'pointer' }}>
+          <Typography
+            variant="h4"
+            onClick={handlePostClick(post.id)}
+            sx={{ cursor: 'pointer' }}
+          >
             {post.title}
           </Typography>
           <TagList tagNames={post.tags || []} />
@@ -32,7 +36,6 @@ const PostMini = ({ post }) => {
       </Grid>
     );
   };
-
 
   return (
     <Grid container wrap="nowrap">
