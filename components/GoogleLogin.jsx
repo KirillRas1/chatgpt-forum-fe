@@ -1,3 +1,4 @@
+'use client';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import React, { use, useState, useEffect, useContext } from 'react';
 import { Button } from '@mui/material';

@@ -1,3 +1,4 @@
+'use client';
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { authContext } from 'contexts/Auth';
@@ -9,7 +10,7 @@ export const PostProvider = ({ children }) => {
   const [post, setPost] = useState({});
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
-  const [totalPages, setTotalPages] = useState(0)
+  const [totalPages, setTotalPages] = useState(0);
   const [comments, setComments] = useState([]);
   const [commentToReply, setCommentToReply] = useState(null);
   const { apiClient, loginStatus } = useContext(authContext);
@@ -19,8 +20,10 @@ export const PostProvider = ({ children }) => {
   };
 
   const getCommentTree = parentCommentId => {
-    return apiClient.get(`comments/tree`, { params: { parent_id: parentCommentId } });
-  }
+    return apiClient.get(`comments/tree`, {
+      params: { parent_id: parentCommentId }
+    });
+  };
 
   const getPost = async () => {
     if (router.query.id) {
@@ -36,8 +39,6 @@ export const PostProvider = ({ children }) => {
       }
     }
   };
-
-  
 
   useEffect(() => {
     if (router.isReady) {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -13,7 +13,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import GoogleLoginButton from 'components/GoogleLogin';
 import { Grid } from '@mui/material';
 import ProfileDisplayName from 'components/profile/ProfileName';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from 'contexts/Auth';
 import { authContext } from 'contexts/Auth';
@@ -98,12 +98,6 @@ export default function RootLayout({ children }) {
       </IconButton>
     );
   };
-
-  useEffect(() => {
-    if (drawerOpen && !displayName) {
-      setDrawerOpen(false);
-    }
-  }, [displayName]);
 
   const Layout = ({ children }) => {
     <Box sx={{ display: 'flex' }}>
