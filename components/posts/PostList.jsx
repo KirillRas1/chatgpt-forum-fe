@@ -3,16 +3,12 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Typography, List, ListItem, Grid, Pagination } from '@mui/material';
 import PostMini from 'components/posts/PostMini';
 import { Button } from '@mui/material';
-import { useRouter } from 'next/navigation';
 import DataHandlingMenu from 'components/dataManipulation/DataManipulationMenu';
 import {
   sortById,
   sortByScore
 } from 'components/dataManipulation/SortFunctions';
-import {
-  getTimeThresholds,
-  getTimeThresholdsDict
-} from 'functions/formatting/time';
+import { getTimeThresholdsDict } from 'functions/formatting/time';
 import { filterOlderThan } from 'components/dataManipulation/FilterFunctions';
 import { postContext } from 'contexts/Post';
 import { authContext } from 'contexts/Auth';
@@ -21,7 +17,6 @@ import Link from 'next/link';
 const POSTS_PER_PAGE = 20;
 
 const PostList = () => {
-  const router = useRouter();
   const { apiClient, loginStatus } = useContext(authContext);
   const { page, setPage, totalPages, setTotalPages, posts, setPosts } =
     useContext(postContext);
