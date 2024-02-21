@@ -1,14 +1,12 @@
 'use client';
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { authContext } from 'contexts/Auth';
 
 export const postContext = createContext();
 
 export const PostProvider = ({ children }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  console.log(searchParams.toString());
+  const params = useParams();
   const [post, setPost] = useState({});
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
@@ -28,11 +26,11 @@ export const PostProvider = ({ children }) => {
   };
 
   const getPost = async () => {
-    if (searchParams.toString()) {
+    if (params.id) {
       try {
         const [postResponse, commentsResponse] = await Promise.all([
-          apiClient.get(`posts/${router.query.id}/`),
-          getPostComments(router.query.id)
+          apiClient.get(`posts/${params.id}/`),
+          getPostComments(params.id)
         ]);
         setPost(postResponse.data);
         setComments(commentsResponse.data);
@@ -43,7 +41,6 @@ export const PostProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log(searchParams.toString());
     getPost();
   }, [loginStatus]);
 
