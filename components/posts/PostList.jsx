@@ -32,9 +32,10 @@ const PostList = () => {
   useEffect(() => {
     async function getPosts() {
       const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
-      const postsResponse = await apiClient.get(postsUrl, {
-        params: router.query
-      });
+      // const postsResponse = await apiClient.get(postsUrl, {
+      //   params: router.query
+      // });
+      const postsResponse = await apiClient.get(postsUrl);
       const posts = postsResponse?.data?.results || [];
       setTotalPages(Math.ceil(postsResponse.data.count / POSTS_PER_PAGE));
       const postDict = {};
@@ -49,10 +50,8 @@ const PostList = () => {
       });
       setPosts(Object.values(postDict));
     }
-    if (router.isReady) {
-      getPosts();
-    }
-  }, [router.query, router.isReady, page, loginStatus]);
+    getPosts();
+  }, [page, loginStatus]);
 
   const handlePageChange = (event, value) => {
     setPage(value);

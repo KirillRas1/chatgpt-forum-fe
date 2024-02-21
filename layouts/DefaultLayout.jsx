@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+// DefaultLayoutClientSide.js
+'use client';
+import React, { useContext, useEffect, useState } from 'react';
+import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -14,69 +15,45 @@ import GoogleLoginButton from 'components/GoogleLogin';
 import { Grid } from '@mui/material';
 import ProfileDisplayName from 'components/profile/ProfileName';
 import { useRouter } from 'next/navigation';
-import { ProfileItems } from 'components/profile/ProfileItems';
 import { authContext } from 'contexts/Auth';
 import Image from 'next/image';
 import { GitHub } from '@mui/icons-material';
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(
-  ({ theme, open }) => ({
+  ({ open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
-      }),
-      marginLeft: 0
-    })
+    padding: '24px',
+    transition: 'margin 0.3s ease',
+    marginLeft: open ? `-${drawerWidth}px` : 0
   })
 );
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open'
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  })
+})(({ open }) => ({
+  transition: 'margin 0.3s ease',
+  marginLeft: open ? `${drawerWidth}px` : 0
 }));
 
-const DrawerHeader = styled('div')(({ theme }) => ({
+const DrawerHeader = styled('div')({
   display: 'flex',
   alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
+  padding: '0 8px',
+  height: '64px',
   justifyContent: 'flex-end'
-}));
+});
 
-export default function DefaultLayout({ children }) {
-  const theme = useTheme();
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+function DefaultLayoutClientSide({ children }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const { displayName } = useContext(authContext);
-
   const router = useRouter();
 
   const MenuIconButton = () => {
     if (!displayName) {
       return null;
     }
-
     return (
       <IconButton
         color="inherit"
@@ -98,10 +75,14 @@ export default function DefaultLayout({ children }) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* <CssBaseline /> */}
       <AppBar position="fixed" open={drawerOpen}>
         <Toolbar>
-          <Grid container flexDirection="row" justifyContent="space-between">
+          <Grid
+            container
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <MenuIconButton />
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Image
@@ -110,7 +91,7 @@ export default function DefaultLayout({ children }) {
                 width="40"
                 height="40"
               />
-              <Typography>Geppeta Board</Typography>
+              <Typography variant="h6">Geppeta Board</Typography>
               <IconButton href="https://github.com/KirillRas1/geppeta-board-fe">
                 <GitHub />
               </IconButton>
@@ -120,7 +101,7 @@ export default function DefaultLayout({ children }) {
               noWrap
               component="div"
               onClick={() => router.push('/')}
-              sx={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer' }}
             >
               Home Page
             </Typography>
@@ -143,15 +124,10 @@ export default function DefaultLayout({ children }) {
       >
         <DrawerHeader>
           <IconButton onClick={() => setDrawerOpen(false)}>
-            {theme.direction === 'ltr' ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            {drawerOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <ProfileDisplayName />
-        {/* <ProfileItems /> */}
       </Drawer>
       <Main open={drawerOpen}>
         <DrawerHeader />
@@ -160,3 +136,5 @@ export default function DefaultLayout({ children }) {
     </Box>
   );
 }
+
+export default DefaultLayoutClientSide;

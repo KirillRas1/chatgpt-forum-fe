@@ -1,7 +1,8 @@
-import React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import DefaultLayoutAppBar from 'components/layout/AppBar';
 import GlobalContextProvider from 'contexts/ContextWrapper';
+import { AuthProvider } from 'contexts/Auth';
+import Script from 'next/script';
+import React from 'react';
+import DefaultLayoutClientSide from 'layouts/DefaultLayout';
 
 export const metadata = {
   description:
@@ -9,30 +10,20 @@ export const metadata = {
   'google-adsense-account': 'ca-pub-9479755495142783'
 };
 
-// const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(
-//     ({ open }) => ({
-//       flexGrow: 1,
-//       padding: '20px',
-//       transition: 'margin 0.3s ease',
-//       marginLeft: open ? `-${drawerWidth}px` : 0,
-//     })
-//   );
-
-export default function RootLayout({ children }) {
+export default function DefaultLayoutServerSide({ children }) {
   return (
     <html lang="en">
-      <head />
       <body>
-        <main>
-          <GlobalContextProvider>
-            <main>
-              {/* <DrawerHeader />
-                <CssBaseline />
-                <DefaultLayoutAppBar/> */}
-              {children}
-            </main>
-          </GlobalContextProvider>
-        </main>
+        <GlobalContextProvider>
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9479755495142783"
+            crossorigin="anonymous"
+          />
+          <AuthProvider>
+            <DefaultLayoutClientSide>{children}</DefaultLayoutClientSide>
+          </AuthProvider>
+        </GlobalContextProvider>
       </body>
     </html>
   );

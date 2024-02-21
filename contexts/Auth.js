@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [displayName, setDisplayName] = useState('');
+  const [displayName, setDisplayName] = useState('fasf');
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginStatus, setLoginStatus] = useState(false);
