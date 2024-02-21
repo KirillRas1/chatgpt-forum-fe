@@ -21,14 +21,12 @@ import { GitHub } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
-const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(
-  ({ open }) => ({
-    flexGrow: 1,
-    padding: '24px',
-    transition: 'margin 0.3s ease',
-    marginLeft: open ? `-${drawerWidth}px` : 0
-  })
-);
+const Main = styled('main')({
+  flexGrow: 1,
+  padding: '24px',
+  transition: 'margin 0.3s ease',
+  marginLeft: `-${drawerWidth}px`
+});
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open'
@@ -60,7 +58,7 @@ function DefaultLayoutClientSide({ children }) {
         aria-label="open drawer"
         onClick={() => setDrawerOpen(true)}
         edge="start"
-        sx={{ mr: 2, ...(drawerOpen && { display: 'none' }) }}
+        sx={{ mr: 2 }}
       >
         <MenuIcon />
       </IconButton>

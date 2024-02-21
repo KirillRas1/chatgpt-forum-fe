@@ -20,9 +20,7 @@ export default function DefaultLayoutServerSide({ children }) {
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9479755495142783"
             crossorigin="anonymous"
           />
-          <AuthProvider>
-            <DefaultLayoutClientSide>{children}</DefaultLayoutClientSide>
-          </AuthProvider>
+          <DefaultLayoutClientSide>{children}</DefaultLayoutClientSide>
         </GlobalContextProvider>
       </body>
     </html>
