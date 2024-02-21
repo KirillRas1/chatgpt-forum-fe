@@ -1,5 +1,4 @@
 import GlobalContextProvider from 'contexts/ContextWrapper';
-import { AuthProvider } from 'contexts/Auth';
 import Script from 'next/script';
 import React from 'react';
 import DefaultLayoutClientSide from 'layouts/DefaultLayout';
