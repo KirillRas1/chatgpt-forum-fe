@@ -1,3 +1,4 @@
+'use client';
 import React, { useContext, useState } from 'react';
 import {
   Container,
@@ -7,7 +8,7 @@ import {
   ToggleButtonGroup,
   ToggleButton
 } from '@mui/material';
-import { useFormik, useFormikContext } from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { authContext } from 'contexts/Auth';

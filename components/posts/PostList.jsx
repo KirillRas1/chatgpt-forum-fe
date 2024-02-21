@@ -16,6 +16,7 @@ import {
 import { filterOlderThan } from 'components/dataManipulation/FilterFunctions';
 import { postContext } from 'contexts/Post';
 import { authContext } from 'contexts/Auth';
+import Link from 'next/link';
 
 const POSTS_PER_PAGE = 20;
 
@@ -32,9 +33,6 @@ const PostList = () => {
   useEffect(() => {
     async function getPosts() {
       const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
-      // const postsResponse = await apiClient.get(postsUrl, {
-      //   params: router.query
-      // });
       const postsResponse = await apiClient.get(postsUrl);
       const posts = postsResponse?.data?.results || [];
       setTotalPages(Math.ceil(postsResponse.data.count / POSTS_PER_PAGE));
@@ -91,15 +89,11 @@ const PostList = () => {
     <Grid container alignItems="center" flexDirection="column">
       <Grid container direction="row" width="fit-content">
         <DataHandlingMenu items={sortingOptions} label={'Sort'} />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            router.push({ pathname: `/posts/create` });
-          }}
-        >
-          Create new post
-        </Button>
+        <Link href="/posts/create">
+          <Button variant="contained" color="primary">
+            Create new post
+          </Button>
+        </Link>
         <DataHandlingMenu items={filteringOptions} label={'Filter'} />
       </Grid>
 
