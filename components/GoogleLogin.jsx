@@ -1,11 +1,13 @@
 'use client';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import React, { use, useState, useEffect, useContext } from 'react';
-import { Button } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { Box, Button } from '@mui/material';
 import { authContext } from 'contexts/Auth';
+import SignUpButton from 'components/auth/Signup';
 
 export default function GoogleLoginButton() {
   const { login, logout, displayName } = useContext(authContext);
+
   const responseMessage = responseFromGoogle => {
     login(responseFromGoogle.credential);
   };
@@ -13,7 +15,10 @@ export default function GoogleLoginButton() {
   return (
     <div>
       {!displayName ? (
-        <GoogleLogin onSuccess={responseMessage} />
+        <Box display="flex" flexDirection="row" gap="5px" alignItems="center">
+          <SignUpButton />
+          <GoogleLogin onSuccess={responseMessage} />
+        </Box>
       ) : (
         <Button variant="contained" color="secondary" onClick={logout}>
           Logout

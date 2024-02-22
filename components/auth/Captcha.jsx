@@ -8,7 +8,6 @@ const CaptchaWrapper = ({ children }) => {
   const [isVerified, setIsverified] = useState(false);
 
   async function handleCaptchaSubmission(token) {
-    // Server function to verify captcha
     await verifyCaptcha(token)
       .then(() => setIsverified(true))
       .catch(() => setIsverified(false));
@@ -20,7 +19,9 @@ const CaptchaWrapper = ({ children }) => {
         ref={recaptchaRef}
         onChange={handleCaptchaSubmission}
       />
-      {React.cloneElement(children, { captchaverified: isVerified })}
+      {React.Children.map(children, child =>
+        React.cloneElement(child, { captchaverified: isVerified })
+      )}
     </>
   );
 };

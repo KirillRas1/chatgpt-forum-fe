@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -19,7 +19,7 @@ const ModalContent = styled.div`
   border-radius: 8px;
 `;
 
-const SignUpModal = ({ onClose }) => {
+export const SignUpModal = ({ onClose, open }) => {
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -42,8 +42,19 @@ const SignUpModal = ({ onClose }) => {
     }
   });
 
+  const SignupButton = ({ captchaverified }) => (
+    <Button
+      type="submit"
+      variant="contained"
+      color="primary"
+      disabled={!captchaverified}
+    >
+      Sign Up
+    </Button>
+  );
+
   return (
-    <StyledModal open={true} onClose={onClose}>
+    <StyledModal open={open} onClose={onClose}>
       <ModalContent>
         <h2>Sign Up</h2>
         <form onSubmit={formik.handleSubmit}>
@@ -80,9 +91,7 @@ const SignUpModal = ({ onClose }) => {
             margin="normal"
           />
           <CaptchaWrapper>
-            <Button type="submit" variant="contained" color="primary">
-              Sign Up
-            </Button>
+            <SignupButton />
           </CaptchaWrapper>
         </form>
       </ModalContent>
@@ -90,4 +99,27 @@ const SignUpModal = ({ onClose }) => {
   );
 };
 
-export default SignUpModal;
+const SignUpButton = () => {
+  const [signupModalOpen, setSignupModalOpen] = useState(false);
+  return (
+    <div>
+      <SignUpModal
+        open={signupModalOpen}
+        onClose={() => {
+          setSignupModalOpen(false);
+        }}
+      />
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={() => {
+          setSignupModalOpen(true);
+        }}
+      >
+        Sign Up
+      </Button>
+    </div>
+  );
+};
+
+export default SignUpButton;
