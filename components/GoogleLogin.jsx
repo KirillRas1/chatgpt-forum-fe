@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { authContext } from 'contexts/Auth';
 import SignUpButton from 'components/auth/Signup';
+import LoginModal from './auth/Login';
 
 export default function GoogleLoginButton() {
   const { login, logout, displayName } = useContext(authContext);
@@ -16,6 +17,7 @@ export default function GoogleLoginButton() {
     <div>
       {!displayName ? (
         <Box display="flex" flexDirection="row" gap="5px" alignItems="center">
+          <LoginModal />
           <SignUpButton />
           <GoogleLogin onSuccess={responseMessage} />
         </Box>

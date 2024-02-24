@@ -6,16 +6,51 @@ import {
   apiClient,
   setTokenExpirationTimes
 } from 'infrastructure/api/apiClient';
-import { useRouter } from 'next/navigation';
-
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [displayName, setDisplayName] = useState('');
+  const [username, setUserName] = useState('');
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginStatus, setLoginStatus] = useState(false);
-  const router = useRouter();
+
+  const signup = ({ username, password }) => {
+    apiClient
+      .post('auth/registration/', {
+        username,
+        password1: password,
+        password2: password
+      })
+      .then(response => {
+        setUserName(response.data.user.username);
+      })
+      .catch(() => {
+        alert('Could not login, please login manually');
+      });
+  };
+
+  const loginWithCredentials = ({ username, password }) => {
+    apiClient
+      .post('auth/login/', { username, password })
+      .then(response => {
+        apiClient.defaults.headers.common['Authorization'] = response.data
+          .access
+          ? `Bearer ${response.data.access}`
+          : null;
+        localStorage.setItem('displayName', response.data.name);
+        setDisplayName(response.data.user.name);
+        setTokenExpirationTimes({
+          accessExpirationTime: response.data.access_expiration,
+          refreshExpirationTime: response.data.refresh_expiration
+        });
+        setLoginStatus(true);
+      })
+      .catch(e => {
+        alert(`Failed to login: ${e}`);
+      });
+  };
+
   const login = jwtToken => {
     apiClient
       .post('token/', {
@@ -106,7 +141,8 @@ export const AuthProvider = ({ children }) => {
         displayName,
         userId,
         setDisplayName,
-        apiClient
+        apiClient,
+        loginWithCredentials
       }}
     >
       <LoginDialog
