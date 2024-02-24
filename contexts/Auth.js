@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
           ? `Bearer ${response.data.access}`
           : null;
         console.log(response.data);
-        localStorage.setItem('displayName', response.data.name);
+        localStorage.setItem('displayName', response.data.user.name);
         localStorage.setItem('access', response.data.access);
         setDisplayName(response.data.user.name);
         setTokenExpirationTimes({
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
           .access
           ? `Bearer ${response.data.access}`
           : null;
-        localStorage.setItem('displayName', response.data.name);
+        localStorage.setItem('displayName', response.data.user.name);
         setDisplayName(response.data.name);
         localStorage.setItem('user_id', response.data.id);
         setUserId(response.data.id);
