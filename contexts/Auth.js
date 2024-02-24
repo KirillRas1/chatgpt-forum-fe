@@ -38,7 +38,9 @@ export const AuthProvider = ({ children }) => {
           .access
           ? `Bearer ${response.data.access}`
           : null;
+        console.log(response.data);
         localStorage.setItem('displayName', response.data.name);
+        localStorage.setItem('access', response.data.access);
         setDisplayName(response.data.user.name);
         setTokenExpirationTimes({
           accessExpirationTime: response.data.access_expiration,
@@ -57,8 +59,6 @@ export const AuthProvider = ({ children }) => {
         jwt: jwtToken
       })
       .then(function (response) {
-        setDisplayName(response.data.name);
-        setUserId(response.data.id);
         apiClient.defaults.headers.common['Authorization'] = response.data
           .access
           ? `Bearer ${response.data.access}`
@@ -101,15 +101,6 @@ export const AuthProvider = ({ children }) => {
     );
   }
   useEffect(loadAxiosInterceptors, [apiClient]);
-  useEffect(() => {
-    if (displayName) {
-      localStorage.setItem('displayName', displayName);
-      localStorage.setItem('user_id', userId);
-    } else {
-      localStorage.removeItem('displayName');
-      localStorage.removeItem('user_id');
-    }
-  }, [displayName]);
 
   function showAnonUserModal(error) {
     const errorDetails = 'Authentication credentials were not provided.';
