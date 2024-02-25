@@ -21,7 +21,6 @@ const PostList = () => {
   const { page, setPage, totalPages, setTotalPages, posts, setPosts } =
     useContext(postContext);
   const [filteredPosts, setFilteredPosts] = useState(posts);
-  const previousStatus = usePrevious({ loginStatus });
   useEffect(() => {
     setFilteredPosts(posts);
   }, [posts]);
