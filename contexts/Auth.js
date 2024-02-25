@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [username, setUserName] = useState('');
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [loginStatus, setLoginStatus] = useState(false);
+  const [loginStatus, setLoginStatus] = useState(null);
 
   const signup = ({ username, password }) => {
     apiClient
@@ -38,13 +38,16 @@ export const AuthProvider = ({ children }) => {
           .access
           ? `Bearer ${response.data.access}`
           : null;
-        console.log(response.data);
         localStorage.setItem('displayName', response.data.user.name);
         localStorage.setItem('access', response.data.access);
         setDisplayName(response.data.user.name);
         setTokenExpirationTimes({
-          accessExpirationTime: response.data.access_expiration,
-          refreshExpirationTime: response.data.refresh_expiration
+          accessExpirationTime: new Date(
+            response.data.access_expiration
+          ).getTime(),
+          refreshExpirationTime: new Date(
+            response.data.refresh_expiration
+          ).getTime()
         });
         setLoginStatus(true);
       })

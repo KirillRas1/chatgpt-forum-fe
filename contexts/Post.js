@@ -26,22 +26,22 @@ export const PostProvider = ({ children }) => {
   };
 
   const getPost = async () => {
-    if (params.id) {
-      try {
-        const [postResponse, commentsResponse] = await Promise.all([
-          apiClient.get(`posts/${params.id}/`),
-          getPostComments(params.id)
-        ]);
-        setPost(postResponse.data);
-        setComments(commentsResponse.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    try {
+      const [postResponse, commentsResponse] = await Promise.all([
+        apiClient.get(`posts/${params.id}/`),
+        getPostComments(params.id)
+      ]);
+      setPost(postResponse.data);
+      setComments(commentsResponse.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   };
 
   useEffect(() => {
-    getPost();
+    if (params.id) {
+      getPost();
+    }
   }, [loginStatus]);
 
   const { Provider } = postContext;

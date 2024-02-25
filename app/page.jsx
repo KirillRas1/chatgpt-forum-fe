@@ -11,5 +11,3 @@ const PostsPage = () => {
 };
 
 export default PostsPage;
-// const x = () => <span>Hello World</span>
-// export default x
