@@ -25,25 +25,27 @@ const PostList = () => {
     setFilteredPosts(posts);
   }, [posts]);
 
-  async function getPosts() {
-    const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
-    const postsResponse = await apiClient.get(postsUrl);
-    const posts = postsResponse?.data?.results || [];
-    setTotalPages(Math.ceil(postsResponse.data.count / POSTS_PER_PAGE));
-    const postDict = {};
-    posts.forEach(post => {
-      postDict[post.id] = post;
-    });
-    const scoreResponse = await apiClient.get(
-      `/post_score/?post__in=${Object.keys(postDict).join(',')}`
-    );
-    scoreResponse.data.forEach(score => {
-      postDict[score.post].user_score = score.upvote ? 1 : -1;
-    });
-    setPosts(Object.values(postDict));
-  }
   useEffect(() => {
-    getPosts();
+    async function getPosts() {
+      const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
+      const postsResponse = await apiClient.get(postsUrl);
+      const posts = postsResponse?.data?.results || [];
+      setTotalPages(Math.ceil(postsResponse.data.count / POSTS_PER_PAGE));
+      const postDict = {};
+      posts.forEach(post => {
+        postDict[post.id] = post;
+      });
+      const scoreResponse = await apiClient.get(
+        `/post_score/?post__in=${Object.keys(postDict).join(',')}`
+      );
+      scoreResponse.data.forEach(score => {
+        postDict[score.post].user_score = score.upvote ? 1 : -1;
+      });
+      return postDict;
+    }
+    getPosts().then(postDict => {
+      setPosts(Object.values(postDict));
+    });
   }, [page, loginStatus]);
 
   const handlePageChange = (event, value) => {
