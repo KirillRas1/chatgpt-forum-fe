@@ -5,3 +5,4 @@ node_modules/
 .vercel
 analyze/
 next.config.js
+next.config
