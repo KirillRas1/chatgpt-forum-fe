@@ -38,7 +38,10 @@ apiClient.interceptors.request.use(config => {
 });
 apiClient.interceptors.request.use(
   async config => {
-    if (!config.url.includes('token/')) {
+    const urlsToSkip = ['token/', 'logout/'];
+    const urlChecker = url => config.url.includes(url);
+    const runIntercept = !urlsToSkip.some(urlChecker);
+    if (runIntercept) {
       const expirationTime = localStorage.getItem('accessTokenExpirationTime');
       if (expirationTime) {
         const currentTime = new Date().getTime();
