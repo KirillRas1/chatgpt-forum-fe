@@ -78,17 +78,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    googleLogout();
-    localStorage.removeItem('displayName');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
-    localStorage.removeItem('accessTokenExpirationTime');
-    localStorage.removeItem('refreshTokenExpirationTime');
-    delete apiClient.defaults.headers.common['Authorization'];
-    setDisplayName('');
-    setUserId('');
-    setLoginStatus(false);
+    //googleLogout();
+    apiClient.post('auth/logout/').then(() => {
+      localStorage.removeItem('displayName');
+      localStorage.removeItem('user_id');
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+      localStorage.removeItem('accessTokenExpirationTime');
+      localStorage.removeItem('refreshTokenExpirationTime');
+      delete apiClient.defaults.headers.common['Authorization'];
+      setDisplayName('');
+      setUserId('');
+      setLoginStatus(false);
+    });
   };
 
   function loadUserInfo() {
