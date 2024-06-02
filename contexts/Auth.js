@@ -6,6 +6,8 @@ import {
   apiClient,
   setTokenExpirationTimes
 } from 'infrastructure/api/apiClient';
+import { useUser } from '@auth0/nextjs-auth0/client';
+
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -14,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginStatus, setLoginStatus] = useState(null);
-
+  const { user, error, isLoading } = useUser();
   const signup = ({ username, password }) => {
     apiClient
       .post('auth/registration/', {
@@ -29,6 +31,16 @@ export const AuthProvider = ({ children }) => {
         alert('Could not login, please login manually');
       });
   };
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      fetch('/api/auth/token')
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+        });
+    }
+  }, [user]);
 
   const loginWithCredentials = ({ username, password }) => {
     apiClient
