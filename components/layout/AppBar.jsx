@@ -86,7 +86,6 @@ const DefaultLayoutAppBar = () => {
             >
               Home Page
             </Typography>
-            <GoogleLoginButton />
           </Grid>
         </Toolbar>
       </AppBar>

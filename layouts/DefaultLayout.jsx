@@ -11,7 +11,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import GoogleLoginButton from 'components/GoogleLogin';
 import { Grid } from '@mui/material';
 import ProfileDisplayName from 'components/profile/ProfileName';
 import { useRouter } from 'next/navigation';
@@ -103,7 +102,6 @@ function DefaultLayoutClientSide({ children }) {
             >
               Home Page
             </Typography>
-            <GoogleLoginButton />
           </Grid>
         </Toolbar>
       </AppBar>
