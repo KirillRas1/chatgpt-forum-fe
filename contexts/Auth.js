@@ -72,8 +72,7 @@ export const AuthProvider = ({ children }) => {
         displayName,
         userId,
         setDisplayName,
-        apiClient,
-        loginWithCredentials
+        apiClient
       }}
     >
       <LoginDialog
