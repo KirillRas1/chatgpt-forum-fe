@@ -8,7 +8,6 @@ export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [displayName, setDisplayName] = useState('');
-  const [username, setUserName] = useState('');
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginStatus, setLoginStatus] = useState(null);
