@@ -2,7 +2,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import LoginDialog from 'components/common/dataDisplay/modals/LoginModal';
 import { apiClient } from 'infrastructure/api/apiClient';
-import { useUser } from '@auth0/nextjs-auth0/client';
 
 export const authContext = createContext();
 
@@ -11,11 +10,10 @@ export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginStatus, setLoginStatus] = useState(null);
-  const { user, error, isLoading } = useUser();
   const [auth0AccessToken, setAuth0AccessToken] = useState();
 
   useEffect(() => {
-    if (!isLoading && user && !auth0AccessToken) {
+    if (!auth0AccessToken) {
       fetch('/api/auth/token')
         .then(res => res.json())
         .then(data => {
@@ -27,7 +25,7 @@ export const AuthProvider = ({ children }) => {
           setLoginStatus(true);
         });
     }
-  }, [user]);
+  }, []);
 
   function loadUserInfo() {
     setDisplayName(localStorage.getItem('displayName'));
