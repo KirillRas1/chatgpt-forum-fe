@@ -6,7 +6,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import GoogleLoginButton from 'components/GoogleLogin';
 import { Grid, styled } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { authContext } from 'contexts/Auth';
