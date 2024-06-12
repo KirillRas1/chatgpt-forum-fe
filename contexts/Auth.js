@@ -1,11 +1,7 @@
 'use client';
 import React, { createContext, useState, useEffect } from 'react';
-import { googleLogout } from '@react-oauth/google';
 import LoginDialog from 'components/common/dataDisplay/modals/LoginModal';
-import {
-  apiClient,
-  setTokenExpirationTimes
-} from 'infrastructure/api/apiClient';
+import { apiClient } from 'infrastructure/api/apiClient';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 export const authContext = createContext();
@@ -18,20 +14,6 @@ export const AuthProvider = ({ children }) => {
   const [loginStatus, setLoginStatus] = useState(null);
   const { user, error, isLoading } = useUser();
   const [auth0AccessToken, setAuth0AccessToken] = useState();
-  const signup = ({ username, password }) => {
-    apiClient
-      .post('auth/registration/', {
-        username,
-        password1: password,
-        password2: password
-      })
-      .then(response => {
-        setUserName(response.data.user.username);
-      })
-      .catch(() => {
-        alert('Could not login, please login manually');
-      });
-  };
 
   useEffect(() => {
     if (!isLoading && user && !auth0AccessToken) {
@@ -43,72 +25,10 @@ export const AuthProvider = ({ children }) => {
             : null;
           localStorage.setItem('access', data.token);
           setAuth0AccessToken(data.token);
+          setLoginStatus(true);
         });
     }
   }, [user]);
-
-  const loginWithCredentials = ({ username, password }) => {
-    apiClient
-      .post('auth/login/', { username, password })
-      .then(response => {
-        apiClient.defaults.headers.common['Authorization'] = response.data
-          .access
-          ? `Bearer ${response.data.access}`
-          : null;
-        localStorage.setItem('displayName', response.data.user.name);
-        localStorage.setItem('access', response.data.access);
-        setDisplayName(response.data.user.name);
-        setTokenExpirationTimes({
-          accessExpirationTime: new Date(
-            response.data.access_expiration
-          ).getTime(),
-          refreshExpirationTime: new Date(
-            response.data.refresh_expiration
-          ).getTime()
-        });
-        setLoginStatus(true);
-      })
-      .catch(e => {
-        alert(`Failed to login: ${e}`);
-      });
-  };
-
-  const login = jwtToken => {
-    apiClient
-      .post('token/', {
-        jwt: jwtToken
-      })
-      .then(function (response) {
-        apiClient.defaults.headers.common['Authorization'] = response.data
-          .access
-          ? `Bearer ${response.data.access}`
-          : null;
-        localStorage.setItem('displayName', response.data.user.name);
-        setDisplayName(response.data.name);
-        localStorage.setItem('user_id', response.data.id);
-        setUserId(response.data.id);
-        localStorage.setItem('access', response.data.access);
-        localStorage.setItem('refresh', response.data.refresh);
-        setTokenExpirationTimes();
-        setLoginStatus(true);
-      });
-  };
-
-  const logout = () => {
-    //googleLogout();
-    apiClient.post('auth/logout/').then(() => {
-      localStorage.removeItem('displayName');
-      localStorage.removeItem('user_id');
-      localStorage.removeItem('access');
-      localStorage.removeItem('refresh');
-      localStorage.removeItem('accessTokenExpirationTime');
-      localStorage.removeItem('refreshTokenExpirationTime');
-      delete apiClient.defaults.headers.common['Authorization'];
-      setDisplayName('');
-      setUserId('');
-      setLoginStatus(false);
-    });
-  };
 
   function loadUserInfo() {
     setDisplayName(localStorage.getItem('displayName'));
@@ -148,9 +68,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <Provider
       value={{
-        login,
         loginStatus,
-        logout,
         displayName,
         userId,
         setDisplayName,
