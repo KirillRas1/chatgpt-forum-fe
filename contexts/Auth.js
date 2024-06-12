@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginStatus, setLoginStatus] = useState(null);
   const { user, error, isLoading } = useUser();
+  const [auth0AccessToken, setAuth0AccessToken] = useState();
   const signup = ({ username, password }) => {
     apiClient
       .post('auth/registration/', {
@@ -33,11 +34,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!isLoading && user) {
+    if (!isLoading && user && !auth0AccessToken) {
       fetch('/api/auth/token')
         .then(res => res.json())
         .then(data => {
-          console.log(data);
+          apiClient.defaults.headers.common['Authorization'] = data.token
+            ? `Bearer ${data.token}`
+            : null;
+          localStorage.setItem('access', data.token);
+          setAuth0AccessToken(data.token);
         });
     }
   }, [user]);
