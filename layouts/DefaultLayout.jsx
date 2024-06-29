@@ -16,7 +16,9 @@ import ProfileDisplayName from 'components/profile/ProfileName';
 import { useRouter } from 'next/navigation';
 import { authContext } from 'contexts/Auth';
 import Image from 'next/image';
-import { GitHub } from '@mui/icons-material';
+import { GitHub, Login } from '@mui/icons-material';
+import LoginButton from 'components/buttons/Login';
+import LogoutButton from 'components/buttons/Logout';
 
 const drawerWidth = 240;
 
@@ -44,8 +46,7 @@ const DrawerHeader = styled('div')({
 
 function DefaultLayoutClientSide({ children }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { displayName } = useContext(authContext);
-  const router = useRouter();
+  const { displayName, loginStatus } = useContext(authContext);
 
   const MenuIconButton = () => {
     if (!displayName) {
@@ -93,15 +94,18 @@ function DefaultLayoutClientSide({ children }) {
                 <GitHub />
               </IconButton>
             </Box>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              onClick={() => router.push('/')}
-              style={{ cursor: 'pointer' }}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: 2
+              }}
             >
-              Home Page
-            </Typography>
+              {loginStatus && (
+                <Typography variant="h6">Logged in as {displayName}</Typography>
+              )}
+              {loginStatus ? <LogoutButton /> : <LoginButton />}
+            </Box>
           </Grid>
         </Toolbar>
       </AppBar>
