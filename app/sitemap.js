@@ -4,8 +4,12 @@ function generateSiteMap(posts) {
   return posts.map(({ id }) => ({ url: `${BASE_URL}/posts/${id}` }));
 }
 export default async function sitemap() {
-  const request = await fetch(`https://kirillras.net/posts/`);
-  const posts = await request.json();
-  const sitemap = [{ url: BASE_URL }, ...generateSiteMap(posts)];
-  return sitemap;
+  let posts;
+  try {
+    const request = await fetch(`https://kirillras.net/posts/`);
+    posts = await request.json();
+  } catch {
+    posts = [];
+  }
+  return [{ url: BASE_URL }, ...generateSiteMap(posts)];
 }

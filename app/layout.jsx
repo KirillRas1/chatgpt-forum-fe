@@ -29,11 +29,11 @@ export default function DefaultLayoutServerSide({ children }) {
       </head>
       <body>
         <GlobalContextProvider>
-          <Script
+          {/* <Script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9479755495142783"
             crossorigin="anonymous"
-          />
+          /> */}
           <DefaultLayoutClientSide>{children}</DefaultLayoutClientSide>
         </GlobalContextProvider>
       </body>

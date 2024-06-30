@@ -11,13 +11,14 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import GoogleLoginButton from 'components/GoogleLogin';
 import { Grid } from '@mui/material';
 import ProfileDisplayName from 'components/profile/ProfileName';
 import { useRouter } from 'next/navigation';
 import { authContext } from 'contexts/Auth';
 import Image from 'next/image';
-import { GitHub } from '@mui/icons-material';
+import { GitHub, Login } from '@mui/icons-material';
+import LoginButton from 'components/buttons/Login';
+import LogoutButton from 'components/buttons/Logout';
 
 const drawerWidth = 240;
 
@@ -45,8 +46,7 @@ const DrawerHeader = styled('div')({
 
 function DefaultLayoutClientSide({ children }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { displayName } = useContext(authContext);
-  const router = useRouter();
+  const { displayName, loginStatus } = useContext(authContext);
 
   const MenuIconButton = () => {
     if (!displayName) {
@@ -94,16 +94,18 @@ function DefaultLayoutClientSide({ children }) {
                 <GitHub />
               </IconButton>
             </Box>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              onClick={() => router.push('/')}
-              style={{ cursor: 'pointer' }}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: 2
+              }}
             >
-              Home Page
-            </Typography>
-            <GoogleLoginButton />
+              {loginStatus && (
+                <Typography variant="h6">Logged in as {displayName}</Typography>
+              )}
+              {loginStatus ? <LogoutButton /> : <LoginButton />}
+            </Box>
           </Grid>
         </Toolbar>
       </AppBar>

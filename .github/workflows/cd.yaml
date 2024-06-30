@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - main
-      - migrate-to-nextjs-app
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
