@@ -14,7 +14,7 @@ import { postContext } from 'contexts/Post';
 import { authContext } from 'contexts/Auth';
 import Link from 'next/link';
 
-const POSTS_PER_PAGE = 20;
+export const POSTS_PER_PAGE = 20;
 
 const PostList = () => {
   const { apiClient, loginStatus } = useContext(authContext);
@@ -27,21 +27,29 @@ const PostList = () => {
 
   useEffect(() => {
     async function getPosts() {
-      const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
-      const postsResponse = await apiClient.get(postsUrl);
-      const posts = postsResponse?.data?.results || [];
-      setTotalPages(Math.ceil(postsResponse.data.count / POSTS_PER_PAGE));
-      const postDict = {};
-      posts.forEach(post => {
-        postDict[post.id] = post;
-      });
-      const scoreResponse = await apiClient.get(
-        `/post_score/?post__in=${Object.keys(postDict).join(',')}`
-      );
-      scoreResponse.data.forEach(score => {
-        postDict[score.post].user_score = score.upvote ? 1 : -1;
-      });
-      return postDict;
+      if (!loginStatus) {
+        console.log('Fetching from webserver')
+        return await fetch('/api/posts')
+      } else {
+        console.log(page)
+        console.log(loginStatus)
+        const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
+        const postsResponse = await apiClient.get(postsUrl);
+        const posts = postsResponse?.data?.results || [];
+        setTotalPages(Math.ceil(postsResponse.data.count / POSTS_PER_PAGE));
+        const postDict = {};
+        posts.forEach(post => {
+          postDict[post.id] = post;
+        });
+        const scoreResponse = await apiClient.get(
+          `/post_score/?post__in=${Object.keys(postDict).join(',')}`
+        );
+        scoreResponse.data.forEach(score => {
+          postDict[score.post].user_score = score.upvote ? 1 : -1;
+        });
+        return postDict;
+      }
+      
     }
     getPosts().then(postDict => {
       setPosts(Object.values(postDict));

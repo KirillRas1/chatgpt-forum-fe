@@ -17,18 +17,19 @@ export const AuthProvider = ({ children }) => {
       fetch('/api/auth/token')
         .then(res => {
           if (res.status === 200) {
-            const data = res.json();
-            apiClient.defaults.headers.common['Authorization'] = data.token
-              ? `Bearer ${data.token}`
-              : null;
-            localStorage.setItem('access', data.token);
-            setAuth0AccessToken(data.token);
-            setLoginStatus(true);
-            apiClient.get('/users/').then(res => {
-              setDisplayName(res.data[0].name);
+            res.json().then(data => {
+              apiClient.defaults.headers.common['Authorization'] = data.token
+                ? `Bearer ${data.token}`
+                : null;
+              localStorage.setItem('access', data.token);
+              setAuth0AccessToken(data.token);
+              setLoginStatus(true);
+              apiClient.get('/users/').then(res => {
+                setDisplayName(res.data[0].name);
+              });
             });
           } else {
-            throw 'Failed to get token';
+            throw `Failed to get token`;
           }
         })
         .catch(e => {
