@@ -28,12 +28,10 @@ const PostList = () => {
   useEffect(() => {
     async function getPosts() {
       if (isEmpty(posts)) {
-        console.log('Fetching from webserver')
         const postCacheResponse = await fetch('/api/posts')
         const postDict = await postCacheResponse.json()
         return postDict
       } else {
-        console.log('Fetching from backend')
         const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
         const postsResponse = await apiClient.get(postsUrl);
         const posts = postsResponse?.data?.results || [];
