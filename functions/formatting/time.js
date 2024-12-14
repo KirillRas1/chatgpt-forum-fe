@@ -1,5 +1,4 @@
 import { formatDistanceToNow, subDays, subMonths, subYears } from 'date-fns';
-import _ from 'lodash';
 
 /**
  * Returns a formatted string representing the time elapsed since the given timestamp
