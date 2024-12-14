@@ -10,7 +10,7 @@ async function getPosts() {
     //     return cachedData;
     // }
     // Fetch posts
-    const postsUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}posts/?page=1`;
+    const postsUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/posts/?page=1`;
     const postsResponse = await fetch(postsUrl);
     const postsData = await postsResponse.json(); // Ensure response is parsed as JSON
     const posts = postsData?.results || [];
@@ -22,7 +22,7 @@ async function getPosts() {
 
     // Fetch scores
     const scoreResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}post_score/?post__in=${Object.keys(postDict).join(',')}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/post_score/?post__in=${Object.keys(postDict).join(',')}`
     );
     const scoreData = await scoreResponse.json(); // Ensure response is parsed as JSON
     scoreData.forEach(score => {
