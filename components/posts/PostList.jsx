@@ -13,7 +13,7 @@ import { filterOlderThan } from 'components/dataManipulation/FilterFunctions';
 import { postContext } from 'contexts/Post';
 import { authContext } from 'contexts/Auth';
 import Link from 'next/link';
-
+import { isEmpty } from 'lodash';
 export const POSTS_PER_PAGE = 20;
 
 const PostList = () => {
@@ -27,12 +27,13 @@ const PostList = () => {
 
   useEffect(() => {
     async function getPosts() {
-      if (!loginStatus) {
+      if (isEmpty(posts)) {
         console.log('Fetching from webserver')
-        return await fetch('/api/posts')
+        const postCacheResponse = await fetch('/api/posts')
+        const postDict = await postCacheResponse.json()
+        return postDict
       } else {
-        console.log(page)
-        console.log(loginStatus)
+        console.log('Fetching from backend')
         const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
         const postsResponse = await apiClient.get(postsUrl);
         const posts = postsResponse?.data?.results || [];

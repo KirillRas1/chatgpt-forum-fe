@@ -7,16 +7,11 @@ async function getPosts() {
     // Try to get cached data from Vercel KV
     const cachedData = await redis.get(cacheKey);
     if (cachedData) {
-        console.log('Cache hit');
         return cachedData;
     }
-
-    console.log('Cache miss');
-
     // Fetch posts
     const postsUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}posts/?page=1`;
     const postsResponse = await fetch(postsUrl);
-    console.log(postsResponse)
     const postsData = await postsResponse.json(); // Ensure response is parsed as JSON
     const posts = postsData?.results || [];
 

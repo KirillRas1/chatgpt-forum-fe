@@ -20,7 +20,7 @@
     "markdown-to-jsx": "^7.4.1",
     "mui-markdown": "^1.1.13",
     "nanoid": "^5.0.6",
-    "next": "15.0.4",
+    "next": "14.2.20",
     "picocolors": "^1.0.0",
     "postcss": "^8.4.33",
     "react": "19.0.0",
@@ -38,7 +38,7 @@
     "analyze": "cross-env ANALYZE=true yarn build"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "15.0.4",
+    "@next/bundle-analyzer": "14.2.20",
     "caniuse-lite": "^1.0.30001687",
     "cross-env": "^7.0.3",
     "eslint": "8.56.0",
