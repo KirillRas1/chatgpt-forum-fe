@@ -1,59 +1,43 @@
+import { formatDistanceToNow, subDays, subMonths, subYears } from 'date-fns';
+import _ from 'lodash';
+
+/**
+ * Returns a formatted string representing the time elapsed since the given timestamp
+ * @param {number} startTimeTimestamp - Unix timestamp in milliseconds
+ * @returns {string} Formatted time distance string (e.g. "2 hours ago")
+ */
 export function getFormattedTimedelta(startTimeTimestamp) {
-  const steps = [
-    { step: 1000, name: 'seconds' },
-    { step: 60, name: 'minutes' },
-    { step: 60, name: 'hours' },
-    { step: 24, name: 'days' },
-    { step: 31, name: 'months' },
-    { step: 12, name: 'years' }
-  ];
-  const now = Date.parse(Date());
-  let diff = 1;
-  let maxStep = 0;
-  const delta = now - startTimeTimestamp;
-  while (diff * steps[maxStep].step < delta) {
-    diff *= steps[maxStep].step;
-    maxStep++;
-  }
-  return `${Math.floor(delta / diff)} ${steps[maxStep - 1].name} ago`;
+  return formatDistanceToNow(startTimeTimestamp, { addSuffix: true });
 }
 
+/**
+ * Time threshold configuration for different time ranges
+ */
+const TIME_RANGES = [
+  { name: 'past 24 hours', getTime: (date) => subDays(date, 1).getTime() },
+  { name: 'past week', getTime: (date) => subDays(date, 7).getTime() },
+  { name: 'past month', getTime: (date) => subMonths(date, 1).getTime() },
+  { name: 'past year', getTime: (date) => subYears(date, 1).getTime() },
+  { name: 'all time', getTime: () => new Date(0).getTime() }
+];
+
+/**
+ * Returns an array of timestamp thresholds based on the current date
+ * @param {Date} [currentDate=new Date()] - Reference date for calculating thresholds
+ * @returns {number[]} Array of Unix timestamps for each threshold
+ */
 export const getTimeThresholds = (currentDate = new Date()) => {
-  const oneDayAgo = new Date(currentDate);
-  oneDayAgo.setDate(currentDate.getDate() - 1);
-
-  const oneWeekAgo = new Date(currentDate);
-  oneWeekAgo.setDate(currentDate.getDate() - 7);
-
-  const oneMonthAgo = new Date(currentDate);
-  oneMonthAgo.setMonth(currentDate.getMonth() - 1);
-
-  const oneYearAgo = new Date(currentDate);
-  oneYearAgo.setFullYear(currentDate.getFullYear() - 1);
-
-  // Assuming "start of timestamp count" means the Unix timestamp of January 1, 1970, 00:00:00 UTC
-  const startOfTimestampCount = new Date(0); // Unix timestamp
-
-  return [
-    oneDayAgo.getTime(),
-    oneWeekAgo.getTime(),
-    oneMonthAgo.getTime(),
-    oneYearAgo.getTime(),
-    startOfTimestampCount.getTime()
-  ];
+  return TIME_RANGES.map(range => range.getTime(currentDate));
 };
 
-export const getTimeThresholdsDict = currentTime => {
-  const thresholdTimes = getTimeThresholds(currentTime);
-  const thresholdsNames = [
-    'past 24 hours',
-    'past week',
-    'past month',
-    'past year',
-    'all time'
-  ];
-  return thresholdsNames.map((name, index) => ({
-    name,
-    time: thresholdTimes[index]
+/**
+ * Returns an array of objects containing time threshold names and their corresponding timestamps
+ * @param {Date} [currentTime=new Date()] - Reference date for calculating thresholds
+ * @returns {Array<{name: string, time: number}>} Array of threshold objects
+ */
+export const getTimeThresholdsDict = (currentTime = new Date()) => {
+  return TIME_RANGES.map(range => ({
+    name: range.name,
+    time: range.getTime(currentTime)
   }));
 };

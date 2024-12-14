@@ -45,7 +45,6 @@ async function getPosts() {
         'Vercel-CDN-Cache-Control': 'public, s-maxage=3600',
       },})
     } catch (e) {
-      console.log(e)
       return Response.json({'error': e})
     }
     
