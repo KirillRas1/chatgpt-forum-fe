@@ -10,9 +10,11 @@ const LoginButton = () => {
   };
 
   return (
-    <Button variant="contained" color="secondary" onClick={handleLogin}>
-      Login
-    </Button>
+    <a href="/api/auth/login">
+      <Button variant="contained" color="secondary" >
+        Login
+      </Button>
+    </a>
   );
 };
 
