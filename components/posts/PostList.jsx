@@ -27,14 +27,14 @@ const PostList = () => {
 
   useEffect(() => {
     async function getPosts() {
-      if (isEmpty(posts)) {
-        const postCacheResponse = await fetch('/api/posts')
-        if (postCacheResponse.status === 200) {
-          const postDict = await postCacheResponse.json()
-          return postDict
-        }
-          
-      }
+      // if (isEmpty(posts)) {
+      //   const postCacheResponse = await fetch('/api/posts')
+      //   if (postCacheResponse.status === 200) {
+      //     const postDict = await postCacheResponse.json()
+      //     return postDict
+      //   }
+
+      // }
       const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
       const postsResponse = await apiClient.get(postsUrl);
       const postsArr = postsResponse?.data?.results || [];
@@ -50,7 +50,6 @@ const PostList = () => {
         postDict[score.post].user_score = score.upvote ? 1 : -1;
       });
       return postDict;
-      
     }
     getPosts().then(postDict => {
       setPosts(Object.values(postDict));
