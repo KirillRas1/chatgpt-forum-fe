@@ -1,42 +1,44 @@
 'use client';
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, use } from 'react';
 import LoginDialog from 'components/common/dataDisplay/modals/LoginModal';
 import { apiClient } from 'infrastructure/api/apiClient';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { getSession } from '@auth0/nextjs-auth0';
 
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const { user, error, isLoading } = useUser();
   const [displayName, setDisplayName] = useState('');
   const [userId, setUserId] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginStatus, setLoginStatus] = useState(null);
-  const [auth0AccessToken, setAuth0AccessToken] = useState();
 
   useEffect(() => {
-    if (!auth0AccessToken) {
-      fetch('/api/auth/token')
-        .then(res => {
-          if (res.status === 200) {
-            res.json().then(data => {
-              apiClient.defaults.headers.common['Authorization'] = data.token
-                ? `Bearer ${data.token}`
-                : null;
-              localStorage.setItem('access', data.token);
-              setAuth0AccessToken(data.token);
-              setLoginStatus(true);
-              apiClient.get('/users/').then(res => {
-                setDisplayName(res.data[0].name);
-              });
+    if (!isLoading) {
+      console.log(user);
+      if (user || error) {
+        fetch('/api/auth/token').then(res => {
+          res.json().then(data => {
+            const accessToken = data.token;
+            apiClient.defaults.headers.common['Authorization'] =
+              `Bearer ${accessToken}`;
+            localStorage.setItem('access', accessToken);
+            setLoginStatus(true);
+            apiClient.get('/users/').then(res => {
+              setDisplayName(res.data[0].name);
             });
-          } else {
-            throw `Failed to get token`;
-          }
-        })
-        .catch(e => {
-          console.log(e);
+          });
         });
+      } else {
+        console.log('disconnectiong user');
+        apiClient.defaults.headers.common['Authorization'] = null;
+        localStorage.removeItem('access');
+        setLoginStatus(false);
+        setDisplayName('');
+      }
     }
-  }, []);
+  }, [user, isLoading, error]);
 
   function loadUserInfo() {
     setDisplayName(localStorage.getItem('displayName'));
@@ -58,7 +60,7 @@ export const AuthProvider = ({ children }) => {
       error?.response?.status === 401 &&
       error?.response?.data?.detail === errorDetails
     ) {
-      window.localStorage.removeItem('displayName');
+      localStorage.removeItem('displayName');
       setShowLoginModal(true);
       setDisplayName('');
       setUserId('');
