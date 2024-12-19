@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (!isLoading) {
-      console.log(user);
       if (user || error) {
         fetch('/api/auth/token').then(res => {
           res.json().then(data => {
@@ -31,7 +30,6 @@ export const AuthProvider = ({ children }) => {
           });
         });
       } else {
-        console.log('disconnectiong user');
         apiClient.defaults.headers.common['Authorization'] = null;
         localStorage.removeItem('access');
         setLoginStatus(false);
