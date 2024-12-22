@@ -35,7 +35,10 @@ const PostList = () => {
       //   }
 
       // }
-      const postsUrl = page === null ? '/posts/' : `/posts/?page=${page}`;
+      const postsUrl =
+        page === null
+          ? '/posts/'
+          : `/posts/?page=${page}&fields=id,author,title,created_at`;
       const postsResponse = await apiClient.get(postsUrl);
       const postsArr = postsResponse?.data?.results || [];
       setTotalPages(Math.ceil(postsResponse.data.count / POSTS_PER_PAGE));
